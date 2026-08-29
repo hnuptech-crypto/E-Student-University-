@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Student University — Physique-Chimie</title>
+
+<!-- ===== PWA : app installable depuis le navigateur ===== -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3D6BF0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="E-Student U.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  /* rendu des formules : nécessaire pour le cours "Outils mathématiques pour la physique",
+     beaucoup plus chargé en formules que les autres chapitres. */
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root{
+    --paper: #EEF1FC;
+    --paper-alt: rgba(255,255,255,0.52);
+    --ink: #16204A;
+    --ink-soft: rgba(22,32,74,0.62);
+    --blue: #3D6BF0;
+    --teal: #1FB6A8;
+    --amber: #E8A93A;
+    --coral: #F0555C;
+    --violet: #8064F2;
+    --sage: #4E96AA;
+    --line: rgba(255,255,255,0.65);
+    --deep: rgb(45,95,225);
+    --glass-blur: 22px;
+    --radius: 26px;
+    /* ---- claymorphisme : jetons de "pâte" gonflée superposés au verre ---- */
+    --radius-sm: 16px;
+    --radius-pill: 999px;
+    --clay-hi: rgba(255,255,255,0.85);
+    --clay-lo: rgba(58,78,160,0.22);
+    --clay-lo-soft: rgba(58,78,160,0.12);
+    --clay-press: rgba(58,78,160,0.30);
+    --clay-out: 10px 10px 22px var(--clay-lo), -8px -8px 18px var(--clay-hi);
+    --clay-out-sm: 6px 6px 14px var(--clay-lo), -5px -5px 12px var(--clay-hi);
+    --clay-in: inset 1px 1px 2px rgba(255,255,255,0.9), inset -6px -6px 14px rgba(58,78,160,0.06);
+    --clay-ring: inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -6px 14px rgba(58,78,160,0.05);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  /* =====================================================================
+     TYPOGRAPHIE FLUIDE
+     Toute la plateforme est déjà bâtie en `rem` (700+ déclarations). Plutôt
+     que de retoucher chaque règle une par une, on fait varier la taille de
+     référence de la racine selon la largeur d'écran : chaque rem existant
+     (titres, textes, badges, icônes...) s'ajuste alors proportionnellement
+     et automatiquement, du petit téléphone (~360px) au grand écran (2560px+),
+     sans jamais devenir trop serré ni disproportionné.
+     ===================================================================== */
+  html{ font-size: clamp(14.5px, 14px + 0.25vw, 18px); }
+  @media (min-width:1920px){ html{ font-size: clamp(18px, 15px + 0.2vw, 19.5px); } }
+  /* En dessous de 400px, le palier plancher ci-dessus (14.5px) ne descend plus :
+     sur les petits téléphones, formules et blocs de code (police fixe, mots non
+     coupables) débordaient donc encore. On resserre la racine sur ces largeurs
+     pour que tout le texte "rem" existant se réduise en proportion et rentre
+     dans l'écran. */
+  @media (max-width:400px){ html{ font-size: clamp(13px, 11.5px + 1vw, 14.5px); } }
+  @media (max-width:340px){ html{ font-size: clamp(12px, 10.5px + 1vw, 13.5px); } }
+  body{
+    background: transparent;
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.55;
+    padding-top: 96px;
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+  .labo-frame{
+    display:block; width:100%; height:calc(100vh - 96px); border:none;
+    background:var(--paper-alt);
+  }
+  html{ background: #9FC4FF; }
+  /* ---- fond : dégradé pastel doux, façon pâte à modeler translucide ---- */
+  .sky-bg{
+    position:fixed; inset:0; z-index:-1; overflow:hidden;
+    background-image:
+      radial-gradient(circle at 12% 10%, rgba(255,255,255,0.55) 0%, transparent 38%),
+      radial-gradient(circle at 88% 14%, rgba(255,225,190,0.35) 0%, transparent 42%),
+      radial-gradient(circle at 82% 78%, rgba(180,140,255,0.32) 0%, transparent 46%),
+      radial-gradient(circle at 20% 88%, rgba(130,230,210,0.32) 0%, transparent 44%),
+      linear-gradient(-225deg, #7FB0FF 0%, #C9DEFF 46%, #9CCBFF 100%);
+  }
+  .sky-bg .orbit-field{ position:absolute; inset:0; opacity:0.4; }
+  .sky-bg .orbit-field svg{ position:absolute; }
+  @media (prefers-reduced-motion: reduce){
+    .sky-bg .orbit-field *{ animation:none !important; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior:auto !important;}
+  }
+  h1,h2,h3{ font-family:'IBM Plex Sans Condensed', sans-serif; font-weight:700; letter-spacing:-0.01em;}
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---- verre glacé + pâte gonflée : classe utilitaire réutilisée par toutes les cartes
+     Effet "goutte d'eau posée sur une table" : reflet spéculaire net en haut à gauche,
+     liseré lumineux qui suit la courbure du bord, renflement du verre (léger dégradé
+     interne clair→sombre) et ombre de contact resserrée juste sous la forme qui
+     s'estompe largement — comme une vraie goutte qui capte et projette la lumière. ---- */
+  .glass{
+    /* teinte de la goutte : reprend --accent quand la carte en définit une
+       (level-card, element-card, search-hit...), sinon bleu par défaut —
+       chaque goutte prend ainsi la couleur de son sujet plutôt qu'un bleu uniforme */
+    --glass-tint: var(--accent, var(--blue));
+    position: relative;
+    background:
+      radial-gradient(120% 90% at 20% 12%, color-mix(in srgb, white 85%, var(--glass-tint) 15%) 0%, color-mix(in srgb, transparent 58%, var(--glass-tint) 42%) 20%, transparent 45%),
+      linear-gradient(200deg, color-mix(in srgb, transparent 52%, var(--glass-tint) 48%) 0%, transparent 50%, color-mix(in srgb, transparent 74%, var(--glass-tint) 26%) 100%),
+      var(--paper-alt);
+    border: 1px solid color-mix(in srgb, white 72%, var(--glass-tint) 28%);
+    border-bottom-color: color-mix(in srgb, var(--glass-tint) 55%, black 18%);
+    border-right-color: color-mix(in srgb, var(--glass-tint) 40%, black 12%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    border-radius: var(--radius);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.95),
+      inset 3px 4px 8px color-mix(in srgb, white 65%, var(--glass-tint) 35%),
+      inset -4px -8px 16px color-mix(in srgb, transparent 68%, var(--glass-tint) 32%),
+      0 3px 6px color-mix(in srgb, transparent 65%, var(--glass-tint) 35%),
+      0 22px 30px -14px color-mix(in srgb, transparent 55%, var(--glass-tint) 45%),
+      var(--clay-out), var(--clay-ring);
+  }
+
+  /* ---- grosses tâches de couleur retirées : plus de blobs décoratifs ---- */
+  .blob{ display:none; }
+
+  /* ---- signature: spectral bar, slow hue drift ---- */
+  .spectral-bar{
+    height:5px; width:100%;
+    background: linear-gradient(90deg, var(--coral) 0%, var(--amber) 25%, var(--teal) 50%, var(--blue) 75%, var(--violet) 100%);
+    background-size:200% 100%;
+    animation: drift 14s linear infinite;
+  }
+  @keyframes drift{ 0%{background-position:0% 0;} 100%{background-position:200% 0;} }
+
+  /* ---- graph-paper texture, used sparingly ---- */
+  .grid-tex{
+    background-image:
+      linear-gradient(rgba(16,24,35,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,24,35,0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* ---- animations scientifiques décoratives ---- */
+  .science-anim{ flex-shrink:0; pointer-events:none; }
+  .section-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+
+  /* ---- reveal on scroll ---- */
+  .reveal{ opacity:0; transform:translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* =====================================================================
+     EFFETS "PLATEFORME VIVANTE"
+     Petites touches d'animation, discrètes et peu coûteuses, appliquées
+     largement (boutons, cartes, jauges, fond, changement de vue). Tout est
+     neutralisé sous prefers-reduced-motion (déjà géré plus haut : la règle
+     globale force animation/transition à ~0).
+     ===================================================================== */
+
+  /* fond du ciel : dérive très lente pour donner un peu de mouvement ambiant */
+  .sky-bg{ background-size:140% 140%, 140% 140%, 140% 140%, 140% 140%, 100% 100%; animation: skyDrift 34s ease-in-out infinite alternate; }
+  @keyframes skyDrift{
+    0%{ background-position:0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0; }
+    100%{ background-position:6% 4%, 94% 6%, 94% 94%, 6% 96%, 0 0; }
+  }
+
+  /* étoiles/particules discrètes qui scintillent doucement au-dessus du ciel */
+  .sky-bg::after{
+    content:''; position:absolute; inset:0; opacity:0.55; pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 15% 22%, rgba(255,255,255,0.9), transparent 60%),
+      radial-gradient(2px 2px at 78% 15%, rgba(255,255,255,0.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 42% 68%, rgba(255,255,255,0.85), transparent 60%),
+      radial-gradient(2px 2px at 92% 60%, rgba(255,255,255,0.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 60% 88%, rgba(255,255,255,0.75), transparent 60%),
+      radial-gradient(1.5px 1.5px at 8% 82%, rgba(255,255,255,0.8), transparent 60%);
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{ opacity:0.3; } 50%{ opacity:0.75; } }
+
+  /* boutons principaux : reflet qui balaie la surface au survol */
+  .btn-primary{ position:relative; overflow:hidden; }
+  .btn-primary::after{
+    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:skewX(-18deg); transition:left .55s ease;
+  }
+  .btn-primary:hover::after{ left:130%; }
+
+  /* jauges de progression : léger chatoiement pour signaler qu'elles sont "vivantes" */
+  .gauge span{ position:relative; overflow:hidden; }
+  .gauge span::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background-size:60px 100%; animation: gaugeShine 2.4s linear infinite;
+  }
+  @keyframes gaugeShine{ 0%{ background-position:-60px 0; } 100%{ background-position:220px 0; } }
+
+  /* retour visuel sur les réponses d'exercice : petit rebond à l'apparition */
+  .feedback.correct, .feedback.incorrect{ animation: feedbackPop .35s cubic-bezier(.32,1.4,.4,1); }
+  @keyframes feedbackPop{ 0%{ opacity:0; transform:translateY(4px) scale(0.97); } 100%{ opacity:1; transform:translateY(0) scale(1); } }
+
+  /* changement de vue (onglets de la barre proto) : légère apparition en fondu.
+     #view-accueil est exclu : c'est la vue affichée dès le chargement et elle
+     contient la vidéo héro — certains navigateurs mobiles n'autoplay une vidéo
+     que si son conteneur est jugé "visible" dès le premier rendu, et un départ
+     à opacity:0 pouvait donc, sur certains appareils, empêcher le démarrage
+     automatique de la vidéo de molécules. */
+  [id^="view-"]:not(#view-accueil){ animation: viewFadeIn .45s ease; }
+  @keyframes viewFadeIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
+
+  /* cartes de contenu : petit "souffle" décoratif au survol, en plus du hover existant */
+  .chapter-item, .revision-item, .key-point, .formula-box{ transition: transform .2s ease, box-shadow .2s ease; }
+  .chapter-item:hover, .revision-item:hover{ transform:translateY(-2px); }
+
+  /* ---- prototype navigation dock ---- */
+  .proto-dock{
+    position:fixed; bottom:calc(18px + env(safe-area-inset-bottom, 0px)); left:50%;
+    transform:translateX(-50%) translateY(0) scale(1); transform-origin:bottom center;
+    z-index:200; display:flex; flex-direction:column; align-items:center; gap:9px;
+    max-width:calc(100vw - 20px);
+    transition:transform .42s cubic-bezier(.32,1.25,.4,1), opacity .3s ease;
+  }
+  .proto-dock.dock-hidden{
+    transform:translateX(-50%) translateY(130%) scale(0.94); opacity:0; pointer-events:none;
+  }
+  .dock-edge-catcher{ position:fixed; left:0; right:0; bottom:0; height:28px; z-index:199; }
+  .proto-caption{
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; font-weight:500; letter-spacing:0.05em;
+    text-transform:uppercase; color:#F3F7FF; white-space:nowrap;
+    background:linear-gradient(135deg, rgba(68,116,242,0.92), rgba(40,82,214,0.86));
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    padding:6px 16px; border-radius:999px;
+    box-shadow:6px 8px 18px rgba(20,42,120,0.32), -4px -4px 10px rgba(255,255,255,0.18), inset 0 1px 0 rgba(255,255,255,0.28);
+    border:1px solid rgba(255,255,255,0.4);
+  }
+  .proto-nav{
+    position:relative;
+    background:linear-gradient(160deg, rgba(70,120,244,0.86), rgba(38,78,206,0.78));
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border-radius:999px; padding:6px; border:1px solid rgba(255,255,255,0.4);
+    display:flex; align-items:center; gap:1px;
+    max-width:100%; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none;
+    box-shadow:14px 16px 34px rgba(24,52,150,0.4), -8px -8px 18px rgba(255,255,255,0.16), inset 0 1px 0 rgba(255,255,255,0.32);
+  }
+  .proto-nav::-webkit-scrollbar{ display:none; }
+  .proto-indicator{
+    position:absolute; width:48px; height:48px; border-radius:50%;
+    top:6px; left:6px; z-index:1;
+    background:linear-gradient(150deg, #FFD589, var(--amber));
+    box-shadow:0 5px 16px rgba(232,169,58,0.55), inset 0 1px 1px rgba(255,255,255,0.55);
+    transition:left .4s cubic-bezier(.32,1.25,.4,1), top .4s cubic-bezier(.32,1.25,.4,1),
+               width .3s ease, height .3s ease, opacity .25s ease;
+  }
+  .proto-nav button{
+    position:relative; z-index:2; flex:0 0 auto; width:48px; height:48px; border:none; background:transparent;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:rgba(238,244,255,0.55); transition:color .22s ease;
+  }
+  .proto-nav button::before{
+    content:''; position:absolute; inset:3px; border-radius:50%;
+    background:rgba(255,255,255,0.14); opacity:0; transition:opacity .22s ease;
+  }
+  .proto-nav button svg{ position:relative; z-index:1; width:20px; height:20px; transition:transform .22s cubic-bezier(.34,1.5,.4,1); }
+  .proto-nav button.active{ color:var(--deep); }
+  .proto-nav button.active svg{ transform:scale(1.08); }
+  .proto-nav button:hover:not(.active){ color:#fff; }
+  .proto-nav button:hover:not(.active)::before{ opacity:1; }
+  .proto-nav button:active svg{ transform:scale(0.85); }
+  @media (max-width:400px){
+    .proto-caption{ font-size:0.6rem; padding:5px 13px; }
+  }
+
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw; position:fixed; top:0; left:0; right:0; z-index:150;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%);
+    border-bottom:1px solid rgba(255,255,255,0.6);
+    box-shadow:0 14px 34px rgba(58,78,160,0.16), inset 0 -1px 0 rgba(255,255,255,0.5);
+  }
+  nav .logo{ color:var(--ink); font-size:1.08rem; }
+  nav .nav-links a{ color:rgba(18,32,67,0.72); }
+  nav .nav-links a:not(.btn):hover{ background:rgba(255,255,255,0.5); color:var(--ink); }
+  nav .btn-ghost{ border-color:rgba(18,32,67,0.28); color:var(--ink); }
+  nav .btn-ghost:hover{ border-color:var(--deep); background:rgba(255,255,255,0.55); }
+  nav .btn-primary{ background:linear-gradient(135deg, var(--blue), var(--violet)); color:#fff; box-shadow:0 6px 16px rgba(61,107,240,0.3); }
+  nav .btn-primary:hover{ filter:brightness(1.12); box-shadow:0 8px 20px rgba(61,107,240,0.4); }
+  nav .nav-upgrade{ color:var(--amber) !important; border-color:rgba(232,166,60,0.5) !important; }
+  nav .nav-upgrade:hover{ border-color:var(--amber) !important; background:rgba(232,166,60,0.14); }
+  nav .avatar{ box-shadow:0 0 0 2px rgba(255,255,255,0.7); }
+  .logo{
+    display:flex; align-items:center; gap:9px;
+    font-family:'IBM Plex Sans Condensed', sans-serif; font-weight:700; font-size:1.02rem;
+    white-space:nowrap;
+  }
+  @media (max-width:520px){ .logo{ font-size:0.86rem; gap:7px; } }
+  .logo-mark{ height:30px; width:auto; flex-shrink:0; display:block; }
+  @media (max-width:520px){ .logo-mark{ height:25px; } }
+  @media (max-width:400px){
+    .logo{ font-size:0.72rem; gap:6px; }
+    .logo-mark{ height:21px; }
+    nav{ padding-left:4vw; padding-right:4vw; gap:6px; }
+    .nav-right{ gap:6px; }
+    .theme-toggle{ width:34px; height:34px; }
+    .nav-burger{ width:34px; height:34px; margin-left:4px; }
+  }
+  @media (max-width:340px){
+    .logo{ font-size:0.64rem; gap:5px; }
+    .logo-mark{ height:19px; }
+  }
+  .logo-full{
+    display:flex; align-items:center; justify-content:center; width:96px; height:96px; margin:0 auto;
+    border-radius:50%; background: radial-gradient(circle at 32% 28%, #F4F7FF, #DCE6FF 78%);
+    box-shadow: 10px 12px 26px rgba(20,50,120,0.35), -6px -6px 16px rgba(255,255,255,0.4), inset 0 2px 3px rgba(255,255,255,0.2);
+    position:relative; overflow:hidden;
+  }
+  .logo-full img{ width:78%; height:78%; object-fit:contain; }
+  .nav-links{ display:flex; gap:8px; align-items:center; }
+  .nav-right{ display:flex; align-items:center; gap:8px; }
+  .nav-links a{ color:var(--ink-soft); text-decoration:none; font-size:0.92rem; padding:10px 12px; border-radius:8px; transition:background .15s; }
+  .nav-links a:not(.btn):hover{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); }
+  .nav-links a.btn{ padding:11px 22px; }
+
+  /* ---- menu mobile (hamburger) : injecté en JS dans chaque nav qui contient .nav-links ---- */
+  .nav-burger{
+    display:none; flex-shrink:0; width:40px; height:40px; border-radius:10px; border:1px solid var(--line);
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    align-items:center; justify-content:center; cursor:pointer; margin-left:6px; color:var(--ink);
+  }
+  .nav-burger svg{ width:20px; height:20px; }
+  .nav-burger .icon-close{ display:none; }
+  .nav-burger.open .icon-menu{ display:none; }
+  .nav-burger.open .icon-close{ display:block; }
+  .nav-right{ display:flex; align-items:center; }
+  @media (max-width:760px){
+    .nav-burger{ display:flex; }
+    .nav-links{
+      display:flex; flex-direction:column; align-items:stretch; gap:4px;
+      position:fixed; top:0; right:0; height:100vh; width:min(80vw,320px);
+      padding:96px 20px 24px; margin:0; z-index:190;
+      background:var(--paper); backdrop-filter:none; -webkit-backdrop-filter:none;
+      border-left:1px solid var(--line); box-shadow:-16px 0 40px rgba(20,50,120,0.2);
+      transform:translateX(100%); transition:transform .25s ease;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a{ width:100%; padding:14px 16px; font-size:1rem; }
+    .nav-links a.btn{ text-align:center; }
+    html[data-theme="dark"] .nav-links{ background:#141B3D; }
+  }
+  .avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--teal); color:white;
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:700; font-size:0.85rem; cursor:default; flex-shrink:0;
+  }
+  .nav-upgrade{ border-color:rgba(255,182,39,0.5) !important; color:#B9820A !important; }
+  .nav-upgrade:hover{ border-color:var(--amber) !important; background:rgba(255,182,39,0.1); }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif; font-weight:600; font-size:0.88rem;
+    padding:12px 24px; border-radius:999px; border:none; cursor:pointer;
+    text-decoration:none; display:inline-block; transition: transform .18s cubic-bezier(.32,1.25,.4,1), background .15s ease, box-shadow .18s ease, filter .15s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--blue), var(--violet)); color:#fff;
+    box-shadow: 7px 8px 18px rgba(61,79,180,0.32), -4px -4px 10px rgba(255,255,255,0.5), inset 0 1px 0 rgba(255,255,255,0.35);
+  }
+  .btn-primary:hover{ filter:brightness(1.08); transform:translateY(-2px); box-shadow:9px 11px 24px rgba(61,79,180,0.38), -5px -5px 12px rgba(255,255,255,0.55), inset 0 1px 0 rgba(255,255,255,0.4); }
+  .btn-primary:active{ transform:translateY(0) scale(0.97); box-shadow: inset 4px 4px 10px rgba(20,30,90,0.35), inset -3px -3px 8px rgba(255,255,255,0.2); }
+  .btn-ghost{
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); color:var(--ink); border:1px solid var(--line);
+    box-shadow: var(--clay-out-sm), var(--clay-ring);
+  }
+  .btn-ghost:hover{ border-color:var(--blue); transform:translateY(-2px); }
+  .btn-ghost:active{ transform:translateY(0) scale(0.97); box-shadow: inset 3px 3px 8px rgba(58,78,160,0.18), inset -2px -2px 6px rgba(255,255,255,0.6); }
+  .btn-glow{ animation: glowPulse 2.6s ease-in-out infinite; }
+  @keyframes glowPulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(255,182,39,0.35); }
+    50%{ box-shadow:0 0 0 10px rgba(255,182,39,0); }
+  }
+
+  .flask-bubble{ animation: rise 3.2s ease-in infinite; }
+  @keyframes rise{
+    0%{ transform:translateY(0) scale(0.6); opacity:0; }
+    20%{ opacity:0.9; }
+    100%{ transform:translateY(-32px) scale(1); opacity:0; }
+  }
+
+  /* ===== ACCUEIL ===== */
+  .hero{
+    padding: max(28px, 4vh) 6vw 5vh; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .hero > *{ position:relative; z-index:1; }
+  .hero h1{ font-size:clamp(2.2rem, 4.5vw, 3.5rem); margin:14px 0 18px; line-height:1.03; }
+  .hero p{ color:var(--ink-soft); font-size:1.06rem; max-width:46ch; margin-bottom:28px; }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  /* Bloc de titre héro avec vidéo en fond : nuages en thème clair, ciel étoilé
+     en thème sombre. Un scrim (dégradé semi-transparent) reste posé par-dessus
+     pour garder le texte lisible quel que soit le moment de la vidéo. */
+  .hero-text-bg{
+    position:relative; border-radius:var(--radius); overflow:hidden;
+    padding:22px 26px; margin:18px 0 26px;
+    background-image:url('hero-text-clouds-poster.jpg'); background-size:cover; background-position:center;
+  }
+  html[data-theme="dark"] .hero-text-bg{ background-image:url('hero-text-stars-poster.jpg'); }
+  .hero-text-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+  .hero-text-video-dark{ display:none; }
+  html[data-theme="dark"] .hero-text-video-light{ display:none; }
+  html[data-theme="dark"] .hero-text-video-dark{ display:block; }
+  .hero-text-scrim{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+  }
+  html[data-theme="dark"] .hero-text-scrim{
+    background: linear-gradient(100deg, rgba(8,14,40,0.82) 0%, rgba(8,14,40,0.56) 45%, rgba(8,14,40,0.3) 100%);
+  }
+  .hero-text-content{ position:relative; z-index:2; }
+  /* Sur les navigateurs/appareils en "réduire les animations", la vidéo est
+     coupée ; l'image de fond (poster) déjà posée sur .hero-text-bg reste
+     visible telle quelle, sans filtre supplémentaire. */
+  @media (prefers-reduced-motion: reduce){
+    .hero-text-video{ display:none !important; }
+  }
+
+  .wave-box{
+    background: radial-gradient(ellipse 90% 80% at 50% 15%, rgba(42,79,224,0.35), transparent 60%), var(--deep);
+    border-radius:32px; padding:32px; position:relative; overflow:hidden;
+    aspect-ratio:1/0.85; display:flex; align-items:center; justify-content:center;
+    box-shadow: 16px 20px 46px rgba(20,50,120,0.32), -10px -10px 24px rgba(255,255,255,0.25), inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .wave-box svg{ width:100%; height:auto; position:relative; z-index:2; }
+  .wave-box .grid-tex{ position:absolute; inset:0; opacity:0.25; filter:invert(1); }
+  .wave-box.has-video{ padding:0; background-image:url('hero-molecules-poster.jpg'); background-size:cover; background-position:center; }
+  .wave-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .wave-video-overlay{
+    position:absolute; inset:0; z-index:2; pointer-events:none;
+    background:
+      radial-gradient(ellipse 90% 80% at 50% 15%, rgba(42,79,224,0.22), transparent 55%),
+      linear-gradient(195deg, rgba(12,26,86,0.12) 0%, rgba(9,18,64,0.62) 100%);
+  }
+  .wave-video-caption{
+    position:absolute; left:18px; bottom:16px; z-index:3;
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.02em; color:rgba(255,255,255,0.85);
+    background:rgba(10,20,60,0.4); border:1px solid rgba(255,255,255,0.25); backdrop-filter:blur(6px);
+    padding:6px 12px; border-radius:999px;
+  }
+  @media (prefers-reduced-motion: reduce){ .wave-video{ display:none; } }
+
+  section{ padding:3.5vh 6vw; }
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .step{
+    background:var(--paper-alt); border:1px solid var(--line); border-radius:var(--radius); padding:26px;
+    backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    box-shadow: var(--clay-out), var(--clay-ring);
+    transition: transform .25s cubic-bezier(.32,1.25,.4,1), box-shadow .25s ease;
+  }
+  .step:hover{ transform:translateY(-5px); }
+  .step .num{
+    font-family:'IBM Plex Mono',monospace; color:#fff; font-size:0.8rem; font-weight:600;
+    display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%;
+    background:linear-gradient(135deg, var(--blue), var(--violet));
+    box-shadow: 4px 5px 10px rgba(61,79,180,0.35), -3px -3px 7px rgba(255,255,255,0.4);
+  }
+  .step h3{ font-size:1.15rem; margin:14px 0 8px; }
+  .step p{ color:var(--ink-soft); font-size:0.94rem; }
+
+  .subjects-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:20px; }
+  .level-chips{ display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+  .level-chips button{
+    border:1px solid var(--line); background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;
+    font-size:0.74rem; padding:6px 13px; border-radius:999px; cursor:pointer; transition:.15s;
+  }
+  .level-chips button.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .level-chips button:hover:not(.active){ border-color:var(--blue); color:var(--ink); }
+  .search-box{ position:relative; width:min(320px, 100%); }
+  .search-box svg{ position:absolute; left:14px; top:50%; transform:translateY(-50%); pointer-events:none; }
+  .search-box input{
+    width:100%; padding:11px 16px 11px 40px; border-radius:999px; border:1px solid var(--line);
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    font-family:'IBM Plex Sans',sans-serif; font-size:0.9rem; color:var(--ink);
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-box input::placeholder{ color:var(--ink-soft); }
+  .search-box input:focus{ border-color:var(--amber); box-shadow:0 0 0 3px rgba(240,185,77,0.22); outline:none; }
+  .no-results{ display:none; text-align:center; padding:32px; color:var(--ink-soft); font-size:0.92rem; border:1px dashed var(--line); border-radius:var(--radius); }
+  .search-results{ display:flex; flex-direction:column; gap:10px; }
+  .search-hit{
+    display:flex; align-items:center; gap:14px; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line);
+    border-left:3px solid var(--accent, var(--blue)); border-radius:10px; padding:14px 18px; cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .search-hit:hover{ transform:translateX(3px); box-shadow:0 8px 20px rgba(36,28,21,0.08); }
+  .search-hit-symbol{
+    width:34px; height:34px; border-radius:8px; background:var(--accent, var(--blue)); color:white;
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:600; flex-shrink:0;
+  }
+  .search-hit strong{ display:block; font-size:0.95rem; }
+  .search-hit-meta{ font-size:0.78rem; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; }
+
+  .subjects{ display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:22px; }
+  .element-card{
+    background:var(--paper-alt); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid var(--line); border-top:3px solid var(--accent, var(--blue));
+    border-radius:var(--radius); padding:26px; position:relative; transition: transform .2s ease, box-shadow .2s ease;
+    cursor:pointer;
+  }
+  .element-card:hover{ transform:translateY(-4px) rotate(-0.4deg); box-shadow:0 16px 32px rgba(20,50,120,0.2); }
+  .element-card .tag{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px; }
+  .symbol{ font-family:'IBM Plex Mono',monospace; font-size:clamp(1.9rem, 1.5rem + 2.5vw, 2.6rem); font-weight:500; color:var(--accent, var(--ink)); }
+  .atomic-no{ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); }
+  .chap-row{ display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-top:1px solid var(--line); font-size:0.9rem; }
+  .lv-badge{
+    font-family:'IBM Plex Mono',monospace; font-size:0.66rem; color:var(--ink-soft); background:var(--paper-alt);
+    border:1px solid var(--line); padding:1px 6px; border-radius:6px;
+  }
+  .free-tag{ font-size:0.78rem; color:var(--accent, var(--teal)); font-family:'IBM Plex Mono',monospace; font-weight:500; }
+  .chap-count{ color:var(--ink-soft); font-size:0.86rem; margin:2px 0 14px; }
+
+  .cta-band{
+    background:linear-gradient(120deg, var(--blue), var(--violet)); color:white; border-radius:32px; padding:40px 6vw; text-align:center; margin:3vh 6vw; position:relative; overflow:hidden;
+    box-shadow: 14px 18px 40px rgba(61,79,180,0.28), -8px -8px 20px rgba(255,255,255,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .cta-band > *{ position:relative; z-index:1; }
+  .cta-band h2{ color:white; font-size:clamp(1.4rem, 1.15rem + 1.6vw, 1.8rem); margin-bottom:10px; }
+  .cta-band p{ color:#CBDCEE; margin-bottom:22px; }
+  .cta-band .btn-primary{ background:white; color:var(--blue); }
+
+  /* ---- variante avec vidéo de fond (labo, bibliothèque & vidéothèque) ---- */
+  .cta-band-media{ padding:0; }
+  .cta-band-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+  .cta-band-overlay{ position:absolute; inset:0; z-index:1; }
+  .cta-band-content{ position:relative; z-index:2; padding:40px 6vw; }
+  @media (prefers-reduced-motion: reduce){
+    .cta-band-video{ display:none; }
+    .cta-band-media:has(source[src="labo-experience.mp4"]){ background:url('labo-experience-poster.jpg') center/cover; }
+    .cta-band-media:has(source[src="chalkboard-formulas.mp4"]){ background:url('chalkboard-formulas-poster.jpg') center/cover; }
+    .cta-band-media:has(source[src="code-interface.mp4"]){ background:url('code-interface-poster.jpg') center/cover; }
+  }
+
+  footer{ padding:30px 6vw; color:var(--ink-soft); font-size:0.85rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; }
+  footer a:hover{ color:var(--blue); }
+
+  /* ===== DASHBOARD ===== */
+  .dash{ display:grid; grid-template-columns:220px 1fr; min-height:80vh; }
+  .sidebar{ border-right:1px solid var(--line); padding:28px 20px; }
+  .sidebar .logo{ margin-bottom:36px; }
+  .sidebar a{ display:block; color:var(--ink-soft); text-decoration:none; font-size:0.92rem; padding:10px 12px; border-radius:8px; margin-bottom:4px; transition:background .15s; }
+  .sidebar a.active{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); color:var(--ink); font-weight:600; }
+  .sidebar a:hover:not(.active){ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); }
+  .dash-main{ padding:36px 5vw; }
+  .greet{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
+  .level-badge{
+    display:inline-flex; align-items:center; gap:6px; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line);
+    border-radius:999px; padding:5px 14px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; margin-top:6px;
+  }
+  .level-badge a{ color:var(--blue); font-weight:600; text-decoration:none; margin-left:4px; }
+  .overview-card{
+    display:flex; align-items:center; gap:24px; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line);
+    border-radius:var(--radius); padding:22px 24px; margin-bottom:20px; flex-wrap:wrap;
+  }
+  .progress-ring{ width:96px; height:96px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; position:relative; }
+  .progress-ring::before{ content:''; position:absolute; inset:8px; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border-radius:50%; }
+  .progress-ring span{ position:relative; z-index:1; font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:1.3rem; }
+  .stat-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:18px; flex:1; }
+  .stat-item strong{ display:block; font-family:'IBM Plex Sans Condensed',sans-serif; font-size:1.4rem; }
+  .stat-item span{ color:var(--ink-soft); font-size:0.78rem; }
+  .greet h2{ font-size:clamp(1.2rem, 1.02rem + 1vw, 1.5rem); }
+  .streak{ font-family:'IBM Plex Mono',monospace; font-size:0.82rem; color:var(--amber); }
+
+  .progress-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-bottom:28px; }
+  .progress-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:22px; }
+  .progress-card .top{ display:flex; justify-content:space-between; margin-bottom:14px; }
+  .gauge{ height:8px; border-radius:4px; background:var(--line); overflow:hidden; }
+  .gauge span{ display:block; height:100%; border-radius:4px; width:0; transition:width 1s ease; }
+  .progress-card .pct{ font-family:'IBM Plex Mono',monospace; font-size:0.85rem; margin-top:8px; display:block; color:var(--ink-soft); }
+
+  .continue-card{
+    background:linear-gradient(135deg, rgba(61,107,240,0.92), rgba(128,100,242,0.88));
+    border:1px solid rgba(255,255,255,0.3); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    color:var(--paper); border-radius:var(--radius); padding:24px 28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:14px;
+  }
+  .continue-card .eyebrow{ color:rgba(234,240,251,0.6); }
+  .continue-card h3{ color:var(--paper); font-size:1.15rem; margin-top:4px; }
+  .continue-card .btn-primary{ background:var(--amber); color:var(--deep); box-shadow:none; }
+
+  .activity-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:22px; margin-bottom:28px; }
+  .bars{ display:flex; align-items:flex-end; gap:14px; height:90px; margin-top:16px; }
+  .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .bar{ width:100%; max-width:22px; border-radius:4px 4px 0 0; background:var(--teal); height:0; transition:height 1s ease; }
+  .bar-col span{ font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--ink-soft); }
+
+  .chapter-list{ border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+
+  .badges-card, .revision-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:22px; margin-bottom:28px; }
+  .ai-insight-card{ border-color:rgba(76,124,255,0.35); background:linear-gradient(120deg, rgba(76,124,255,0.08), rgba(155,130,255,0.05)); }
+  .ai-insight-card p{ font-size:0.92rem; line-height:1.6; }
+  #aiInsightBtn:disabled{ opacity:0.5; cursor:default; }
+  .badges-grid{ display:flex; gap:16px; flex-wrap:wrap; margin-top:14px; }
+  .badge-category{ margin-bottom:32px; }
+  .badge-category h3{ font-size:1rem; margin-bottom:14px; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.04em; font-weight:500; }
+  .badge-category .badges-grid{ margin-top:0; }
+  .badge[title]{ cursor:default; }
+  .badge{ display:flex; flex-direction:column; align-items:center; gap:6px; width:82px; text-align:center; opacity:0.35; filter:grayscale(1); }
+  .badge.earned{ opacity:1; filter:none; }
+  .badge-icon{ font-size:1.5rem; width:52px; height:52px; border-radius:50%; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
+  .badge span:last-child{ font-size:0.68rem; color:var(--ink-soft); line-height:1.2; }
+  .revision-list{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .revision-item{ display:flex; gap:14px; align-items:center; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:0.86rem; }
+  .rev-day{ font-family:'IBM Plex Mono',monospace; font-size:0.72rem; background:var(--paper); padding:3px 8px; border-radius:6px; color:var(--blue); flex-shrink:0; }
+  .chapter-item{ display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); }
+  .chapter-item:last-child{ border-bottom:none; }
+  .chapter-item.locked{ color:var(--ink-soft); }
+  .chapter-item .left{ display:flex; align-items:center; gap:14px; }
+  .chapter-item .idx{ font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-soft); width:24px; }
+  .status-done{ color:var(--teal); font-size:0.8rem; font-family:'IBM Plex Mono',monospace; }
+  .status-locked{ color:var(--coral); font-size:0.8rem; font-family:'IBM Plex Mono',monospace; }
+  .status-todo{ color:var(--blue); font-size:0.8rem; font-family:'IBM Plex Mono',monospace; }
+
+  /* ===== CHAPITRE ===== */
+  .breadcrumb{ padding:16px 6vw 0; font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink-soft); }
+  .breadcrumb b{ color:var(--ink); }
+  .chapter-layout{ display:grid; grid-template-columns:1.5fr 1fr; gap:32px; padding:20px 6vw 4vh; align-items:start; }
+  /* Par défaut, une cellule de grid ne peut pas rétrécir sous la taille de son
+     contenu (min-width:auto) : une formule MathJax large et non coupable
+     forçait donc toute la colonne — et la page entière — à déborder de l'écran
+     au lieu de rester dans le viewport. min-width:0 autorise la cellule à se
+     réduire, pour que ce soit .formula-box/.key-point qui défilent en interne. */
+  .chapter-layout > *{ min-width:0; }
+
+  .course-panel{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)) saturate(140%); -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%); border:1px solid var(--line); border-radius:var(--radius); padding:36px; position:relative; overflow:hidden; min-width:0; }
+  .watermark-layer{
+    position:absolute; inset:0; pointer-events:none; z-index:5; overflow:hidden;
+    opacity:0.05; display:flex; flex-wrap:wrap; align-content:flex-start;
+    transform:rotate(-22deg) scale(1.4); transform-origin:center;
+  }
+  .watermark-layer span{ font-size:0.72rem; white-space:nowrap; margin:28px 22px; font-family:'IBM Plex Mono',monospace; color:var(--ink); }
+  @media print{ .watermark-layer{ display:none; } }
+  .course-panel h1{ font-size:clamp(1.5rem, 1.25rem + 1.6vw, 1.9rem); margin:8px 0 18px; }
+  .course-panel p{ color:var(--ink-soft); margin-bottom:16px; font-size:0.97rem; }
+  .formula-box{
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border-left:3px solid var(--blue); border-radius:0 8px 8px 0;
+    padding:16px 20px; margin:20px 0; font-family:'IBM Plex Mono',monospace; font-size:1.05rem;
+    max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .key-point{
+    background:rgba(45,212,196,0.09); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid rgba(45,212,196,0.35); border-radius:8px;
+    padding:16px 20px; margin:20px 0;
+    max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  /* Les formules MathJax en mode "display" ($$...$$) peuvent être plus larges
+     que leur conteneur (grandes fractions, matrices, torseurs...) : sans cette
+     règle, elles débordent hors de l'écran sur mobile au lieu de défiler. */
+  mjx-container[display="true"]{
+    max-width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    padding:2px 0;
+  }
+  .key-point .eyebrow{ color:var(--teal); margin-bottom:6px; display:block; }
+  .diagram{ display:flex; justify-content:center; padding:14px 0 6px; }
+
+  .chat-panel{
+    position:sticky; top:90px; background:rgba(53,105,225,0.88); border:1px solid rgba(255,255,255,0.3);
+    backdrop-filter:blur(var(--glass-blur)) saturate(140%); -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+    border-radius:var(--radius); color:var(--paper);
+    display:flex; flex-direction:column; height:520px; overflow:hidden;
+  }
+  .chat-head{ padding:16px 18px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
+  .chat-head .eyebrow{ color:var(--teal); }
+  .chat-head h3{ color:white; font-size:1rem; margin-top:4px; }
+  /* ---- Nova : petit robot humanoïde 2D, avec états d'animation ---- */
+  .mascot-avatar{ flex-shrink:0; animation: mascotBob 2.6s ease-in-out infinite; transform-origin:center bottom; }
+  .mascot-mini{ flex-shrink:0; margin-bottom:2px; }
+  .mascot-antenna{ animation: mascotPulse 1.8s ease-in-out infinite; transform-origin:center; }
+  .mascot-eye{ animation: mascotBlink 5s infinite; transform-origin:center; }
+  .mascot-arm{ transform-origin:center; }
+  @keyframes mascotBob{ 0%,100%{ transform:translateY(0) rotate(0deg); } 50%{ transform:translateY(-3px) rotate(-1deg); } }
+  @keyframes mascotPulse{ 0%,100%{ opacity:0.55; transform:scale(1); } 50%{ opacity:1; transform:scale(1.3); } }
+  @keyframes mascotBlink{ 0%,92%,100%{ transform:scaleY(1); } 95%{ transform:scaleY(0.1); } }
+  /* état "réfléchit" : yeux plissés, antenne qui pulse vite, petit balancement */
+  .mascot-avatar.is-thinking{ animation: mascotThink 0.9s ease-in-out infinite; }
+  @keyframes mascotThink{ 0%,100%{ transform:rotate(-2deg); } 50%{ transform:rotate(2deg); } }
+  .mascot-avatar.is-thinking .mascot-eye{ animation:none; transform:scaleY(0.4); }
+  .mascot-avatar.is-thinking .mascot-antenna{ animation: mascotPulse 0.5s ease-in-out infinite; }
+  .mascot-avatar.is-thinking .mascot-pupil{ animation: pupilRoam 1.2s ease-in-out infinite; }
+  @keyframes pupilRoam{ 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(1.5px); } }
+  /* état "parle" : bouche qui s'anime, léger mouvement des bras */
+  .mascot-avatar.is-talking .mascot-mouth{ animation: mascotTalk 0.35s ease-in-out infinite; }
+  @keyframes mascotTalk{ 0%,100%{ d:path('M22 40 Q30 45 38 40'); } 50%{ d:path('M22 41 Q30 47 38 41'); } }
+  .mascot-avatar.is-talking .mascot-arm-l{ animation: armWaveL 0.6s ease-in-out infinite; }
+  .mascot-avatar.is-talking .mascot-arm-r{ animation: armWaveR 0.6s ease-in-out infinite 0.15s; }
+  @keyframes armWaveL{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(-8deg); } }
+  @keyframes armWaveR{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(8deg); } }
+  @media (prefers-reduced-motion: reduce){
+    .mascot-avatar, .mascot-antenna, .mascot-eye, .mascot-avatar.is-thinking, .mascot-avatar.is-talking .mascot-mouth,
+    .mascot-avatar.is-talking .mascot-arm-l, .mascot-avatar.is-talking .mascot-arm-r{ animation:none !important; }
+  }
+  .msg-row{ display:flex; gap:8px; align-items:flex-end; }
+  .chat-body{ flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:12px; }
+  .msg{ max-width:85%; padding:10px 14px; border-radius:12px; font-size:0.88rem; line-height:1.5; }
+  .msg.user{ align-self:flex-end; background:var(--blue); color:white; border-bottom-right-radius:2px; }
+  .msg.ai{ align-self:flex-start; background:rgba(255,255,255,0.08); color:#E4E8EC; border-bottom-left-radius:2px; }
+  .chat-input{ display:flex; gap:8px; padding:14px; border-top:1px solid rgba(255,255,255,0.1); }
+  .chat-input input{
+    flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14); border-radius:8px;
+    padding:10px 12px; color:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.88rem;
+  }
+  .chat-input input::placeholder{ color:#7C8894; }
+  .chat-input button{ background:var(--amber); color:var(--ink); border:none; border-radius:8px; padding:0 16px; cursor:pointer; font-weight:600; }
+
+  .exercises{ padding:0 6vw 8vh; }
+  .recap-box{ margin:0 6vw 28px; background:linear-gradient(120deg, rgba(240,185,77,0.14), rgba(155,130,255,0.08)); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid rgba(240,185,77,0.35); border-radius:var(--radius); padding:26px 30px; }
+  .recap-box .eyebrow{ color:#B9820A; margin-bottom:12px; display:block; }
+  .recap-box ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .recap-box li{ display:flex; gap:10px; font-size:0.95rem; }
+  .recap-box li::before{ content:'→'; color:var(--amber); font-weight:700; flex-shrink:0; }
+  .recap-note{ margin-top:16px; font-size:0.82rem; color:var(--ink-soft); font-style:italic; }
+
+  /* ---- structure enrichie du chapitre ---- */
+  .chapter-meta{ display:grid; grid-template-columns:1.3fr 1fr; gap:24px; margin:18px 6vw 0; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:22px 26px; }
+  .meta-list{ list-style:none; display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+  .meta-list li{ font-size:0.88rem; padding-left:18px; position:relative; }
+  .meta-list li::before{ content:'✓'; position:absolute; left:0; color:var(--teal); font-weight:700; }
+  .prereq-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .tag-chip{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:999px; padding:5px 12px; font-size:0.8rem; color:var(--ink-soft); }
+
+  .example-box{ background:rgba(29,78,137,0.05); border:1px solid rgba(29,78,137,0.2); border-radius:10px; padding:20px 22px; margin:20px 0; }
+  .example-box .eyebrow{ color:var(--blue); margin-bottom:8px; display:block; }
+  .example-box p{ font-size:0.92rem; margin-bottom:8px; }
+  .example-answer{ font-weight:600; color:var(--blue); }
+
+  .illus-row{ display:flex; gap:20px; margin:20px 0; flex-wrap:wrap; }
+  .illus-item{ flex:1; min-width:160px; text-align:center; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border-radius:10px; padding:12px; }
+  .illus-item span{ display:block; font-size:0.78rem; color:var(--ink-soft); margin-top:6px; }
+
+  .mistakes-box{ margin:0 6vw 28px; background:rgba(255,107,111,0.08); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid rgba(255,107,111,0.3); border-radius:var(--radius); padding:26px 30px; }
+  .mistakes-box .eyebrow{ color:#B23A44; margin-bottom:12px; display:block; }
+  .mistakes-box ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .mistakes-box li{ display:flex; gap:10px; font-size:0.95rem; }
+  .mistakes-box li::before{ content:'✕'; color:var(--coral); font-weight:700; flex-shrink:0; }
+
+  .sim-box{ margin:0 6vw 28px; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:26px 30px; }
+  .sim-box .eyebrow{ margin-bottom:6px; display:block; }
+  /* ---- composants ajoutés pour "Outils mathématiques pour la physique" ---- */
+  .sim-2col{ display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start; margin-top:14px; }
+  .sim-2col .sim-controls{ min-width:220px; flex:1; }
+  .sim-2col svg{ background:rgba(0,0,0,0.15); border-radius:10px; flex-shrink:0; }
+  .sim-controls label{ display:block; font-size:0.82rem; color:var(--ink-soft); margin:10px 0 4px; }
+  .sim-controls select{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,0.06); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; }
+  .sim-readout{ font-family:'IBM Plex Mono',monospace; font-size:0.86rem; background:rgba(255,255,255,0.05); border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-top:12px; line-height:1.7; }
+  .note-box{ background:rgba(45,212,196,0.08); border:1px solid rgba(45,212,196,0.3); border-radius:10px; padding:18px 22px; margin:18px 0; }
+  .note-box .eyebrow{ color:var(--teal); margin-bottom:6px; display:block; }
+  .mini-table{ width:100%; border-collapse:collapse; font-size:0.86rem; margin:14px 0; }
+  .mini-table th, .mini-table td{ border:1px solid var(--line); padding:7px 10px; text-align:left; }
+  .mini-table th{ background:rgba(255,255,255,0.06); font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:0.78rem; color:var(--ink-soft); }
+  .accordion-toggle{ cursor:pointer; color:var(--blue); font-size:0.86rem; font-weight:600; display:inline-block; margin:6px 0 4px; }
+  .toc-chip{ font-family:'IBM Plex Mono',monospace; font-size:0.72rem; background:var(--paper-alt); border:1px solid var(--line); border-radius:999px; padding:5px 12px; color:var(--ink-soft); text-decoration:none; cursor:pointer; }
+  .toc-chip:hover{ border-color:var(--blue); color:var(--ink); }
+  .sim-layout{ display:flex; gap:28px; align-items:center; flex-wrap:wrap; margin-top:14px; }
+  .sim-layout svg{ background:white; border-radius:10px; border:1px solid var(--line); flex-shrink:0; }
+  .sim-controls{ flex:1; min-width:200px; }
+  .sim-controls label{ font-size:0.85rem; font-weight:600; display:block; margin-bottom:8px; }
+  .sim-controls input[type=range]{ width:100%; accent-color:var(--blue); }
+  .sim-result{ margin-top:14px; font-size:0.9rem; color:var(--ink-soft); }
+  .sim-result strong{ color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:1.1rem; }
+  #pendulumArm{ animation: pendulumSwing 2s ease-in-out infinite alternate; }
+  @keyframes pendulumSwing{ from{ transform:rotate(-20deg); } to{ transform:rotate(20deg); } }
+
+  /* ---- composants ajoutés pour "Introduction à la programmation" (pseudocode) ---- */
+  .code-box{ background:rgba(18,32,67,0.92); border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:10px; padding:18px 20px; margin:16px 0 22px; font-family:'IBM Plex Mono',monospace; font-size:0.86rem; color:#EAF0FB; overflow-x:auto; white-space:pre; line-height:1.65; }
+  .code-box .kw{ color:#8FC1FF; font-weight:600; }
+  .code-box .ty{ color:#F0C56B; }
+  .code-box .cm{ color:rgba(234,240,251,0.5); font-style:italic; }
+  .code-cap{ font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--ink-soft); margin:-10px 0 8px; text-transform:uppercase; letter-spacing:0.06em; }
+  .trace-table{ width:100%; border-collapse:collapse; margin:14px 0 24px; font-family:'IBM Plex Mono',monospace; font-size:0.82rem; }
+  .trace-table th, .trace-table td{ border:1px solid var(--line); padding:7px 10px; text-align:center; }
+  .trace-table th{ background:rgba(255,255,255,0.06); color:var(--ink-soft); font-weight:500; }
+  .exercise-card details{ margin-top:12px; }
+  .exercise-card summary{ cursor:pointer; color:var(--blue); font-weight:600; font-size:0.88rem; }
+  .exercise-card summary:hover{ text-decoration:underline; }
+
+  @media print{
+    .proto-dock, nav, .chat-panel, .exercises, .sim-box, .example-box, .mistakes-box, .illus-row, .back-link, .breadcrumb, .sky-bg{ display:none !important; }
+    body{ background:white; }
+    .course-panel, .chapter-meta, .recap-box{ border:none !important; box-shadow:none !important; break-inside:avoid; }
+    .chapter-layout{ display:block; }
+  }
+  .exercise-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:26px; margin-bottom:20px; }
+  .exercise-card .eyebrow{ margin-bottom:10px; display:block; }
+  .exercise-card p.q{ font-size:1rem; margin-bottom:16px; }
+  .options{ display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .option{ display:flex; align-items:center; gap:10px; padding:10px 14px; border:1px solid var(--line); border-radius:8px; cursor:pointer; transition:border-color .15s, background .15s; }
+  .option:hover{ border-color:var(--blue); }
+  .option input{ accent-color:var(--blue); }
+  .feedback{ display:none; padding:12px 16px; border-radius:8px; font-size:0.9rem; margin-top:6px; }
+  .feedback.correct{ background:rgba(46,196,182,0.1); color:#1a7d73; border:1px solid rgba(46,196,182,0.3); }
+  .feedback.incorrect{ background:rgba(230,57,70,0.08); color:#a52631; border:1px solid rgba(230,57,70,0.28); }
+
+  /* ===== CONNEXION ===== */
+  .auth-wrap{ max-width:400px; margin:0 auto; padding:9vh 6vw 10vh; position:relative; }
+  .auth-wrap .eyebrow{ display:block; margin-bottom:8px; }
+  .auth-wrap h1{ font-size:clamp(1.55rem, 1.3rem + 1.6vw, 2rem); margin-bottom:26px; }
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px; }
+  .field input{
+    width:100%; padding:12px 16px; border-radius:12px; border:1px solid var(--line);
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); font-family:'IBM Plex Sans',sans-serif; font-size:0.92rem; color:var(--ink);
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus{ border-color:var(--amber); box-shadow:0 0 0 3px rgba(240,185,77,0.2); outline:none; }
+  .field input::placeholder{ color:var(--ink-soft); }
+  .auth-link{ font-size:0.85rem; color:var(--ink-soft); text-decoration:none; }
+  .auth-link:hover{ color:var(--ink); }
+  .auth-foot{ text-align:center; margin-top:20px; font-size:0.9rem; color:var(--ink-soft); }
+  .auth-foot a{ color:var(--blue); font-weight:600; text-decoration:none; }
+  .device-card{
+    display:flex; justify-content:space-between; align-items:center; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+  }
+  .device-card strong{ display:block; font-size:0.92rem; }
+  .device-card span{ font-size:0.78rem; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; }
+
+  /* ===== CHOIX DU NIVEAU ===== */
+  .level-wrap{ max-width:640px; margin:0 auto; padding:9vh 6vw 10vh; text-align:center; position:relative; }
+  .level-wrap h1{ font-size:clamp(1.8rem,4vw,2.4rem); margin:10px 0 12px; }
+  .level-wrap > p{ color:var(--ink-soft); max-width:44ch; margin:0 auto 34px; }
+  .level-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .level-card{
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:2px solid var(--line); border-radius:var(--radius);
+    padding:22px; cursor:pointer; text-align:left; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .level-card:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(36,28,21,0.1); }
+  .level-card.selected{ border-color:var(--accent); background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); box-shadow:0 10px 24px rgba(20,50,120,0.18); }
+  .level-tag{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:0.95rem;
+    color:var(--accent); background:rgba(0,0,0,0.04); padding:4px 10px; border-radius:8px; margin-bottom:10px;
+  }
+  .level-card strong{ display:block; font-size:1.05rem; }
+  .level-card span.desc{ display:block; font-size:0.82rem; color:var(--ink-soft); margin-top:4px; }
+
+  /* ===== MATIÈRE (liste des chapitres) ===== */
+  .matiere-header{ display:flex; align-items:center; gap:20px; padding:22px 6vw 6px; }
+  .matiere-symbol{
+    width:60px; height:60px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:1.7rem; font-weight:600; color:white; flex-shrink:0;
+  }
+  .matiere-header h1{ font-size:clamp(1.3rem, 1.05rem + 1.6vw, 1.7rem); margin-top:2px; }
+  .matiere-wrap{ padding:16px 6vw 8vh; max-width:720px; margin:0 auto; }
+  .matiere-wrap .back-link{ display:inline-block; margin-top:20px; }
+  .chapter-item .left{ flex-wrap:wrap; }
+
+  /* ===== PAYWALL ===== */
+  .paywall-wrap{ max-width:560px; margin:0 auto; padding:8vh 6vw 10vh; text-align:center; position:relative; }
+  .paywall-icon{
+    width:64px; height:64px; border-radius:50%; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px; color:var(--amber);
+  }
+  .paywall-wrap h1{ font-size:clamp(1.6rem,4vw,2.1rem); margin:6px 0 12px; }
+  .paywall-wrap > p.lead{ color:var(--ink-soft); max-width:44ch; margin:0 auto 30px; }
+  .price-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:28px; margin-bottom:22px; }
+  .sub-status-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:24px 28px; text-align:left; margin-top:8px; }
+  .sub-status-row{ display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--line); font-size:0.92rem; }
+  .sub-status-row:last-of-type{ border-bottom:none; }
+  .sub-status-row strong{ font-family:'IBM Plex Mono',monospace; font-weight:600; }
+  .sub-countdown{ margin-top:16px; text-align:center; }
+  .sub-countdown .eyebrow{ color:var(--teal); font-size:0.85rem; }
+  .price-card .price{ font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(1.7rem, 1.35rem + 2vw, 2.2rem); }
+  .price-card .price span{ font-family:'IBM Plex Mono',monospace; font-size:0.9rem; color:var(--ink-soft); font-weight:400; }
+  .perk-list{ list-style:none; text-align:left; margin:20px auto 0; max-width:360px; display:flex; flex-direction:column; gap:10px; }
+  .perk-list li{ display:flex; gap:10px; font-size:0.92rem; align-items:flex-start; }
+  .perk-list li::before{ content:'✓'; color:var(--teal); font-weight:700; }
+  .referral-card{
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    border:1px solid var(--line); border-radius:var(--radius); padding:24px 26px; margin-bottom:22px; text-align:left;
+  }
+  .referral-card .eyebrow{ display:block; margin-bottom:8px; }
+  .referral-card p{ color:var(--ink-soft); font-size:0.9rem; margin-bottom:14px; }
+  .referral-card strong{ color:var(--ink); }
+  .paywall-note{ font-size:0.8rem; color:var(--ink-soft); margin-top:14px; }
+  .btn-block{ width:100%; }
+  .back-link{ display:inline-block; margin-top:20px; font-size:0.85rem; color:var(--ink-soft); text-decoration:none; }
+  .back-link:hover{ color:var(--ink); }
+
+  /* ===== CONFIRMATION PAIEMENT ===== */
+  .payok-wrap{ max-width:480px; margin:0 auto; padding:12vh 6vw 12vh; text-align:center; }
+  .payok-icon{
+    width:76px; height:76px; border-radius:50%; background:rgba(46,196,182,0.14); border:2px solid var(--teal);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 22px; color:var(--teal);
+    animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes popIn{ 0%{ transform:scale(0.4); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+  .payok-wrap h1{ font-size:clamp(1.6rem,4vw,2.1rem); margin-bottom:10px; }
+  .payok-wrap p{ color:var(--ink-soft); margin-bottom:28px; }
+
+  /* ===== À PROPOS ===== */
+  .apropos-wrap{ max-width:760px; margin:0 auto; padding:6vh 6vw 10vh; }
+  .apropos-wrap h1{ font-size:clamp(2rem,4.5vw,2.8rem); margin:10px 0 18px; line-height:1.08; }
+  .apropos-lead{ color:var(--ink-soft); font-size:1.05rem; max-width:56ch; margin-bottom:40px; }
+  .values-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:48px; }
+  .value-card{ background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line); border-radius:var(--radius); padding:22px; }
+  .value-card .num{ font-family:'IBM Plex Mono',monospace; color:var(--blue); font-size:0.8rem; }
+  .value-card h3{ font-size:1.05rem; margin:8px 0 6px; }
+  .value-card p{ color:var(--ink-soft); font-size:0.88rem; }
+  .creator-card{
+    display:flex; gap:20px; align-items:flex-start; background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); border:1px solid var(--line);
+    border-radius:var(--radius); padding:28px; margin-top:20px;
+  }
+  .creator-avatar{
+    width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg, var(--blue), var(--violet));
+    color:white; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:700; font-size:1.2rem; flex-shrink:0; overflow:hidden;
+  }
+  .creator-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .creator-card h3{ font-size:1.15rem; margin-bottom:2px; }
+  .creator-role{ font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--blue); display:block; margin-bottom:10px; }
+  .creator-card p{ color:var(--ink-soft); font-size:0.92rem; }
+  .creator-contact{
+    display:inline-flex; align-items:center; gap:8px; margin-top:14px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.82rem; font-weight:500;
+    color:var(--blue); text-decoration:none; padding:9px 16px; border-radius:999px;
+    background:var(--paper-alt); border:1px solid var(--line);
+    backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    box-shadow: var(--clay-out-sm), var(--clay-ring); transition: transform .18s ease, color .15s ease;
+  }
+  .creator-contact svg{ width:16px; height:16px; flex-shrink:0; }
+  .creator-contact:hover{ color:var(--violet); transform:translateY(-2px); }
+  @media (max-width:400px){ .creator-contact{ font-size:0.74rem; padding:8px 12px; } }
+
+  /* ===== CLASSEMENT ===== */
+  .classement-wrap{ max-width:920px; margin:0 auto; padding:5vh 6vw 10vh; }
+  .classement-wrap h1{ font-size:clamp(1.7rem,3.6vw,2.3rem); margin:8px 0 10px; line-height:1.1; }
+  .classement-lead{ color:var(--ink-soft); font-size:0.96rem; max-width:64ch; margin-bottom:26px; }
+  .classement-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+  .classement-tab{
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; font-weight:500; letter-spacing:0.02em;
+    padding:8px 16px; border-radius:999px; border:1px solid var(--line); background:var(--paper-alt);
+    color:var(--ink-soft); cursor:pointer; transition:all .18s ease;
+  }
+  .classement-tab:hover{ border-color:var(--blue); color:var(--ink); }
+  .classement-tab.active{ background:var(--blue); border-color:var(--blue); color:#fff; }
+  .classement-me-card{
+    display:flex; align-items:center; gap:14px; background:linear-gradient(135deg, rgba(76,124,255,0.1), rgba(139,124,246,0.08));
+    border:1px solid rgba(76,124,255,0.35); border-radius:var(--radius); padding:16px 20px; margin-bottom:22px;
+  }
+  .classement-me-card .rank-pill{ flex-shrink:0; }
+  .classement-me-card .me-info{ flex:1; min-width:0; }
+  .classement-me-card .me-info strong{ display:block; font-size:0.95rem; }
+  .classement-me-card .me-info span{ color:var(--ink-soft); font-size:0.82rem; }
+  .classement-list{ display:flex; flex-direction:column; gap:10px; }
+  .classement-row{
+    display:grid; grid-template-columns:44px 40px 1fr auto; align-items:center; gap:14px;
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    border:1px solid var(--line); border-radius:14px; padding:12px 16px; transition:border-color .15s ease;
+  }
+  .classement-row.is-me{ border-color:var(--blue); box-shadow:0 0 0 1px var(--blue) inset; }
+  .classement-rank{
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:0.95rem; text-align:center;
+    color:var(--ink-soft);
+  }
+  .classement-rank.top1{ color:#E8A93A; font-size:1.3rem; }
+  .classement-rank.top2{ color:#9AA5B8; font-size:1.15rem; }
+  .classement-rank.top3{ color:#C9834A; font-size:1.1rem; }
+  .classement-avatar{
+    width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, var(--blue), var(--violet));
+    color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;
+    flex-shrink:0; font-family:'IBM Plex Sans Condensed',sans-serif;
+  }
+  .classement-main{ min-width:0; }
+  .classement-name{ display:flex; align-items:center; gap:8px; font-size:0.93rem; font-weight:600; margin-bottom:6px; }
+  .classement-name .you-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:0.65rem; font-weight:600; letter-spacing:0.03em;
+    background:var(--blue); color:#fff; padding:2px 7px; border-radius:999px; text-transform:uppercase;
+  }
+  .classement-meta{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .classement-meta .meta-item{ display:flex; align-items:center; gap:6px; font-size:0.78rem; color:var(--ink-soft); }
+  .classement-gauge-mini{ width:80px; height:6px; border-radius:999px; background:var(--line); overflow:hidden; flex-shrink:0; }
+  .classement-gauge-mini span{ display:block; height:100%; background:linear-gradient(90deg, var(--blue), var(--teal)); border-radius:999px; }
+  .classement-verdict{
+    display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; font-weight:600;
+    padding:6px 12px; border-radius:999px; white-space:nowrap; justify-self:end;
+  }
+  .classement-verdict.tone-great{ background:rgba(45,212,196,0.15); color:#0E8A7B; }
+  .classement-verdict.tone-good{ background:rgba(76,124,255,0.14); color:var(--blue); }
+  .classement-verdict.tone-mid{ background:rgba(240,185,77,0.18); color:#9A6B10; }
+  .classement-verdict.tone-warn{ background:rgba(255,107,111,0.14); color:#C23A3E; }
+  .classement-verdict.tone-neutral{ background:var(--line); color:var(--ink-soft); }
+  html[data-theme="dark"] .classement-verdict.tone-great{ background:rgba(45,212,196,0.16); color:#5FE3D2; }
+  html[data-theme="dark"] .classement-verdict.tone-good{ background:rgba(76,124,255,0.2); color:#9CB6FF; }
+  html[data-theme="dark"] .classement-verdict.tone-mid{ background:rgba(240,185,77,0.2); color:#F0C36B; }
+  html[data-theme="dark"] .classement-verdict.tone-warn{ background:rgba(255,107,111,0.18); color:#FF9A9D; }
+  .classement-empty, .classement-loading, .classement-error{
+    text-align:center; color:var(--ink-soft); font-size:0.9rem; padding:40px 20px;
+    background:var(--paper-alt); border:1px dashed var(--line); border-radius:var(--radius);
+  }
+  .classement-note{ font-size:0.78rem; color:var(--ink-soft); margin-top:20px; line-height:1.5; }
+  @media (max-width:560px){
+    .classement-row{ grid-template-columns:36px 36px 1fr; }
+    .classement-verdict{ grid-column:1 / -1; justify-self:start; margin-top:8px; }
+    .classement-meta{ gap:10px; }
+  }
+
+  /* ---- récompense Top 3 mensuel : bannière de félicitations + encart classement ---- */
+  .reward-banner{
+    display:flex; align-items:center; gap:16px; margin:0 0 22px;
+    padding:16px 20px; border-radius:var(--radius);
+    background:linear-gradient(120deg, rgba(232,169,58,0.16), rgba(76,124,255,0.10));
+    border:1px solid rgba(232,169,58,0.4);
+  }
+  .reward-banner .reward-emoji{ font-size:1.8rem; flex-shrink:0; }
+  .reward-banner .reward-text{ flex:1; min-width:0; font-size:0.9rem; line-height:1.45; }
+  .reward-banner .reward-text strong{ display:block; font-size:0.98rem; margin-bottom:2px; }
+  .reward-banner .reward-close{
+    flex-shrink:0; border:1px solid var(--line); background:var(--paper); border-radius:999px;
+    width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--ink-soft); font-size:0.85rem;
+  }
+  .reward-banner .reward-close:hover{ border-color:var(--blue); color:var(--blue); }
+  html[data-theme="dark"] .reward-banner{
+    background:linear-gradient(120deg, rgba(232,169,58,0.14), rgba(76,124,255,0.12));
+    border-color:rgba(232,169,58,0.35);
+  }
+
+  .monthly-spotlight{
+    margin-bottom:26px; padding:18px 20px; border-radius:var(--radius);
+    background:var(--paper-alt); border:1px solid var(--line);
+  }
+  .monthly-spotlight .ms-head{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  .monthly-spotlight .ms-head h3{ font-size:1.02rem; margin:0; }
+  .monthly-spotlight .ms-head span.eyebrow{ font-size:0.72rem; }
+  .monthly-spotlight .ms-note{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:14px; line-height:1.5; }
+  .monthly-spotlight .ms-podium{ display:flex; flex-direction:column; gap:8px; }
+  .monthly-spotlight .ms-row{
+    display:flex; align-items:center; gap:12px; padding:8px 10px;
+    border-radius:10px; background:var(--paper); border:1px solid var(--line);
+  }
+  .monthly-spotlight .ms-row.is-me{ border-color:var(--blue); box-shadow:0 0 0 1px var(--blue) inset; }
+  .monthly-spotlight .ms-rank{ font-size:1.1rem; width:26px; text-align:center; flex-shrink:0; }
+  .monthly-spotlight .ms-name{ flex:1; min-width:0; font-size:0.88rem; font-weight:600; }
+  .monthly-spotlight .ms-days{
+    flex-shrink:0; font-size:0.74rem; font-weight:700; color:#9A6B10;
+    background:rgba(232,169,58,0.18); border-radius:999px; padding:3px 10px;
+  }
+  html[data-theme="dark"] .monthly-spotlight .ms-days{ color:#F0C36B; background:rgba(232,169,58,0.22); }
+  .monthly-spotlight .ms-empty{ font-size:0.85rem; color:var(--ink-soft); padding:6px 2px; }
+
+  @keyframes swing{ from{ transform:rotate(-22deg); } to{ transform:rotate(22deg); } }
+  .pendulum{ position:absolute; top:14px; left:24px; opacity:0.5; }
+  .pendulum .bob{ transform-origin:50px 15px; animation:swing 2.2s ease-in-out infinite alternate; }
+
+  @media (max-width: 860px){
+    .hero{ grid-template-columns:1fr; }
+    .steps{ grid-template-columns:1fr; }
+    .subjects{ grid-template-columns:1fr; }
+    .dash{ grid-template-columns:1fr; }
+    .sidebar{ display:none; }
+    .progress-grid{ grid-template-columns:1fr; }
+    .chapter-layout{ grid-template-columns:1fr; }
+    .chat-panel{ position:static; height:420px; }
+    nav{ padding:16px 5vw; }
+    body{ padding-top:84px; }
+    .overview-card{ flex-direction:column; align-items:flex-start; }
+    .stat-row{ width:100%; }
+    #chapterActions{ flex-direction:column; align-items:flex-start; }
+    .values-row{ grid-template-columns:1fr; }
+    .chapter-meta{ grid-template-columns:1fr; }
+  }
+  @media (max-width:600px){
+    .level-grid{ grid-template-columns:1fr; }
+    .matiere-header{ flex-wrap:wrap; }
+    .creator-card{ flex-direction:column; }
+    .sim-layout{ justify-content:center; }
+    .hero-cta{ flex-direction:column; align-items:stretch; }
+    .hero-cta a{ text-align:center; }
+    section{ padding:3vh 5vw; }
+    .cta-band{ margin:3vh 5vw; padding:32px 5vw; }
+    .exercises, .recap-box, .mistakes-box, .sim-box, .chapter-meta{ margin-left:0; margin-right:0; }
+  }
+  @media (min-width:1601px){
+    .hero, section, .exercises, .recap-box, .mistakes-box, .sim-box,
+    .chapter-meta, .chapter-layout, .cta-band, footer, .breadcrumb{
+      max-width:1500px; margin-left:auto; margin-right:auto;
+    }
+  }
+
+  /* ===== BASCULE DE THÈME (clair / sombre) ===== */
+  .theme-toggle{
+    flex-shrink:0; width:40px; height:40px; border-radius:50%; border:1px solid var(--line);
+    background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:var(--ink); box-shadow:0 4px 12px rgba(20,50,120,0.12); transition:transform .2s ease, box-shadow .2s ease;
+    margin-left:6px;
+  }
+  .theme-toggle:hover{ transform:translateY(-2px) scale(1.05); }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .theme-toggle .icon-sun{ display:none; }
+  html[data-theme="dark"] .theme-toggle .icon-moon{ display:none; }
+  html[data-theme="dark"] .theme-toggle .icon-sun{ display:block; }
+
+  /* ---- thème sombre (ancien) : réactivé via [data-theme="dark"] sur <html> ---- */
+  html[data-theme="dark"]{
+    --paper-alt: rgba(255,255,255,0.10);
+    --ink: #EAF0FB;
+    --ink-soft: rgba(234,240,251,0.66);
+    --blue: #4C7CFF;
+    --teal: #2DD4C4;
+    --amber: #F0B94D;
+    --coral: #FF6B6F;
+    --violet: #9B82FF;
+    --sage: #8FC1CF;
+    --line: rgba(255,255,255,0.20);
+    --deep: rgb(22,34,98);
+    background: rgb(22,34,98);
+  }
+  html[data-theme="dark"] .sky-bg{
+    background-image: radial-gradient(circle at 10% 8%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 8%,transparent 8%, transparent 92%),radial-gradient(circle at 87% 45%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 8%,transparent 8%, transparent 92%),radial-gradient(circle at 9% 67%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 6%,transparent 6%, transparent 94%),radial-gradient(circle at 31% 83%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 6%,transparent 6%, transparent 94%),radial-gradient(circle at 46% 54%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 6%,transparent 6%, transparent 94%),radial-gradient(circle at 16% 24%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 6%,transparent 6%, transparent 94%),radial-gradient(circle at 18% 9%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.03) 6%,transparent 6%, transparent 94%),radial-gradient(circle at 85% 69%, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 4%,transparent 4%, transparent 96%),radial-gradient(circle at 55% 7%, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 4%,transparent 4%, transparent 96%),radial-gradient(circle at 69% 69%, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 4%,transparent 4%, transparent 96%),radial-gradient(circle at 68% 60%, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.04) 4%,transparent 4%, transparent 96%),linear-gradient(135deg, rgb(28, 42, 110),rgb(56, 88, 210));
+  }
+  html[data-theme="dark"] nav{
+    background: rgba(24,32,72,0.7);
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    box-shadow:0 16px 40px rgba(6,8,14,0.32);
+  }
+  html[data-theme="dark"] nav .logo{ color:#F4F6FA; }
+  html[data-theme="dark"] nav .nav-links a{ color:rgba(244,246,250,0.75); }
+  html[data-theme="dark"] nav .nav-links a:not(.btn):hover{ background:rgba(255,255,255,0.09); color:#fff; }
+  html[data-theme="dark"] nav .btn-ghost{ border-color:rgba(255,255,255,0.32); color:#F4F6FA; }
+  html[data-theme="dark"] nav .btn-ghost:hover{ border-color:#fff; background:rgba(255,255,255,0.08); }
+  html[data-theme="dark"] nav .avatar{ box-shadow:0 0 0 2px rgba(255,255,255,0.18); }
+  html[data-theme="dark"] .proto-caption{
+    color:#EAF0FB; background:linear-gradient(135deg, rgba(38,50,110,0.92), rgba(22,28,66,0.88));
+    box-shadow:0 8px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.16);
+  }
+  html[data-theme="dark"] .proto-nav{
+    background:linear-gradient(160deg, rgba(40,52,116,0.9), rgba(20,26,58,0.85));
+    border:1px solid rgba(255,255,255,0.16);
+    box-shadow:0 18px 42px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  html[data-theme="dark"] .proto-indicator{
+    background:linear-gradient(150deg, #FFD589, var(--amber));
+    box-shadow:0 5px 16px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.4);
+  }
+  html[data-theme="dark"] .proto-nav button:hover:not(.active)::before{ background:rgba(255,255,255,0.08); }
+  html[data-theme="dark"] .chat-panel{ background: rgba(26,36,80,0.5); border:1px solid rgba(255,255,255,0.14); }
+  html[data-theme="dark"] .continue-card{
+    background:linear-gradient(135deg, rgba(76,124,255,0.22), rgba(155,130,255,0.14));
+    border:1px solid rgba(255,255,255,0.2);
+  }
+  html[data-theme="dark"] .wave-box{ box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06); }
+  html[data-theme="dark"] .logo-full{ box-shadow:0 14px 34px rgba(0,0,0,0.35); }
+  html[data-theme="dark"] .element-card:hover{ box-shadow:0 16px 32px rgba(0,0,0,0.3); }
+  html[data-theme="dark"] .level-card.selected{ box-shadow:0 10px 24px rgba(0,0,0,0.25); }
+
+  /* =====================================================================
+     FUSION GLASSMORPHISME × CLAYMORPHISME
+     Verre translucide + flouté (glass) posé sur un relief de "pâte"
+     gonflée à double ombre douce (clay) : chaque surface respire, semble
+     malléable, avec un léger galbe lumineux en haut-gauche et une ombre
+     colorée diffuse en bas-droite. Appliqué globalement sans toucher au
+     balisage existant, pour couvrir toute la plateforme (accueil,
+     "comment ça marche", matières, tableau de bord, chapitre, chat,
+     labo, classement, paywall...).
+     ===================================================================== */
+
+  /* ---- grandes surfaces : cartes de contenu ---- */
+  .element-card, .overview-card, .progress-card, .activity-card,
+  .badges-card, .revision-card, .chapter-list, .course-panel,
+  .price-card, .sub-status-card, .value-card, .creator-card,
+  .monthly-spotlight, .reward-banner, .level-card, .ai-insight-card, .referral-card{
+    box-shadow: var(--clay-out), var(--clay-ring);
+    transition: transform .25s cubic-bezier(.32,1.25,.4,1), box-shadow .25s ease, border-color .2s ease;
+  }
+  .chat-panel{
+    box-shadow: 14px 16px 34px rgba(30,46,120,0.35), -8px -8px 18px rgba(255,255,255,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .continue-card{
+    box-shadow: 12px 14px 30px rgba(61,79,180,0.3), -6px -6px 16px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.28);
+  }
+  .element-card:hover, .value-card:hover, .creator-card:hover{ transform:translateY(-4px); }
+
+  /* ---- surfaces moyennes : lignes, champs, encarts ---- */
+  .search-hit, .search-box input, .field input, .device-card,
+  .revision-item, .chapter-item, .formula-box, .key-point,
+  .classement-row, .classement-me-card, .classement-empty,
+  .classement-loading, .classement-error, .no-results,
+  .progress-card .gauge, .monthly-spotlight .ms-row,
+  .step, .paywall-icon{
+    box-shadow: var(--clay-out-sm), var(--clay-ring);
+  }
+  .chapter-item, .revision-item, .device-card, .classement-row, .monthly-spotlight .ms-row{
+    border-radius: var(--radius-sm);
+  }
+  .search-box input, .field input{ border-radius: var(--radius-pill); }
+  .search-box input:focus, .field input:focus{
+    box-shadow: var(--clay-in), 0 0 0 3px rgba(240,185,77,0.22);
+  }
+  .formula-box{ border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .key-point{ border-radius: var(--radius-sm); }
+
+  /* ---- pastilles, puces, avatars : galbe circulaire/pilule ---- */
+  .level-chips button, .classement-tab, .lv-badge, .level-badge,
+  .theme-toggle, .nav-burger, .avatar, .classement-avatar,
+  .creator-avatar, .badge-icon, .progress-ring{
+    box-shadow: var(--clay-out-sm), var(--clay-ring);
+  }
+  .level-chips button.active, .classement-tab.active{
+    box-shadow: 4px 5px 10px rgba(61,79,180,0.35), -3px -3px 8px rgba(255,255,255,0.35);
+  }
+  .avatar, .classement-avatar, .creator-avatar{
+    box-shadow: 4px 5px 10px rgba(61,79,180,0.3), -3px -3px 8px rgba(255,255,255,0.4), inset 0 1px 1px rgba(255,255,255,0.3);
+  }
+
+  /* ---- appui tactile : les cartes cliquables se "compriment" légèrement ---- */
+  .element-card:active, .level-card:active, .search-hit:active,
+  .classement-tab:active, .level-chips button:active{
+    transform: scale(0.98);
+  }
+
+  /* ---- messages du chat Nova : bulles gonflées ---- */
+  .msg{ border-radius:16px; }
+  .msg.user{ box-shadow: 4px 5px 12px rgba(20,40,110,0.28); }
+  .msg.ai{ box-shadow: 3px 4px 10px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06); }
+
+  /* ---- variante sombre : ombre plus profonde, reflet plus discret ---- */
+  html[data-theme="dark"]{
+    --clay-hi: rgba(255,255,255,0.06);
+    --clay-lo: rgba(0,0,0,0.45);
+    --clay-lo-soft: rgba(0,0,0,0.3);
+    --clay-out: 10px 10px 24px var(--clay-lo), -6px -6px 16px var(--clay-hi);
+    --clay-out-sm: 6px 6px 15px var(--clay-lo), -4px -4px 10px var(--clay-hi);
+    --clay-in: inset 1px 1px 3px rgba(255,255,255,0.08), inset -6px -6px 14px rgba(0,0,0,0.35);
+    --clay-ring: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -6px 14px rgba(0,0,0,0.18);
+  }
+  html[data-theme="dark"] .glass{
+    background:
+      radial-gradient(120% 90% at 20% 12%, color-mix(in srgb, transparent 78%, var(--glass-tint) 22%) 0%, color-mix(in srgb, transparent 88%, var(--glass-tint) 12%) 20%, transparent 42%),
+      linear-gradient(200deg, color-mix(in srgb, transparent 85%, var(--glass-tint) 15%) 0%, transparent 50%, color-mix(in srgb, transparent 92%, var(--glass-tint) 8%) 100%),
+      var(--paper-alt);
+    border-color: color-mix(in srgb, transparent 72%, var(--glass-tint) 28%);
+    border-bottom-color: rgba(0,0,0,0.5);
+    border-right-color: rgba(0,0,0,0.35);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.12),
+      inset 3px 4px 8px color-mix(in srgb, transparent 88%, var(--glass-tint) 12%),
+      inset -4px -8px 16px rgba(0,0,0,0.35),
+      0 3px 6px rgba(0,0,0,0.3),
+      0 22px 30px -14px rgba(0,0,0,0.5),
+      var(--clay-out), var(--clay-ring);
+  }
+  html[data-theme="dark"] .btn-primary{
+    box-shadow: 7px 8px 18px rgba(0,0,0,0.45), -3px -3px 8px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  html[data-theme="dark"] .wave-box{
+    box-shadow: 16px 20px 46px rgba(0,0,0,0.5), -8px -8px 20px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  html[data-theme="dark"] .cta-band{
+    box-shadow: 14px 18px 40px rgba(0,0,0,0.4), -6px -6px 16px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  html[data-theme="dark"] .chat-panel{
+    box-shadow: 14px 16px 34px rgba(0,0,0,0.5), -6px -6px 16px rgba(255,255,255,0.03), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  /* ===== Installation de la PWA (bouton flottant + bulle iOS) ===== */
+  .pwa-install-btn{
+    position:fixed; right:20px; bottom:calc(20px + env(safe-area-inset-bottom, 0px)); z-index:210;
+    display:none; align-items:center; gap:9px;
+    font-family:'IBM Plex Sans', sans-serif; font-weight:600; font-size:0.86rem;
+    padding:12px 18px 12px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.4); cursor:pointer;
+    color:#fff; background:linear-gradient(135deg, var(--blue), var(--violet));
+    box-shadow: 8px 10px 22px rgba(61,79,180,0.38), -4px -4px 10px rgba(255,255,255,0.25), inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: transform .2s cubic-bezier(.32,1.25,.4,1), box-shadow .2s ease, opacity .25s ease;
+    opacity:0; transform:translateY(14px) scale(0.94);
+  }
+  .pwa-install-btn.show{ display:inline-flex; opacity:1; transform:translateY(0) scale(1); }
+  .pwa-install-btn:hover{ transform:translateY(-2px) scale(1.02); }
+  .pwa-install-btn:active{ transform:translateY(0) scale(0.96); }
+  .pwa-install-btn svg{ width:18px; height:18px; flex-shrink:0; }
+  .pwa-ios-tip{
+    position:fixed; right:20px; bottom:calc(20px + env(safe-area-inset-bottom, 0px)); z-index:210;
+    display:none; max-width:min(280px, calc(100vw - 40px)); gap:10px; align-items:flex-start;
+    padding:14px 16px; border-radius:var(--radius-sm);
+    background:var(--paper-alt); border:1px solid var(--line);
+    backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+    box-shadow: var(--clay-out-sm), var(--clay-ring);
+    font-size:0.82rem; color:var(--ink); line-height:1.45;
+  }
+  .pwa-ios-tip.show{ display:flex; }
+  .pwa-ios-tip .pwa-ios-close{
+    flex-shrink:0; margin-left:auto; border:none; background:transparent; color:var(--ink-soft);
+    cursor:pointer; font-size:1rem; line-height:1; padding:2px;
+  }
+  @media (max-width:600px){
+    .pwa-install-btn span, .pwa-ios-tip{ font-size:0.8rem; }
+  }
+/* ===================================================================
+   PROTECTION DU CONTENU PÉDAGOGIQUE — Sprint 1
+   Rappel honnête : rien de tout cela n'empêche techniquement un
+   navigateur d'afficher le texte qu'il doit bien rendre à l'écran (vue
+   du code source, capture d'écran...). L'objectif ici est double :
+   1) dissuader la copie "facile" (clic droit, sélection en masse),
+   2) rendre toute fuite (capture d'écran redistribuée) traçable
+      jusqu'au compte d'origine grâce au filigrane nominatif.
+   =================================================================== */
+#chapterContentGuard{ user-select: none; -webkit-user-select: none; }
+#chapterContentGuard input,
+#chapterContentGuard textarea{ user-select: text; -webkit-user-select: text; } /* champs de réponse restent utilisables */
+
+.esu-watermark{
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  z-index: 5; opacity: 0.07; user-select: none;
+}
+/* ===================================================================
+   RETOUR VISUEL PENDANT LE CHARGEMENT — Sprint UX
+   Sans ça, un clic sur un bouton d'action réseau (connexion, envoi au
+   chat...) ne donne aucun signe visible pendant 1-2 secondes, ce qui
+   pousse à recliquer (et donc parfois à déclencher l'action deux fois)
+   — surtout sensible sur une connexion mobile plus lente.
+   =================================================================== */
+.btn.is-loading, button.is-loading{
+  position: relative; color: transparent !important; pointer-events: none; opacity: 0.85;
+}
+.btn.is-loading::after, button.is-loading::after{
+  content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px;
+  margin: -8px 0 0 -8px; border: 2px solid rgba(255,255,255,0.5); border-top-color: #fff;
+  border-radius: 50%; animation: esu-spin 0.7s linear infinite;
+}
+.btn-ghost.is-loading::after{ border: 2px solid rgba(22,32,74,0.25); border-top-color: var(--ink); }
+@keyframes esu-spin{ to{ transform: rotate(360deg); } }
+
+/* ===================================================================
+   ESPACE ADMIN — refonte visuelle
+   Principe : chaque panneau a UNE couleur d'accent qui dit ce qu'il fait
+   (teal = accorder, coral = risque/révoquer, violet = parrains), une
+   grille aérée à 2 colonnes sur grand écran, et des lignes de liste
+   plates (pas de carte-dans-la-carte, qui empilait les ombres).
+   =================================================================== */
+.admin-wrap{ max-width:1100px; margin:0 auto; padding:5vh 6vw 12vh; }
+.admin-header{ margin-bottom:44px; }
+.admin-header h1{ font-size:2.1rem; margin:10px 0 8px; }
+.admin-header p{ color:var(--ink-soft); font-size:0.98rem; max-width:56ch; }
+
+.admin-grid{ display:grid; grid-template-columns: 1fr; gap:28px; }
+@media(min-width:900px){
+  .admin-grid{ grid-template-columns: 1fr 1fr; align-items:start; }
+  .admin-grid > .admin-panel--wide{ grid-column: 1 / -1; }
+}
+
+.admin-panel{
+  background:var(--paper-alt); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur));
+  border-radius:var(--radius); box-shadow:var(--clay-out); padding:32px;
+  border-top:3px solid var(--accent, var(--blue));
+}
+.admin-panel-head{ display:flex; align-items:flex-start; gap:14px; margin-bottom:22px; }
+.admin-panel-icon{
+  flex-shrink:0; width:38px; height:38px; border-radius:var(--radius-sm);
+  background:var(--accent, var(--blue)); color:#fff; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:1rem; box-shadow:var(--clay-out-sm);
+}
+.admin-panel h2{ font-size:1.15rem; margin:0 0 4px; }
+.admin-panel-desc{ font-size:0.84rem; color:var(--ink-soft); line-height:1.5; margin:0; }
+
+.admin-panel .field{ margin-bottom:16px; }
+.admin-panel .field:last-of-type{ margin-bottom:22px; }
+.admin-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+.admin-note{ margin-top:14px; font-size:0.85rem; font-weight:600; }
+
+.admin-list{ display:flex; flex-direction:column; gap:2px; max-height:420px; overflow-y:auto; margin-top:4px; }
+.admin-list-empty{ font-size:0.88rem; color:var(--ink-soft); padding:18px 4px; text-align:center; }
+.admin-row{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:14px 4px; border-bottom:1px solid var(--line);
+}
+.admin-row:last-child{ border-bottom:none; }
+.admin-row-main strong{ display:block; font-size:0.92rem; }
+.admin-row-meta{ font-size:0.78rem; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; margin-top:2px; }
+.admin-row-tag{
+  font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase;
+  padding:2px 8px; border-radius:var(--radius-pill); background:rgba(232,169,58,0.18); color:#8a6414; flex-shrink:0;
+}
+
+.esu-watermark span{
+  position: absolute; white-space: nowrap; font-size: 13px; font-weight: 600;
+  color: #000; transform: rotate(-28deg); left: -10%;
+}
+</style>
+</head>
+<body>
+
+<div class="sky-bg" id="skyBg">
+  <svg class="orbit-field" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g opacity="0.5" stroke="var(--blue)" stroke-width="1" fill="none">
+      <ellipse cx="1000" cy="120" rx="160" ry="60" transform="rotate(-18 1000 120)"/>
+      <circle cx="1000" cy="120" r="3.5" fill="var(--blue)" stroke="none">
+        <animateMotion dur="14s" repeatCount="indefinite" path="M0,0 a160,60 -18 1,1 0.1,0"/>
+      </circle>
+    </g>
+    <g opacity="0.4" stroke="var(--violet)" stroke-width="1" fill="none">
+      <ellipse cx="120" cy="620" rx="190" ry="70" transform="rotate(12 120 620)"/>
+      <circle cx="120" cy="620" r="3" fill="var(--violet)" stroke="none">
+        <animateMotion dur="18s" repeatCount="indefinite" path="M0,0 a190,70 12 1,1 0.1,0"/>
+      </circle>
+    </g>
+    <g opacity="0.35" stroke="var(--teal)" stroke-width="1" fill="none">
+      <ellipse cx="620" cy="720" rx="130" ry="46" transform="rotate(-6 620 720)"/>
+      <circle cx="620" cy="720" r="2.6" fill="var(--teal)" stroke="none">
+        <animateMotion dur="11s" repeatCount="indefinite" path="M0,0 a130,46 -6 1,1 0.1,0"/>
+      </circle>
+    </g>
+  </svg>
+</div>
+
+<div class="spectral-bar"></div>
+
+<!-- ===== Installation de l'app (PWA) ===== -->
+<button class="pwa-install-btn" id="pwaInstallBtn" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+  <span>Installer l'app</span>
+</button>
+<div class="pwa-ios-tip" id="pwaIosTip">
+  <span>Pour installer E-Student University : touche <strong>Partager</strong> puis <strong>Sur l'écran d'accueil</strong>.</span>
+  <button class="pwa-ios-close" id="pwaIosClose" type="button" aria-label="Fermer">✕</button>
+</div>
+
+<!-- ================= CONNEXION ================= -->
+<div id="view-connexion" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+  </nav>
+  <div class="auth-wrap">
+    <span class="blob blob-1" style="width:220px;height:220px;top:-40px;right:-60px;opacity:0.2;"></span>
+    <span class="eyebrow" id="authEyebrow">Bon retour</span>
+    <h1 id="authTitle">Connexion</h1>
+
+    <div class="field" id="fieldName" style="display:none;">
+      <label for="authName">Nom complet</label>
+      <input type="text" id="authName" placeholder="Ton nom">
+    </div>
+    <div class="field">
+      <label for="authEmail">Email</label>
+      <input type="email" id="authEmail" placeholder="toi@exemple.com">
+    </div>
+    <div class="field">
+      <label for="authPass">Mot de passe</label>
+      <input type="password" id="authPass" placeholder="••••••••">
+    </div>
+    <p id="authError" style="display:none; color:#B23A44; font-size:0.85rem; margin:-6px 0 12px;"></p>
+    <a href="#" class="auth-link" id="authForgot" onclick="forgotPassword(); return false;">Mot de passe oublié ?</a>
+    <button class="btn btn-primary" style="width:100%; margin-top:20px;" id="authSubmitBtn" onclick="submitLogin()">Se connecter</button>
+    <p class="auth-foot" id="authSwitch">Pas encore de compte ? <a href="#" onclick="toggleAuthMode(); return false;">Créer un compte</a></p>
+  </div>
+</div>
+
+<!-- ================= CHOIX DU NIVEAU ================= -->
+<div id="view-niveau" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+  </nav>
+  <div class="level-wrap">
+    <span class="blob blob-2" style="width:200px;height:200px;bottom:0;left:-60px;opacity:0.18;"></span>
+    <span class="eyebrow">Avant de commencer</span>
+    <h1>Quel est ton niveau ?</h1>
+    <p>On adapte le contenu et la difficulté des exercices à ton niveau universitaire. Tu pourras changer ça plus tard.</p>
+    <div class="level-grid" id="levelGrid">
+            <div class="level-card" data-level="L1" style="--accent:var(--teal);" tabindex="0" role="button" onclick="selectLevel(this)">
+        <span class="level-tag">L1</span>
+        <strong>Licence 1</strong>
+        <span class="desc">Tronc commun Physique-Chimie</span>
+      </div>
+      <div class="level-card" data-level="L2" style="--accent:var(--amber);" tabindex="0" role="button" onclick="selectLevel(this)">
+        <span class="level-tag">L2</span>
+        <strong>Licence 2</strong>
+        <span class="desc">Tronc commun Physique-Chimie, approfondi</span>
+      </div>
+      <div class="level-card" data-level="L3PF" style="--accent:var(--violet);" tabindex="0" role="button" onclick="selectLevel(this)">
+        <span class="level-tag">L3-PF</span>
+        <strong>Licence 3 — Physique Fondamentale</strong>
+        <span class="desc">Mécanique analytique, quantique, ondes...</span>
+      </div>
+      <div class="level-card" data-level="L3CF" style="--accent:var(--blue);" tabindex="0" role="button" onclick="selectLevel(this)">
+        <span class="level-tag">L3-CF</span>
+        <strong>Licence 3 — Chimie Fondamentale</strong>
+        <span class="desc">Chimie quantique, cristallochimie, synthèse...</span>
+      </div>
+      <div class="level-card" data-level="all" style="--accent:var(--ink-soft); grid-column:1 / -1; border-style:dashed;" tabindex="0" role="button" onclick="selectLevel(this)">
+        <span class="level-tag">Tous</span>
+        <strong>Je ne sais pas encore</strong>
+        <span class="desc">Voir toutes les matières de la plateforme, tous niveaux confondus, classées par domaine</span>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="continueLevelBtn" style="margin-top:32px;" disabled onclick="confirmLevel()">Continuer</button>
+  </div>
+</div>
+
+<!-- ================= ACCUEIL ================= -->
+<div id="view-accueil">
+  <nav id="mainnav">
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#matieres">Matières</a>
+      <a href="#" onclick="document.getElementById('commentCaMarche').scrollIntoView({behavior:'smooth'}); return false;">Comment ça marche</a>
+      <a href="#" onclick="showView('apropos'); return false;">À propos</a>
+      <a href="#" class="btn btn-ghost" onclick="showView('connexion'); return false;">Connexion</a>
+      <a href="#" class="btn btn-primary" onclick="showView('connexion'); return false;">Commencer</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <div>
+      <span class="eyebrow">Physique · Chimie · Maths · Info — Tous niveaux</span>
+      <div class="hero-text-bg">
+        <video class="hero-text-video hero-text-video-light" autoplay muted loop playsinline preload="auto" poster="hero-text-clouds-poster.jpg" aria-hidden="true">
+          <source src="hero-text-clouds.mp4" type="video/mp4">
+        </video>
+        <video class="hero-text-video hero-text-video-dark" autoplay muted loop playsinline preload="auto" poster="hero-text-stars-poster.jpg" aria-hidden="true">
+          <source src="hero-text-stars.mp4" type="video/mp4">
+        </video>
+        <div class="hero-text-scrim"></div>
+        <div class="hero-text-content">
+          <h1>La science, expliquée jusqu'à ce que ça clique.</h1>
+          <p>Cours structurés, exercices corrigés et un assistant IA qui reste avec toi sur chaque chapitre — du principe de base à l'exercice type examen.</p>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary btn-glow" onclick="startFirstFreeChapter(); return false;">Commencer le chapitre 1 — gratuit</a>
+        <a href="#" class="btn btn-ghost" onclick="document.getElementById('matieres').scrollIntoView({behavior:'smooth'}); return false;">Voir le programme</a>
+      </div>
+    </div>
+    <div class="wave-box has-video">
+      <video class="wave-video" autoplay muted loop playsinline preload="auto" poster="hero-molecules-poster.jpg" aria-hidden="true">
+        <source src="hero-molecules.mp4" type="video/mp4">
+      </video>
+      <div class="wave-video-overlay"></div>
+      <span class="wave-video-caption">Structures moléculaires — rendu 3D</span>
+    </div>
+  </div>
+
+  <section id="commentCaMarche">
+    <div class="section-head">
+      <span class="eyebrow">Comment ça marche</span>
+      <svg viewBox="0 0 120 120" width="72" height="72" class="science-anim" aria-hidden="true">
+        <g transform="rotate(0 60 60)">
+          <path d="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60" fill="none" stroke="var(--blue)" stroke-width="1.4" opacity="0.55"/>
+          <circle r="4" fill="var(--blue)"><animateMotion dur="5s" repeatCount="indefinite" path="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60"/></circle>
+        </g>
+        <g transform="rotate(60 60 60)">
+          <path d="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60" fill="none" stroke="var(--teal)" stroke-width="1.4" opacity="0.55"/>
+          <circle r="4" fill="var(--teal)"><animateMotion dur="6.5s" repeatCount="indefinite" path="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60"/></circle>
+        </g>
+        <g transform="rotate(120 60 60)">
+          <path d="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60" fill="none" stroke="var(--violet)" stroke-width="1.4" opacity="0.55"/>
+          <circle r="4" fill="var(--violet)"><animateMotion dur="4s" repeatCount="indefinite" path="M10,60 A50,20 0 1,1 110,60 A50,20 0 1,1 10,60"/></circle>
+        </g>
+        <circle cx="60" cy="60" r="7" fill="var(--amber)"/>
+      </svg>
+    </div>
+    <div class="steps" style="margin-top:20px;">
+      <div class="step reveal">
+        <div class="num">01</div>
+        <h3>Lire le cours</h3>
+        <p>Chapitre structuré, notions clés mises en évidence, sans détour inutile.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">02</div>
+        <h3>Poser tes questions</h3>
+        <p>L'assistant IA connaît le chapitre en cours et répond à ton niveau.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">03</div>
+        <h3>T'entraîner</h3>
+        <p>Exercices corrigés avec explication de l'erreur, pas juste "faux".</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="matieres">
+    <div class="subjects-head">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <svg viewBox="0 0 100 100" width="52" height="52" aria-hidden="true">
+          <path d="M42 15 V42 L20 82 a6 6 0 0 0 5 9 h50 a6 6 0 0 0 5-9 L58 42 V15" fill="none" stroke="var(--ink-soft)" stroke-width="2.5" stroke-linejoin="round"/>
+          <line x1="37" y1="15" x2="63" y2="15" stroke="var(--ink-soft)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M27 68 a6 6 0 0 0 -1 8 a6 6 0 0 0 1 8 h46 a6 6 0 0 0 1-8 a6 6 0 0 0 -1-8 Z" fill="var(--teal)" opacity="0.55"/>
+          <circle class="flask-bubble" cx="42" cy="78" r="3" fill="var(--paper)"/>
+          <circle class="flask-bubble" cx="55" cy="78" r="2.4" fill="var(--paper)" style="animation-delay:1s;"/>
+          <circle class="flask-bubble" cx="48" cy="78" r="2" fill="var(--paper)" style="animation-delay:2s;"/>
+        </svg>
+        <div>
+          <span class="eyebrow">Matières disponibles</span>
+          <div class="level-chips" id="levelChips"></div>
+        </div>
+      </div>
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA7B4" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="subjectSearch" aria-label="Rechercher une matière ou un chapitre" placeholder="Ex : électronique, intégration, algorithmique...">
+      </div>
+    </div>
+    <div class="subjects" id="subjectsGrid"></div>
+    <div class="search-results" id="searchResults" style="display:none;"></div>
+    <div class="no-results" id="noResults">Aucune matière ne correspond à ta recherche. <a href="#" onclick="document.getElementById('subjectSearch').value='';filterSubjects();return false;" style="color:var(--blue);">Réinitialiser</a></div>
+  </section>
+
+  <div class="cta-band cta-band-media reveal" style="margin-bottom:24px;">
+    <video class="cta-band-video" autoplay muted loop playsinline preload="metadata" poster="labo-experience-poster.jpg" aria-hidden="true">
+      <source src="labo-experience.mp4" type="video/mp4">
+    </video>
+    <div class="cta-band-overlay" style="background:linear-gradient(120deg, rgba(20,222,124,0.30), rgba(10,20,50,0.72));"></div>
+    <div class="cta-band-content">
+      <span style="font-size:2.2rem; display:block; margin-bottom:10px;">🔬</span>
+      <h2>Et si tu voyais la science en action ?</h2>
+      <p>Notre labo numérique te laisse manipuler de vraies expériences interactives de physique et chimie, directement dans ton navigateur — inclus dans ton abonnement Premium.</p>
+      <a href="#" class="btn btn-primary" onclick="showView('labo'); return false;">Visiter le labo numérique →</a>
+    </div>
+  </div>
+
+  <div class="cta-band cta-band-media reveal" style="margin-bottom:24px;">
+    <video class="cta-band-video" autoplay muted loop playsinline preload="metadata" poster="code-interface-poster.jpg" aria-hidden="true">
+      <source src="code-interface.mp4" type="video/mp4">
+    </video>
+    <div class="cta-band-overlay" style="background:linear-gradient(120deg, rgba(61,107,240,0.30), rgba(10,20,50,0.72));"></div>
+    <div class="cta-band-content">
+      <span style="font-size:2.2rem; display:block; margin-bottom:10px;">💻</span>
+      <h2>Apprends l'algorithmique et Python, avec une IA à tes côtés.</h2>
+      <p>Notre éditeur de code te permet d'écrire et d'exécuter du code directement dans ton navigateur, avec l'aide d'un assistant IA qui explique chaque notion et corrige tes erreurs — inclus dans ton abonnement Premium.</p>
+      <a href="#" class="btn btn-primary" onclick="showView('code'); return false;">Ouvrir l'éditeur de code →</a>
+    </div>
+  </div>
+
+  <div class="cta-band cta-band-media reveal" style="margin-bottom:24px;">
+    <video class="cta-band-video" autoplay muted loop playsinline preload="metadata" poster="chalkboard-formulas-poster.jpg" aria-hidden="true">
+      <source src="chalkboard-formulas.mp4" type="video/mp4">
+    </video>
+    <div class="cta-band-overlay" style="background:linear-gradient(120deg, rgba(49,30,92,0.35), rgba(10,20,50,0.72));"></div>
+    <div class="cta-band-content">
+      <span style="font-size:2.2rem; display:block; margin-bottom:10px;">📚🎬</span>
+      <h2>Une bibliothèque, et aussi une vidéothèque.</h2>
+      <p>Consulte des ouvrages, fiches et ressources documentaires, mais aussi des vidéos et supports audiovisuels pour approfondir chaque matière — le tout réuni au même endroit, inclus dans ton abonnement Premium.</p>
+      <a href="#" class="btn btn-primary" onclick="showView('biblio'); return false;">Visiter la bibliothèque & vidéothèque →</a>
+    </div>
+  </div>
+
+  <div class="cta-band reveal">
+    <span class="blob blob-3" style="opacity:0.3;"></span>
+    <svg class="pendulum" viewBox="0 0 100 90" width="60" height="54" aria-hidden="true">
+      <line x1="50" y1="5" x2="50" y2="15" stroke="white" stroke-width="1.5"/>
+      <g class="bob">
+        <line x1="50" y1="15" x2="50" y2="68" stroke="white" stroke-width="1.5" opacity="0.7"/>
+        <circle cx="50" cy="72" r="7" fill="white" opacity="0.85"/>
+      </g>
+    </svg>
+    <h2>Le chapitre 1 est gratuit.</h2>
+    <p>Aucune carte requise pour commencer.</p>
+    <a href="#" class="btn btn-primary" onclick="startFirstFreeChapter(); return false;">Commencer maintenant</a>
+  </div>
+
+  <footer>
+    <span>© 2026 E-Student University — Tous droits réservés. Contenus pédagogiques protégés par le droit d'auteur ; toute reproduction, capture ou redistribution sans autorisation écrite est interdite.</span>
+    <span><a href="#" onclick="showView('apropos'); return false;" style="color:var(--ink-soft);">À propos</a> · Mentions légales · CGU · <a href="mailto:estudentuniversity5@gmail.com" style="color:var(--ink-soft);">Contact : estudentuniversity5@gmail.com</a></span>
+  </footer>
+</div>
+
+<!-- ================= PROFIL ================= -->
+<div id="view-profil" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="auth-wrap" style="max-width:480px;">
+    <span class="eyebrow">Ton compte</span>
+    <h1 style="font-size:1.7rem;">Profil</h1>
+
+    <div class="field">
+      <label for="profileName">Nom affiché</label>
+      <input type="text" id="profileName">
+    </div>
+    <button class="btn btn-primary" style="margin-bottom:12px;" onclick="saveProfileName()">Enregistrer</button>
+    <p id="profileSaveMsg" style="display:none; color:var(--teal); font-size:0.85rem; margin:0 0 20px;">Nom mis à jour ✓</p>
+
+    <div class="device-card" style="margin-bottom:12px;">
+      <div><strong>Email</strong><span id="profileEmail">—</span></div>
+    </div>
+    <div class="device-card" style="margin-bottom:12px;">
+      <div><strong>Niveau universitaire</strong><span id="profileLevel">—</span></div>
+      <button class="btn btn-ghost" style="font-size:0.78rem;" onclick="showView('niveau')">Changer</button>
+    </div>
+    <div class="device-card" style="margin-bottom:12px;">
+      <div><strong>Abonnement</strong><span id="profileSub">—</span></div>
+      <button class="btn btn-ghost" style="font-size:0.78rem;" onclick="showView('paywall')">Voir</button>
+    </div>
+    <div class="device-card" style="margin-bottom:24px;">
+      <div><strong>Appareils connectés</strong><span>Limite de 2 en simultané</span></div>
+      <button class="btn btn-ghost" style="font-size:0.78rem;" onclick="openDeviceManagerFromProfile()">Gérer</button>
+    </div>
+
+    <a href="#" class="auth-link" onclick="confirmLogout(); return false;">Se déconnecter</a>
+  </div>
+</div>
+
+<!-- ================= BADGES ================= -->
+<div id="view-badges" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="apropos-wrap">
+    <span class="eyebrow">Ta collection</span>
+    <h1 style="font-size:2rem;">Badges — <span id="badgesPageCount">0 / 100</span></h1>
+    <p class="apropos-lead" style="margin-bottom:32px;">Chaque badge correspond à quelque chose que tu as réellement accompli sur la plateforme — rien n'est décoratif.</p>
+    <div id="badgesFullList"></div>
+  </div>
+</div>
+
+<!-- ================= ESPACE ADMIN ================= -->
+<div id="view-admin" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <span class="eyebrow">Back-office</span>
+      <h1>Espace admin</h1>
+      <p>Réservé aux comptes administrateurs — chaque action ci-dessous est vérifiée et journalisée côté serveur, jamais seulement côté écran.</p>
+    </div>
+
+    <div class="admin-grid">
+      <div class="admin-panel admin-panel--wide" style="--accent:var(--teal);">
+        <div class="admin-panel-head">
+          <div class="admin-panel-icon">★</div>
+          <div>
+            <h2>Abonnement Premium</h2>
+            <p class="admin-panel-desc">Accorder, prolonger ou révoquer le Premium d'un étudiant par email — utile pour le support, les remboursements ou les cas particuliers.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="adminTargetEmail">Email de l'étudiant</label>
+          <input type="email" id="adminTargetEmail" placeholder="etudiant@exemple.com">
+        </div>
+        <div class="admin-actions">
+          <button class="btn btn-primary" onclick="adminGrantPremium()">Accorder / prolonger 30 jours</button>
+          <button class="btn btn-ghost" onclick="adminRevokePremium()">Révoquer le Premium</button>
+        </div>
+        <p id="adminActionNote" class="admin-note" style="display:none;"></p>
+      </div>
+
+      <div class="admin-panel" style="--accent:var(--coral);">
+        <div class="admin-panel-head">
+          <div class="admin-panel-icon">!</div>
+          <div>
+            <h2>Soumissions suspectes</h2>
+            <p class="admin-panel-desc">Rythme de complétion d'exercices humainement improbable, 7 derniers jours. Rien n'est bloqué automatiquement — à examiner au cas par cas.</p>
+          </div>
+        </div>
+        <div id="adminSuspiciousList" class="admin-list">Chargement…</div>
+      </div>
+
+      <div class="admin-panel" style="--accent:var(--violet);">
+        <div class="admin-panel-head">
+          <div class="admin-panel-icon">P</div>
+          <div>
+            <h2>Parrains</h2>
+            <p class="admin-panel-desc">Gère la liste proposée sur la page d'abonnement — ajout et désactivation prennent effet immédiatement, sans déploiement.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="adminPartnerName">Nom du parrain</label>
+          <input type="text" id="adminPartnerName" placeholder="Prénom NOM">
+        </div>
+        <div class="field">
+          <label for="adminPartnerUrl">Lien de paiement Chariow</label>
+          <input type="url" id="adminPartnerUrl" placeholder="https://chariow.ly/...">
+        </div>
+        <div class="admin-actions">
+          <button class="btn btn-primary" onclick="adminAddPartner()">Ajouter ce parrain</button>
+        </div>
+        <p id="adminPartnerNote" class="admin-note" style="display:none;"></p>
+        <div id="adminPartnerList" class="admin-list" style="margin-top:20px;">Chargement…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LABO NUMÉRIQUE ================= -->
+<div id="view-labo" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" class="btn btn-ghost" onclick="window.open('https://e-studentuniversitylabs.lovable.app','_blank','noopener'); return false;">Ouvrir dans un onglet ↗</a>
+    </div>
+  </nav>
+  <iframe id="laboFrame" src="about:blank" title="Labo numérique E-Student University" class="labo-frame" allow="fullscreen" loading="lazy"></iframe>
+</div>
+
+<!-- ================= ÉDITEUR DE CODE ================= -->
+<div id="view-code" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <span class="eyebrow" style="margin-right:auto; padding-left:14px;">💻 Éditeur de code — apprends l'algorithmique et Python avec l'aide d'une IA</span>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" class="btn btn-ghost" onclick="window.open('https://e-studentuniversityvirtualcode.lovable.app','_blank','noopener'); return false;">Ouvrir dans un onglet ↗</a>
+    </div>
+  </nav>
+  <iframe id="codeFrame" src="about:blank" title="Éditeur de code E-Student University" class="labo-frame" allow="fullscreen" loading="lazy"></iframe>
+</div>
+
+<!-- ================= BIBLIOTHÈQUE & VIDÉOTHÈQUE ================= -->
+<div id="view-biblio" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <span class="eyebrow" style="margin-right:auto; padding-left:14px;">📚 Bibliothèque · 🎬 Vidéothèque — ouvrages, fiches et vidéos réunis au même endroit</span>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" class="btn btn-ghost" onclick="window.open('https://e-studentuniversitybiblio.lovable.app','_blank','noopener'); return false;">Ouvrir dans un onglet ↗</a>
+    </div>
+  </nav>
+  <iframe id="biblioFrame" src="about:blank" title="Bibliothèque & Vidéothèque E-Student University" class="labo-frame" allow="fullscreen" loading="lazy"></iframe>
+</div>
+
+<!-- ================= À PROPOS ================= -->
+<div id="view-apropos" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); return false;">Accueil</a>
+      <a href="#" class="btn btn-ghost" onclick="showView('connexion'); return false;">Connexion</a>
+    </div>
+  </nav>
+  <div class="apropos-wrap">
+    <div class="logo-full" style="margin-bottom:8px;"><img src="logo-full-mark.png" alt="E-Student University"></div>
+    <span class="eyebrow" style="display:block; text-align:center;">À propos</span>
+    <h1 style="text-align:center;">Faire des sciences un territoire familier, pas un obstacle.</h1>
+    <p class="apropos-lead" style="margin-left:auto; margin-right:auto; text-align:center;">E-Student University est née d'une conviction simple : chaque étudiant mérite un accompagnement clair et accessible pour réussir ses études scientifiques, où qu'il soit et quel que soit son rythme. Cours structurés, assistant IA disponible à tout moment, exercices corrigés avec explication — tout est pensé pour que la plateforme devienne ta première référence, du premier chapitre jusqu'à l'examen.</p>
+
+    <div class="values-row">
+      <div class="value-card">
+        <span class="num">01</span>
+        <h3>Rigueur</h3>
+        <p>Un contenu structuré et fidèle aux vrais programmes universitaires, matière par matière.</p>
+      </div>
+      <div class="value-card">
+        <span class="num">02</span>
+        <h3>Accessibilité</h3>
+        <p>Le premier chapitre de chaque matière est gratuit — comprendre avant de s'engager.</p>
+      </div>
+      <div class="value-card">
+        <span class="num">03</span>
+        <h3>Accompagnement</h3>
+        <p>Un assistant IA disponible à chaque étape, pour ne jamais rester bloqué seul.</p>
+      </div>
+    </div>
+
+    <span class="eyebrow">Le créateur</span>
+    <div class="creator-card">
+      <div class="creator-avatar"><img src="author.jpg" alt="Mahounan Hugues Wilfried BASSA"></div>
+      <div>
+        <h3>Mahounan Hugues Wilfried BASSA</h3>
+        <span class="creator-role">Fondateur & créateur de E-Student University</span>
+        <p>Passionné par les sciences et l'éducation, Mahounan Hugues Wilfried a conçu E-Student University pour donner aux étudiants les outils et l'accompagnement dont il aurait aimé disposer pendant ses propres études.</p>
+        <a href="mailto:estudentuniversity5@gmail.com" class="creator-contact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+          estudentuniversity5@gmail.com
+        </a>
+      </div>
+    </div>
+
+    <span class="eyebrow">Une question, un souci technique ?</span>
+    <div class="value-card" style="margin-top:12px; margin-bottom:48px;">
+      <span class="num">✉️</span>
+      <h3>Contacte-nous par e-mail</h3>
+      <p>Bug, question sur un abonnement, suggestion de contenu ou simple message pour l'auteur : écris à <a href="mailto:estudentuniversity5@gmail.com" style="color:var(--blue); font-weight:600;">estudentuniversity5@gmail.com</a>, on te répond dès que possible.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APPAREILS (limite de 2 simultanés) ================= -->
+<div id="view-appareils" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+  </nav>
+  <div class="auth-wrap" style="max-width:460px;">
+    <span class="eyebrow">Tes appareils</span>
+    <h1 style="font-size:1.5rem;">Appareils connectés</h1>
+    <p id="deviceManagerIntro" style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:22px;"></p>
+    <div id="deviceList" style="display:flex; flex-direction:column; gap:12px;"></div>
+    <a href="#" class="auth-link" id="deviceManagerCancel" style="display:block; margin-top:20px;" onclick="cancelDeviceLogin(); return false;">← Annuler et me déconnecter</a>
+  </div>
+</div>
+
+<!-- ================= DOMAINE (liste des matières) ================= -->
+<div id="view-domaine" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <a href="#" class="btn btn-ghost nav-upgrade" onclick="showView('paywall'); return false;">★ Premium</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="breadcrumb" id="domaineBreadcrumb">Domaines / <b>Physique</b></div>
+  <div class="matiere-header">
+    <div class="matiere-symbol" id="domaineSymbol">Ph</div>
+    <div>
+      <span class="eyebrow" id="domaineLevelTag">Licence 1</span>
+      <h1 id="domaineTitle">Physique</h1>
+    </div>
+  </div>
+  <div class="matiere-wrap">
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:16px;">Chaque matière ci-dessous se subdivise en plusieurs chapitres.</p>
+    <div class="chapter-list" id="domaineMatiereList"></div>
+    <a href="#" class="back-link" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">← Retour aux domaines</a>
+  </div>
+</div>
+
+<!-- ================= MATIÈRE (liste des chapitres) ================= -->
+<div id="view-matiere" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <a href="#" class="btn btn-ghost nav-upgrade" onclick="showView('paywall'); return false;">★ Premium</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="breadcrumb" id="matiereBreadcrumb">Physique / <b>Mécanique du point matériel</b></div>
+  <div class="matiere-header">
+    <div class="matiere-symbol" id="matiereSymbol" style="border-radius:12px; font-size:1.1rem;">Ch</div>
+    <div>
+      <span class="eyebrow" id="matiereLevelTag">Licence 1 · Physique</span>
+      <h1 id="matiereTitle">Mécanique du point matériel</h1>
+    </div>
+  </div>
+  <div class="matiere-wrap">
+    <div class="chapter-list" id="matiereChapterList"></div>
+    <a href="#" class="back-link" id="matiereBackLink" onclick="showView('domaine'); return false;">← Retour à la matière</a>
+  </div>
+</div>
+
+<!-- ================= PAYWALL ================= -->
+<div id="view-paywall" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="paywall-wrap">
+    <span class="blob blob-1" style="width:240px;height:240px;top:-60px;right:-80px;opacity:0.18;"></span>
+
+    <div id="paywallActive" style="display:none;">
+      <div class="paywall-icon" style="background:var(--teal);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <span class="eyebrow">Abonnement actif</span>
+      <h1>Tout est débloqué</h1>
+      <p class="lead">Ton abonnement E-Student Premium est en cours — toutes les matières, tous les chapitres, l'assistant IA Nova, le Labo numérique, l'Éditeur de code et la Bibliothèque & Vidéothèque te sont accessibles sans limite.</p>
+
+      <div class="sub-status-card">
+        <div class="sub-status-row"><span>Souscrit le</span><strong id="subStartDate">—</strong></div>
+        <div class="sub-status-row"><span>Expire le</span><strong id="subEndDate">—</strong></div>
+        <div class="sub-countdown">
+          <div class="gauge" style="margin-bottom:10px;"><span id="subProgressBar" style="background:var(--teal); width:0%;"></span></div>
+          <span class="eyebrow" id="subCountdown">—</span>
+        </div>
+      </div>
+
+      <button class="btn btn-ghost" style="width:100%; margin-top:18px;" onclick="goToPayment()">Renouveler maintenant — 2 500 FCFA/mois</button>
+      <p class="paywall-note">Tarif fidélité tant que tu renouvelles sans laisser ton abonnement expirer.</p>
+      <a href="#" class="back-link" onclick="showView('accueil'); return false;">← Retour aux matières</a>
+    </div>
+
+    <div id="paywallPricing" style="display:none;">
+      <div class="paywall-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <span class="eyebrow" id="pwDomain">Physique</span>
+      <h1 id="pwChapter">Ce chapitre est réservé aux membres Premium</h1>
+      <p class="lead">Passe Premium pour débloquer toute la plateforme : cours complets, exercices corrigés et l'assistant IA Nova sur chaque chapitre, de la L1 à la L3.</p>
+
+      <div class="price-card">
+        <div id="pwPromoBadge" style="display:none; color:var(--teal); font-family:'IBM Plex Mono',monospace; font-size:0.78rem; font-weight:600; margin-bottom:6px;">🎉 Promo jusqu'au 20 novembre 2026</div>
+        <div class="price" id="pwPrice"><span id="pwPriceStrike" style="display:none; text-decoration:line-through; color:var(--ink-soft); font-weight:400; font-size:0.7em; margin-right:8px;">3 500 FCFA</span><span id="pwPriceMain">3 500 FCFA</span> <span>/ mois</span></div>
+        <p id="pwPromoNote" style="display:none; font-size:0.82rem; color:var(--ink-soft); margin-top:8px;">Pendant la promotion, le tarif reste à <strong>2 500 FCFA</strong> quel que soit le moyen de paiement utilisé — directement ou via un lien de parrainage.</p>
+        <ul class="perk-list">
+          <li>Toutes les matières et tous les chapitres débloqués, du L1 à la L3 (Physique, Chimie, Mathématiques, Informatique, Autres)</li>
+          <li>Cours complets avec exercices corrigés et correction IA illimitée par l'assistant Nova, sur chaque chapitre</li>
+          <li>Accès inclus au Labo numérique, à l'Éditeur de code et à la Bibliothèque & Vidéothèque</li>
+          <li>Suivi de progression complet : tableau de bord, badges et historique détaillé par chapitre</li>
+          <li>Participation au classement mensuel — jusqu'à 15 jours Premium offerts pour le top 3 de chaque niveau</li>
+          <li>Résiliable à tout moment, sans engagement</li>
+        </ul>
+      </div>
+
+      <div class="referral-card" id="referralCard">
+        <span class="eyebrow">Tu as un parrain ?</span>
+        <p>Choisis ton parrain dans la liste ci-dessous : ton abonnement passe à <strong>3 000 FCFA</strong> au lieu de 3 500 FCFA, et le bouton ci-dessus t'enverra directement vers son lien de paiement personnel au moment de payer.</p>
+        <div class="field" style="margin-bottom:10px;">
+          <label for="referralSelect">Ton parrain</label>
+          <select id="referralSelect" onchange="saveReferralLink()">
+            <option value="">— Aucun parrain —</option>
+            <!-- Options générées automatiquement depuis REFERRAL_PARTNERS (voir le script) -->
+          </select>
+        </div>
+        <p id="referralSavedNote" style="display:none; color:var(--teal); font-size:0.85rem; margin-top:10px; font-weight:600;">✓ Parrain enregistré — tarif à 3 000 FCFA appliqué.</p>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="unlockBtn" onclick="goToPayment()">Débloquer avec E-Student Premium →</button>
+      <p class="paywall-note" id="pwUnlockNote">Tu seras redirigé vers notre page de paiement sécurisée (Chariow), ou vers le lien de ton parrain si tu en as enregistré un ci-dessus. Utilise <b>le même email</b> que ton compte E-Student pour un déblocage automatique juste après le paiement.</p>
+      <a href="#" class="back-link" onclick="showView('accueil'); return false;">← Retour aux matières</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CLASSEMENT ================= -->
+<div id="view-classement" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" class="active" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="classement-wrap">
+    <span class="eyebrow">Classement</span>
+    <h1>Qui progresse le plus ?</h1>
+    <p class="classement-lead">Le classement combine la progression réelle dans les chapitres, le taux de réussite aux exercices, et un verdict automatique sur la dynamique de travail de chaque étudiant.</p>
+
+    <div class="monthly-spotlight">
+      <div class="ms-head"><h3>🏆 Top 3 du mois</h3><span class="eyebrow" id="msMonthLabel"></span></div>
+      <p class="ms-note">Chaque fin de mois, les 3 étudiant·es les plus actif·ves de chaque niveau reçoivent des jours Premium offerts : <strong>1er place +15 jours</strong>, <strong>2e place +10 jours</strong>, <strong>3e place +5 jours</strong>. Le classement ci-dessous est basé sur les chapitres terminés depuis le début du mois en cours — encore provisoire tant que le mois n'est pas terminé.</p>
+      <div class="ms-podium" id="msPodium"><div class="ms-empty">Chargement…</div></div>
+    </div>
+
+    <div class="classement-tabs" id="classementTabs"></div>
+    <div id="classementMe"></div>
+    <div id="classementContent">
+      <div class="classement-loading">Chargement du classement…</div>
+    </div>
+    <p class="classement-note">Le classement est calculé à partir des chapitres réellement terminés et des exercices corrigés sur la plateforme — il se met à jour à chaque nouvelle progression. Le verdict est une estimation automatique, pas un jugement de valeur : il sert avant tout à repérer d'un coup d'œil qui pourrait avoir besoin d'un coup de pouce.</p>
+  </div>
+</div>
+
+<!-- ================= CONFIRMATION PAIEMENT ================= -->
+<div id="view-paiement-ok" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+  </nav>
+  <div class="payok-wrap">
+    <div class="payok-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <span class="eyebrow">Paiement confirmé</span>
+    <h1>Ton accès premium est activé</h1>
+    <p>Un reçu vient d'être envoyé par email. Tu peux reprendre ta lecture immédiatement.</p>
+    <button class="btn btn-primary" onclick="if(currentMatiereCtx){ backToMatiere(); } else { showView('dashboard'); }">Continuer vers le chapitre</button>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="view-dashboard" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <a href="#" id="navAdminLink" style="display:none;" onclick="showView('admin'); return false;">⚙ Admin</a>
+      <a href="#" class="btn btn-ghost nav-upgrade" onclick="showView('paywall'); return false;">★ Premium</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="dash">
+    <div class="sidebar">
+      <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+      <a href="#" class="active" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('profil'); return false;">Profil</a>
+      <a href="#" onclick="showView('profil'); return false;">Paramètres</a>
+    </div>
+    <div class="dash-main">
+      <div class="greet">
+        <div>
+          <span class="eyebrow">Bon retour</span>
+          <h2 id="dashGreeting">Bonjour, Awa 👋</h2>
+          <span class="level-badge" id="dashLevelBadge">🎓 Licence 1 <a href="#" onclick="showView('niveau'); return false;">changer</a></span>
+        </div>
+        <span class="streak">● 3 jours de suite</span>
+      </div>
+
+      <div id="rewardBanner" style="display:none;"></div>
+
+      <div class="overview-card">
+        <div class="progress-ring" id="progressRing"><span id="progressRingLabel">0%</span></div>
+        <div class="stat-row">
+          <div class="stat-item"><strong id="statChapters">0</strong><span>Chapitres terminés</span></div>
+          <div class="stat-item"><strong id="statSuccess">—</strong><span>Taux de réussite aux exercices</span></div>
+          <div class="stat-item"><strong id="statTime">0min</strong><span>Temps d'étude cette semaine</span></div>
+          <div class="stat-item"><strong id="statStreak">0</strong><span>Jours d'affilée</span></div>
+        </div>
+      </div>
+
+      <div class="progress-grid" id="progressGrid">
+        <div class="progress-card">
+          <div class="top"><strong>Physique</strong><span class="symbol" style="font-size:1.3rem; color:var(--blue);">Ph</span></div>
+          <div class="gauge"><span id="gauge-Physique" style="background:var(--blue);"></span></div>
+          <span class="pct" id="pct-Physique">— complété</span>
+        </div>
+        <div class="progress-card">
+          <div class="top"><strong>Chimie</strong><span class="symbol" style="font-size:1.3rem; color:var(--teal);">Ch</span></div>
+          <div class="gauge"><span id="gauge-Chimie" style="background:var(--teal);"></span></div>
+          <span class="pct" id="pct-Chimie">— complété</span>
+        </div>
+        <div class="progress-card">
+          <div class="top"><strong>Maths</strong><span class="symbol" style="font-size:1.3rem; color:var(--amber);">Ma</span></div>
+          <div class="gauge"><span id="gauge-Mathématiques" style="background:var(--amber);"></span></div>
+          <span class="pct" id="pct-Mathématiques">— complété</span>
+        </div>
+        <div class="progress-card">
+          <div class="top"><strong>Info</strong><span class="symbol" style="font-size:1.3rem; color:var(--violet);">In</span></div>
+          <div class="gauge"><span id="gauge-Informatique" style="background:var(--violet);"></span></div>
+          <span class="pct" id="pct-Informatique">— complété</span>
+        </div>
+        <div class="progress-card">
+          <div class="top"><strong>Autres</strong><span class="symbol" style="font-size:1.3rem; color:var(--sage);">Au</span></div>
+          <div class="gauge"><span id="gauge-Autres" style="background:var(--sage);"></span></div>
+          <span class="pct" id="pct-Autres">— complété</span>
+        </div>
+      </div>
+
+      <div class="badges-card ai-insight-card" id="aiInsightCard">
+        <div class="subjects-head" style="margin-bottom:10px;">
+          <span class="eyebrow">🤖 Bilan IA de ta progression <span style="font-weight:400; color:var(--ink-soft);">— généré par Nova, propulsé par Groq</span></span>
+          <button type="button" class="btn btn-ghost" id="aiInsightBtn" style="font-size:0.78rem;" onclick="generateProgressInsight(true)">↻ Actualiser</button>
+        </div>
+        <div id="aiInsightBody">
+          <p style="color:var(--ink-soft); font-size:0.88rem;">Ton bilan personnalisé apparaît ici, basé sur tes vraies statistiques (chapitres, série, réussite, temps d'étude, domaines).</p>
+        </div>
+      </div>
+
+      <div class="continue-card" id="continueCard">
+        <div><span class="eyebrow">Reprendre</span><h3 id="continueTitle">Choisis une matière pour commencer</h3></div>
+        <a href="#" class="btn btn-primary" id="continueBtn" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Voir les matières</a>
+      </div>
+
+      <div class="activity-card">
+        <span class="eyebrow">Activité cette semaine <span style="font-weight:400; color:var(--ink-soft);">— temps réel passé sur la plateforme</span></span>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="badges-card">
+        <div class="subjects-head" style="margin-bottom:0;">
+          <span class="eyebrow">🏅 Badges — <span id="badgeSummaryCount">0 / 100</span></span>
+          <a href="#" class="btn btn-ghost" style="font-size:0.78rem;" onclick="showView('badges'); return false;">Voir tous mes badges →</a>
+        </div>
+        <div class="badges-grid" id="badgePreviewGrid"></div>
+      </div>
+
+      <div class="revision-card">
+        <span class="eyebrow">📅 À suivre</span>
+        <p style="color:var(--ink-soft); font-size:0.84rem; margin:6px 0 14px;">Basé sur ta progression réelle : ce qui reste à faire dans la matière en cours.</p>
+        <div class="revision-list" id="revisionList"></div>
+      </div>
+
+      <span class="eyebrow" id="dashChapterListLabel">Chapitres en cours</span>
+      <div class="chapter-list" id="dashChapterList" style="margin-top:14px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHAPITRE ================= -->
+<div id="view-chapitre" style="display:none;">
+  <nav>
+    <div class="logo"><img src="logo-mark.png" class="logo-mark" alt="E-Student University"><span class="logo-text"> E-Student University</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('accueil'); setTimeout(()=>document.getElementById('matieres').scrollIntoView({behavior:'smooth'}),60); return false;">Matières</a>
+      <a href="#" onclick="showView('dashboard'); return false;">Tableau de bord</a>
+      <a href="#" onclick="showView('classement'); return false;">Classement</a>
+      <a href="#" onclick="showView('labo'); return false;">Labo</a>
+      <a href="#" onclick="showView('code'); return false;">Éditeur de code</a>
+      <a href="#" onclick="showView('biblio'); return false;">Bibliothèque & Vidéothèque</a>
+      <a href="#" class="btn btn-ghost nav-upgrade" onclick="showView('paywall'); return false;">★ Premium</a>
+      <span class="avatar" title="Cliquer pour se déconnecter" aria-label="Se déconnecter" role="button" tabindex="0" style="cursor:pointer;" onclick="confirmLogout()">A</span>
+    </div>
+  </nav>
+  <div class="breadcrumb" id="chapitreBreadcrumb">Physique / Mécanique du point / <b>Dynamique</b></div>
+  <a href="#" class="back-link" style="margin:14px 6vw 0; display:inline-block;" onclick="backToMatiere(); return false;">← Retour à la matière</a>
+
+  <div class="chapter-meta">
+    <div>
+      <span class="eyebrow">Objectifs du chapitre</span>
+      <ul class="meta-list" id="chapObjectives">
+        <li>Comprendre la deuxième loi de Newton et sa signification physique</li>
+        <li>Appliquer F = m·a pour calculer une accélération ou une force</li>
+        <li>Distinguer clairement masse et poids</li>
+      </ul>
+    </div>
+    <div>
+      <span class="eyebrow">Prérequis</span>
+      <div class="prereq-tags" id="chapPrereqs">
+        <span class="tag-chip">Vecteurs</span>
+        <span class="tag-chip">Cinématique du point</span>
+        <span class="tag-chip">Notion de force</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-layout" id="chapterContentGuard" style="position:relative;">
+    <div class="course-panel">
+      <div class="watermark-layer" id="watermarkLayer"></div>
+      <span class="eyebrow" id="chapEyebrow">Chapitre 02 · Physique</span>
+      <h1 id="chapTitle">Dynamique du point matériel</h1>
+
+      <div id="coursePanelAuthored">
+      <p>La dynamique étudie le lien entre les forces appliquées à un objet et le mouvement qui en résulte. Le point de départ est la deuxième loi de Newton, qui relie la force résultante à l'accélération du système.</p>
+
+      <div class="formula-box">F&#8407; = m · a&#8407;</div>
+
+      <p>Cette relation signifie que l'accélération d'un objet est proportionnelle à la force résultante qui s'exerce sur lui, et inversement proportionnelle à sa masse. Plus un objet est massif, plus il faut une force importante pour produire la même accélération.</p>
+
+      <div class="key-point">
+        <span class="eyebrow">Point clé</span>
+        La masse mesure l'inertie d'un objet : sa résistance au changement de mouvement, pas son poids.
+      </div>
+
+      <p>Lorsque plusieurs forces s'appliquent simultanément, on utilise leur somme vectorielle — la résultante — pour déterminer l'accélération réelle du système.</p>
+
+      <div class="illus-row">
+        <div class="illus-item">
+          <svg viewBox="0 0 100 70" width="100%">
+            <circle cx="28" cy="35" r="13" fill="#2A4FE0" opacity="0.85"/>
+            <line x1="43" y1="35" x2="80" y2="35" stroke="#E8A63C" stroke-width="3">
+              <animate attributeName="x2" values="80;92;80" dur="1.3s" repeatCount="indefinite"/>
+            </line>
+          </svg>
+          <span>Petite masse → grande accélération</span>
+        </div>
+        <div class="illus-item">
+          <svg viewBox="0 0 100 70" width="100%">
+            <circle cx="35" cy="35" r="23" fill="#2A4FE0" opacity="0.85"/>
+            <line x1="60" y1="35" x2="78" y2="35" stroke="#E8A63C" stroke-width="3">
+              <animate attributeName="x2" values="78;84;78" dur="1.3s" repeatCount="indefinite"/>
+            </line>
+          </svg>
+          <span>Grande masse → petite accélération (même force)</span>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <span class="eyebrow">Exemple corrigé</span>
+        <p><strong>Énoncé :</strong> Une voiturette de 800 kg accélère de 0 à 20 m/s en 8 secondes en ligne droite. Quelle force motrice moyenne exerce le moteur ?</p>
+        <p><strong>Solution :</strong> D'abord l'accélération : a = Δv / Δt = 20 / 8 = 2,5 m/s². Ensuite, avec F = m·a : F = 800 × 2,5 = 2000 N.</p>
+        <p class="example-answer">Réponse : la force motrice moyenne est de 2000 N.</p>
+      </div>
+
+      <div class="diagram">
+        <svg width="220" height="120" viewBox="0 0 220 120">
+          <rect x="90" y="45" width="40" height="30" fill="#EEF0E9" stroke="#101823" stroke-width="1.5"/>
+          <line x1="130" y1="60" x2="190" y2="60" stroke="#2A4FE0" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="150" y="50" font-family="IBM Plex Mono" font-size="11" fill="#2A4FE0">F</text>
+          <line x1="90" y1="60" x2="30" y2="60" stroke="#E5484D" stroke-width="2" marker-end="url(#arrow2)"/>
+          <text x="45" y="50" font-family="IBM Plex Mono" font-size="11" fill="#E5484D">f</text>
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2A4FE0"/></marker>
+            <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#E5484D"/></marker>
+          </defs>
+        </svg>
+      </div>
+      </div>
+
+      <div id="coursePanelGeneric" style="display:none;">
+        <p>Le contenu détaillé de ce chapitre (« <strong id="genericChapterName">—</strong> ») est en cours de rédaction par l'équipe pédagogique. En attendant, utilise le mentor IA à droite : il connaît le titre et le contexte de ce chapitre et peut t'aider à en discuter, te donner des pistes de méthode, ou t'orienter vers les prérequis à réviser.</p>
+        <div class="key-point">
+          <span class="eyebrow">En attendant le cours complet</span>
+          Relis le chapitre précédent, prépare tes questions pour le mentor IA, puis marque ce chapitre comme vu quand tu es prêt·e à avancer.
+        </div>
+      </div>
+
+      <div class="chapter-actions" id="chapterActions" style="margin-top:26px; padding-top:22px; border-top:1px solid var(--line); display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="completeChapterBtn" onclick="completeCurrentChapter()">Marquer ce chapitre comme terminé</button>
+        <span id="completeChapterStatus" style="font-size:0.86rem; color:var(--ink-soft);"></span>
+      </div>
+    </div>
+
+    <div class="chat-panel">
+      <div class="chat-head">
+        <svg viewBox="0 0 60 70" width="42" height="46" class="mascot-avatar" id="mascotAvatar" aria-hidden="true">
+          <ellipse cx="30" cy="63" rx="14" ry="4" fill="#000" opacity="0.12"/>
+          <rect x="21" y="46" width="18" height="14" rx="4" fill="#1B2330"/>
+          <line x1="12" y1="50" x2="21" y2="48" stroke="#1B2330" stroke-width="4" stroke-linecap="round" class="mascot-arm mascot-arm-l"/>
+          <line x1="48" y1="50" x2="39" y2="48" stroke="#1B2330" stroke-width="4" stroke-linecap="round" class="mascot-arm mascot-arm-r"/>
+          <line x1="30" y1="8" x2="30" y2="15" stroke="#13B8A6" stroke-width="2"/>
+          <circle class="mascot-antenna" cx="30" cy="7" r="3" fill="var(--amber)"/>
+          <rect x="12" y="16" width="36" height="30" rx="14" fill="#232C3B"/>
+          <rect x="12" y="16" width="36" height="30" rx="14" fill="none" stroke="#3A4658" stroke-width="1"/>
+          <g class="mascot-eyes">
+            <circle class="mascot-eye" cx="23" cy="31" r="5" fill="#EAF6FF"/>
+            <circle class="mascot-eye" cx="37" cy="31" r="5" fill="#EAF6FF"/>
+            <circle cx="23" cy="31" r="2.3" fill="#13B8A6" class="mascot-pupil"/>
+            <circle cx="37" cy="31" r="2.3" fill="#13B8A6" class="mascot-pupil"/>
+          </g>
+          <path class="mascot-mouth" d="M22 40 Q30 45 38 40" stroke="#EAF6FF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <span class="eyebrow">Mentor IA local · Nova</span>
+          <h3 id="chatSubtitle">T'aide à comprendre ce chapitre</h3>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" aria-label="Ton message pour Nova" placeholder="Pose ta question sur ce chapitre...">
+        <button id="chatSendBtn" aria-label="Envoyer" onclick="sendDemo()">→</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="chapAuthoredExtra">
+  <div class="recap-box">
+    <span class="eyebrow">✦ L'essentiel à retenir</span>
+    <ul>
+      <li>La deuxième loi de Newton relie force résultante et accélération : F = m·a</li>
+      <li>L'accélération est proportionnelle à la force, et inversement proportionnelle à la masse</li>
+      <li>La masse mesure l'inertie d'un objet — sa résistance au changement de mouvement, pas son poids</li>
+      <li>Avec plusieurs forces, on utilise leur résultante (somme vectorielle) pour trouver l'accélération réelle</li>
+    </ul>
+    <p class="recap-note">Vérifie que ces points sont acquis avec les exercices ci-dessous.</p>
+  </div>
+
+  <div class="mistakes-box">
+    <span class="eyebrow">⚠ Erreurs fréquentes</span>
+    <ul>
+      <li>Confondre masse et poids — la masse ne change pas avec la gravité, le poids oui</li>
+      <li>Oublier que F et a sont des vecteurs : leur direction compte, pas seulement leur intensité</li>
+      <li>Additionner des forces sans respecter leur sens — la résultante n'est pas une simple somme des intensités</li>
+    </ul>
+  </div>
+
+  <div class="sim-box">
+    <span class="eyebrow">🔬 Simulateur — pendule simple</span>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin:4px 0 0;">Fais varier la longueur et observe l'effet réel sur la période d'oscillation (T = 2π√(L/g)).</p>
+    <div class="sim-layout">
+      <svg id="pendulumSvg" viewBox="0 0 200 170" width="180" height="150">
+        <line x1="100" y1="10" x2="100" y2="20" stroke="#5A6472" stroke-width="2"/>
+        <g id="pendulumArm">
+          <line id="pendulumRod" x1="100" y1="20" x2="100" y2="120" stroke="#5A6472" stroke-width="2"/>
+          <circle id="pendulumBob" cx="100" cy="120" r="10" fill="#2A4FE0"/>
+        </g>
+      </svg>
+      <div class="sim-controls">
+        <label for="lengthSlider">Longueur : <span id="lengthValue">1.0</span> m</label>
+        <input type="range" id="lengthSlider" min="0.3" max="2" step="0.1" value="1" oninput="updatePendulum()">
+        <p class="sim-result">Période estimée : <strong id="periodValue">2.01</strong> s</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercises">
+    <span class="eyebrow">Exercices</span>
+    <div class="exercise-card" style="margin-top:16px;">
+      <span class="eyebrow">Exercice 1</span>
+      <p class="q">Un objet de masse 2 kg subit une force résultante de 10 N. Quelle est son accélération ?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="ex1" value="wrong"> 20 m/s²</label>
+        <label class="option"><input type="radio" name="ex1" value="right"> 5 m/s²</label>
+        <label class="option"><input type="radio" name="ex1" value="wrong"> 0.2 m/s²</label>
+        <label class="option"><input type="radio" name="ex1" value="wrong"> 12 m/s²</label>
+      </div>
+      <button class="btn btn-primary" onclick="checkAnswer('ex1','fb1')">Vérifier</button>
+      <div class="feedback" id="fb1"></div>
+    </div>
+
+    <div class="exercise-card">
+      <span class="eyebrow">Exercice 2</span>
+      <p class="q">Si on double la masse d'un objet en gardant la même force appliquée, que devient son accélération ?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="ex2" value="wrong"> Elle double</label>
+        <label class="option"><input type="radio" name="ex2" value="wrong"> Elle reste identique</label>
+        <label class="option"><input type="radio" name="ex2" value="right"> Elle est divisée par deux</label>
+        <label class="option"><input type="radio" name="ex2" value="wrong"> Elle devient nulle</label>
+      </div>
+      <button class="btn btn-primary" onclick="checkAnswer('ex2','fb2')">Vérifier</button>
+      <div class="feedback" id="fb2"></div>
+    </div>
+
+    <div class="exercise-card" id="exercise3" style="display:none;">
+      <span class="eyebrow" id="ex3Label">Exercice 3</span>
+      <p class="q" id="ex3Question"></p>
+      <button class="btn btn-ghost" onclick="document.getElementById('ex3Solution').style.display='block'; this.style.display='none';">Voir la solution</button>
+      <p class="feedback correct" id="ex3Solution" style="display:none;"></p>
+    </div>
+  </div>
+  </div>
+
+  <div class="exercises" id="chapGenericExtra" style="display:none;">
+    <div class="exercise-card">
+      <span class="eyebrow">Exercices</span>
+      <p class="q">Les exercices détaillés de ce chapitre sont en cours de préparation. Utilise le mentor IA pour t'entraîner à l'oral en attendant, ou passe au chapitre suivant une fois que tu as revu les notions clés.</p>
+    </div>
+  </div>
+</div>
+
+<div class="dock-edge-catcher" onmouseenter="showProtoDock()" ontouchstart="showProtoDock()"></div>
+<div class="proto-dock">
+  <div class="proto-caption" id="protoCaption">Accueil</div>
+  <div class="proto-nav">
+    <div class="proto-indicator" id="protoIndicator"></div>
+    <button data-view="connexion" title="Connexion" onclick="showView('connexion')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </button>
+    <button data-view="niveau" title="Choix du niveau" onclick="showView('niveau')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/>
+      </svg>
+    </button>
+    <button data-view="accueil" title="Accueil" class="active" onclick="showView('accueil')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5 12 3l9 6.5"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M9 21v-6h6v6"/>
+      </svg>
+    </button>
+    <button data-view="dashboard" title="Tableau de bord" onclick="showView('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+      </svg>
+    </button>
+    <button data-view="classement" title="Classement" onclick="showView('classement')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a1 1 0 0 0-1 1c0 2.5 1.8 4.3 4 4.6"/><path d="M17 6h3a1 1 0 0 1 1 1c0 2.5-1.8 4.3-4 4.6"/>
+      </svg>
+    </button>
+    <button data-view="paywall" title="Abonnement" onclick="showView('paywall')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </button>
+    <button data-view="labo" title="Labo numérique" onclick="showView('labo')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 3h6"/><path d="M10 3v6l-6 10a1.5 1.5 0 0 0 1.3 2.3h13.4A1.5 1.5 0 0 0 20 19L14 9V3"/><path d="M7.5 15h9"/>
+      </svg>
+    </button>
+    <button data-view="code" title="Éditeur de code" onclick="showView('code')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+      </svg>
+    </button>
+    <button data-view="biblio" title="Bibliothèque & Vidéothèque" onclick="showView('biblio')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2"/>
+      </svg>
+    </button>
+    <button data-view="apropos" title="À propos" onclick="showView('apropos')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.8" r="0.9" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js" defer></script>
+
+</body>
+</html>
