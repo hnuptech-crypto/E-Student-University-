@@ -31,23 +31,26 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
     "Écrire l'expression mathématique d'une onde plane progressive monochromatique (OPPM) et identifier le sens physique de chacun de ses paramètres (amplitude, pulsation, vecteur d'onde, phase à l'origine)",
     "Distinguer onde transverse et onde longitudinale, et décrire la structure d'une onde électromagnétique plane (couplage E/B, trièdre direct)",
     "Expliquer pourquoi un détecteur optique est un détecteur quadratique et relier l'intensité lumineuse détectée à la moyenne temporelle du champ électrique",
-    "Calculer un chemin optique, une différence de marche et le déphasage associé, et énoncer le théorème de Malus sur les fronts d'onde"
+    "Calculer un chemin optique, une différence de marche et le déphasage associé, et énoncer le théorème de Malus sur les fronts d'onde",
+    "Analyser comment la découverte de la polarisation par Étienne-Louis Malus, en 1808, née d'une observation accidentelle, l'a conduit la même année à énoncer le théorème géométrique qui porte aujourd'hui son nom"
   ],
   prereqs: ["Lentilles minces", "Ondes électromagnétiques planes progressives monochromatiques"],
   bodyHtml: `
     <p>L'optique ondulatoire prend le relais de l'optique géométrique là où celle-ci atteint ses limites : dès que la lumière rencontre un obstacle ou une ouverture dont la taille devient comparable à sa longueur d'onde, la propagation rectiligne des rayons ne suffit plus à décrire ce qu'on observe (interférences, diffraction). Ce premier chapitre pose le formalisme de base — comment écrire mathématiquement une onde lumineuse, et comment un détecteur la « voit » réellement.</p>
+    <p>En 1808, l'officier du génie et physicien Étienne-Louis Malus observe par curiosité, à travers un cristal de calcite, le coucher de soleil réfléchi dans les fenêtres du palais du Luxembourg à Paris. Il remarque que l'intensité transmise par le cristal varie selon son orientation — une observation fortuite qui le mène à la découverte de la polarisation de la lumière par réflexion. La même année, poursuivant ses travaux théoriques sur la propagation de la lumière dans les cristaux biréfringents, il démontre le théorème purement géométrique, présenté à la fin de ce chapitre, qui porte aujourd'hui son nom.</p>
+    <p>Ce chapitre construit le formalisme qui rendra possibles, dans les chapitres suivants, l'analyse quantitative des interférences et de la diffraction : comment écrire une onde lumineuse, comment un détecteur la perçoit réellement, et comment relier un calcul géométrique de distance à un déphasage mesurable.</p>
 
     <h3>1. Formalisme mathématique d'une onde qui se propage</h3>
-    <p>Une onde qui se propage le long de l'axe $(Oz)$ vers les $z$ croissants, à la pulsation $\omega$ et au vecteur d'onde $k$, s'écrit sous la forme d'une <strong>onde plane progressive monochromatique</strong> (OPPM) :</p>
-    <div class="formula-box">$$E(z,t) = E_0\,\cos(\omega t - kz + \phi_0)$$</div>
+    <p>Une onde qui se propage le long de l'axe $(Oz)$ vers les $z$ croissants, à la pulsation $\\omega$ et au vecteur d'onde $k$, s'écrit sous la forme d'une <strong>onde plane progressive monochromatique</strong> (OPPM) :</p>
+    <div class="formula-box">$$E(z,t) = E_0\\,\\cos(\\omega t - kz + \\phi_0)$$</div>
     <table class="mini-table">
       <tr><th>Symbole</th><th>Nom</th><th>Lien avec les autres grandeurs</th></tr>
       <tr><td>$E_0$</td><td>Amplitude</td><td>valeur maximale du champ</td></tr>
-      <tr><td>$\omega$</td><td>Pulsation</td><td>$\omega = 2\pi f = 2\pi/T$ ($T$ : période temporelle)</td></tr>
-      <tr><td>$k$</td><td>Vecteur d'onde (module)</td><td>$k = 2\pi/\lambda = \omega/v$ ($\lambda$ : longueur d'onde, $v$ : vitesse de propagation)</td></tr>
-      <tr><td>$\phi_0$</td><td>Phase à l'origine</td><td>valeur de la phase en $z=0,\,t=0$</td></tr>
+      <tr><td>$\\omega$</td><td>Pulsation</td><td>$\\omega = 2\\pi f = 2\\pi/T$ ($T$ : période temporelle)</td></tr>
+      <tr><td>$k$</td><td>Vecteur d'onde (module)</td><td>$k = 2\\pi/\\lambda = \\omega/v$ ($\\lambda$ : longueur d'onde, $v$ : vitesse de propagation)</td></tr>
+      <tr><td>$\\phi_0$</td><td>Phase à l'origine</td><td>valeur de la phase en $z=0,\\,t=0$</td></tr>
     </table>
-    <p>Le signe « $-$ » devant $kz$ traduit une propagation vers les $z>0$ ; une onde se propageant vers les $z<0$ s'écrirait $E_0\cos(\omega t + kz + \phi_0)$. À $z$ fixé, si l'on compare deux ondes de même pulsation $E_1$ (phase $\phi_1$) et $E_2$ (phase $\phi_2$), c'est l'onde dont la phase totale $\omega t - kz + \phi_i$ est la plus grande à un instant donné qui est « en avance » sur l'autre.</p>
+    <p>Le signe « $-$ » devant $kz$ traduit une propagation vers les $z>0$ ; une onde se propageant vers les $z<0$ s'écrirait $E_0\\cos(\\omega t + kz + \\phi_0)$. À $z$ fixé, si l'on compare deux ondes de même pulsation $E_1$ (phase $\\phi_1$) et $E_2$ (phase $\\phi_2$), c'est l'onde dont la phase totale $\\omega t - kz + \\phi_i$ est la plus grande à un instant donné qui est « en avance » sur l'autre.</p>
 
     <div class="illus-row">
       <div class="illus-item">
@@ -58,7 +61,7 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
           <text x="10" y="58" font-family="IBM Plex Mono" font-size="8" fill="#F0B94D">λ</text>
           <text x="6" y="12" font-family="IBM Plex Mono" font-size="9" fill="#EAF0FB">E(z,t₀)</text>
         </svg>
-        <span>OPPM figée à un instant $t_0$ : période spatiale $\lambda$</span>
+        <span>OPPM figée à un instant $t_0$ : période spatiale $\\lambda$</span>
       </div>
       <div class="illus-item">
         <svg viewBox="0 0 160 90" width="100%">
@@ -97,55 +100,63 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
     </table>
 
     <h3>4. Onde électromagnétique</h3>
-    <p>La lumière est une onde électromagnétique : le champ électrique $\vec{E}$ et le champ magnétique $\vec{B}$ sont couplés et oscillent perpendiculairement l'un à l'autre, tous deux perpendiculaires à la direction de propagation $\vec{k}$ — c'est donc une onde <strong>transverse</strong>. Pour une onde plane, ils forment un trièdre direct :</p>
-    <div class="formula-box">$$\vec{B} = \dfrac{n}{c}\,\hat{k}\wedge\vec{E}, \qquad v = \dfrac{c}{n}$$</div>
-    <p>où $\hat{k}$ est le vecteur unitaire de propagation, $c$ la vitesse de la lumière dans le vide et $n$ l'indice du milieu. Cette structure résulte directement des équations de Maxwell.</p>
+    <p>La lumière est une onde électromagnétique : le champ électrique $\\vec{E}$ et le champ magnétique $\\vec{B}$ sont couplés et oscillent perpendiculairement l'un à l'autre, tous deux perpendiculaires à la direction de propagation $\\vec{k}$ — c'est donc une onde <strong>transverse</strong>. Pour une onde plane, ils forment un trièdre direct :</p>
+    <div class="formula-box">$$\\vec{B} = \\dfrac{n}{c}\\,\\hat{k}\\wedge\\vec{E}, \\qquad v = \\dfrac{c}{n}$$</div>
+    <p>où $\\hat{k}$ est le vecteur unitaire de propagation, $c$ la vitesse de la lumière dans le vide et $n$ l'indice du milieu. Cette structure résulte directement des équations de Maxwell.</p>
 
     <h3>5. Comment un détecteur « voit »-il la lumière ?</h3>
-    <p>Un œil (temps de réponse $\sim 1/20\,\mathrm{s}$) ou un photodétecteur (de $1\,\mu\mathrm{s}$ jusqu'à $10^{-10}\,\mathrm{s}$ pour les plus rapides) sont extrêmement lents devant la période d'oscillation d'une onde visible : pour $\lambda=600\,\mathrm{nm}$, $f = c/\lambda \approx 500\,\mathrm{THz}$, soit $T = 1/f \approx 2\times 10^{-15}\,\mathrm{s}$ ! Aucun détecteur ne peut suivre une oscillation aussi rapide. Ce que mesure réellement un détecteur, c'est donc la <strong>moyenne temporelle</strong> du flux énergétique reçu — un détecteur optique est un <strong>détecteur quadratique</strong>, sensible à $\langle E^2(M,t)\rangle$ et non à $E(M,t)$ lui-même (rappel : $\langle\cos(\omega t)\rangle = 0$ mais $\langle\cos^2(\omega t)\rangle = 1/2$).</p>
+    <p>Un œil (temps de réponse $\\sim 1/20\\,\\mathrm{s}$) ou un photodétecteur (de $1\\,\\mu\\mathrm{s}$ jusqu'à $10^{-10}\\,\\mathrm{s}$ pour les plus rapides) sont extrêmement lents devant la période d'oscillation d'une onde visible : pour $\\lambda=600\\,\\mathrm{nm}$, $f = c/\\lambda \\approx 500\\,\\mathrm{THz}$, soit $T = 1/f \\approx 2\\times 10^{-15}\\,\\mathrm{s}$ ! Aucun détecteur ne peut suivre une oscillation aussi rapide. Ce que mesure réellement un détecteur, c'est donc la <strong>moyenne temporelle</strong> du flux énergétique reçu — un détecteur optique est un <strong>détecteur quadratique</strong>, sensible à $\\langle E^2(M,t)\\rangle$ et non à $E(M,t)$ lui-même (rappel : $\\langle\\cos(\\omega t)\\rangle = 0$ mais $\\langle\\cos^2(\\omega t)\\rangle = 1/2$).</p>
     <p>On définit l'<strong>intensité lumineuse</strong> (ou éclairement) comme la puissance reçue par unité de surface, ce qui permet de s'affranchir de la taille du détecteur. Les équations de Maxwell donnent, dans un milieu d'indice $n$ :</p>
-    <div class="formula-box">$$I(M) = n\,\varepsilon_0\,c\,\big\langle E^2(M,t)\big\rangle$$</div>
-    <p>Dans le vide ou l'air, pour alléger les notations, on étudiera par la suite $\langle E^2(M,t)\rangle$ lui-même, qu'on appellera abusivement « intensité » — cela ne change rien à la localisation des maxima et des minima, qui est l'information réellement utile pour analyser une figure d'interférences ou de diffraction.</p>
+    <div class="formula-box">$$I(M) = n\\,\\varepsilon_0\\,c\\,\\big\\langle E^2(M,t)\\big\\rangle$$</div>
+    <p>Dans le vide ou l'air, pour alléger les notations, on étudiera par la suite $\\langle E^2(M,t)\\rangle$ lui-même, qu'on appellera abusivement « intensité » — cela ne change rien à la localisation des maxima et des minima, qui est l'information réellement utile pour analyser une figure d'interférences ou de diffraction.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Aucun détecteur, aussi rapide soit-il, ne peut aujourd'hui suivre directement les oscillations du champ électrique d'une onde visible (~10¹⁵ Hz) — ce n'est pas une limitation technologique provisoire, mais une contrainte qui structure toute l'optique ondulatoire expérimentale : chaque expérience doit se penser en termes d'intensité moyenne, jamais de champ instantané. Cette contrainte a-t-elle empêché la physique de sonder la phase de la lumière, ou a-t-elle simplement obligé les physiciens à ruser (interférences, diffraction) pour la révéler indirectement ?
+    </div>
 
     <h3>6. Phase, chemin optique et différence de marche</h3>
     <p>Les détecteurs ne sont pas directement sensibles à la phase du champ électrique — pourtant, comme le montre l'expérience des fentes d'Young (chapitre suivant), la phase gouverne entièrement la figure observée sur l'écran : c'est en interférant que deux ondes de phases différentes créent des zones claires et sombres, alors qu'un détecteur ne mesure jamais qu'une intensité. Il faut donc un outil pour comparer les phases de deux ondes issues de points différents : le <strong>chemin optique</strong>.</p>
     <p>Pour un trajet rectiligne $AB$ dans un milieu homogène d'indice $n$ :</p>
-    <div class="formula-box">$$(AB) = n\,AB$$</div>
-    <p>Si le trajet traverse plusieurs milieux homogènes successifs (indices $n_1,n_2,n_3\dots$, sur les portions $AI, IJ, JB\dots$), le chemin optique total est la somme des chemins optiques partiels : $(AB) = n_1 AI + n_2 IJ + n_3 JB + \dots$</p>
+    <div class="formula-box">$$(AB) = n\\,AB$$</div>
+    <p>Si le trajet traverse plusieurs milieux homogènes successifs (indices $n_1,n_2,n_3\\dots$, sur les portions $AI, IJ, JB\\dots$), le chemin optique total est la somme des chemins optiques partiels : $(AB) = n_1 AI + n_2 IJ + n_3 JB + \\dots$</p>
     <p>Pour une source $S$, la <strong>différence de marche optique</strong> entre deux points $A$ et $B$ est la différence des chemins optiques $(SA)$ et $(SB)$ :</p>
-    <div class="formula-box">$$\Delta_{AB} = (SB) - (SA)$$</div>
+    <div class="formula-box">$$\\Delta_{AB} = (SB) - (SA)$$</div>
     <div class="key-point">
       <span class="eyebrow">Attention, piège classique</span>
-      $\Delta_{AB} = (SB)-(SA)$ n'est <strong>pas</strong> égal à $n\,AB$ en général : cette simplification n'est valable que si $S$, $A$ et $B$ sont alignés sur un même rayon. Pour une onde sphérique, deux points $A$ et $B$ à la même distance de $S$ (sur un même front d'onde) ont $\Delta_{AB}=0$, bien que $AB\neq 0$.
+      $\\Delta_{AB} = (SB)-(SA)$ n'est <strong>pas</strong> égal à $n\\,AB$ en général : cette simplification n'est valable que si $S$, $A$ et $B$ sont alignés sur un même rayon. Pour une onde sphérique, deux points $A$ et $B$ à la même distance de $S$ (sur un même front d'onde) ont $\\Delta_{AB}=0$, bien que $AB\\neq 0$.
     </div>
-    <p>Pour une OPPM, le déphasage $\varphi$ entre deux points est directement proportionnel à leur différence de marche :</p>
-    <div class="formula-box">$$\varphi = \dfrac{2\pi}{\lambda}\,\Delta$$</div>
+    <p>Pour une OPPM, le déphasage $\\varphi$ entre deux points est directement proportionnel à leur différence de marche :</p>
+    <div class="formula-box">$$\\varphi = \\dfrac{2\\pi}{\\lambda}\\,\\Delta$$</div>
     <p>Cette relation, extrêmement utilisée, permet de convertir un problème géométrique (calcul d'une distance ou d'un chemin optique) en un problème de phase — donc, comme on le verra au chapitre 2, en franges claires ou sombres.</p>
 
     <h3>7. Front d'onde et théorème de Malus</h3>
     <p>Un <strong>front d'onde</strong> est une surface sur laquelle tous les points de l'onde ont la même phase à un instant donné — pour une source ponctuelle, ce sont des sphères concentriques ; pour une onde plane (ou une source à l'infini), ce sont des plans. Par construction, pour tout point $M$ d'un même front d'onde issu de $S$, le chemin optique $(SM)$ est constant.</p>
     <div class="key-point">
       <span class="eyebrow">Théorème de Malus</span>
-      Les rayons lumineux issus d'une source ponctuelle sont normaux aux fronts d'onde. Les rayons représentent la direction de propagation de l'énergie lumineuse, orientés selon le vecteur d'onde $\vec{k}$.
+      Les rayons lumineux issus d'une source ponctuelle sont normaux aux fronts d'onde. Les rayons représentent la direction de propagation de l'énergie lumineuse, orientés selon le vecteur d'onde $\\vec{k}$.
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Le théorème de Malus relie la direction des rayons lumineux — le langage de l'optique géométrique étudiée en L1 — à la géométrie des fronts d'onde, le langage de l'optique ondulatoire introduite dans ce chapitre. En quoi ce théorème constitue-t-il le pont conceptuel entre ces deux grandes approches de l'optique ?
     </div>
   `,
   extraHtml: `
     <div class="recap-box">
       <span class="eyebrow">✦ L'essentiel à retenir</span>
       <ul>
-        <li>OPPM : $E(z,t)=E_0\cos(\omega t - kz + \phi_0)$, avec $k=2\pi/\lambda=\omega/v$ ; plane + progressive + monochromatique sont trois hypothèses distinctes, jamais rigoureusement vérifiées pour une onde réelle</li>
-        <li>La lumière est une onde électromagnétique transverse : $\vec{E}\perp\vec{B}\perp\vec{k}$, trièdre direct, $v=c/n$</li>
-        <li>Un détecteur optique est quadratique : il mesure $\langle E^2(M,t)\rangle$ (moyenne temporelle), jamais $E(M,t)$ directement — la période d'oscillation ($\sim10^{-15}\,\mathrm{s}$) est bien trop courte pour tout détecteur</li>
-        <li>Chemin optique $(AB)=nAB$ (milieu homogène) ; différence de marche $\Delta_{AB}=(SB)-(SA)$ ; déphasage $\varphi=2\pi\Delta/\lambda$</li>
+        <li>OPPM : $E(z,t)=E_0\\cos(\\omega t - kz + \\phi_0)$, avec $k=2\\pi/\\lambda=\\omega/v$ ; plane + progressive + monochromatique sont trois hypothèses distinctes, jamais rigoureusement vérifiées pour une onde réelle</li>
+        <li>La lumière est une onde électromagnétique transverse : $\\vec{E}\\perp\\vec{B}\\perp\\vec{k}$, trièdre direct, $v=c/n$</li>
+        <li>Un détecteur optique est quadratique : il mesure $\\langle E^2(M,t)\\rangle$ (moyenne temporelle), jamais $E(M,t)$ directement — la période d'oscillation ($\\sim10^{-15}\\,\\mathrm{s}$) est bien trop courte pour tout détecteur</li>
+        <li>Chemin optique $(AB)=nAB$ (milieu homogène) ; différence de marche $\\Delta_{AB}=(SB)-(SA)$ ; déphasage $\\varphi=2\\pi\\Delta/\\lambda$</li>
         <li>Théorème de Malus : les rayons lumineux issus d'une source ponctuelle sont normaux aux fronts d'onde (sphères pour une source ponctuelle, plans pour une onde plane)</li>
       </ul>
     </div>
     <div class="mistakes-box">
       <span class="eyebrow">⚠ Erreurs fréquentes</span>
       <ul>
-        <li>Confondre le vecteur d'onde $k$ (lié à $\lambda$) et la pulsation $\omega$ (liée à $T$) : $k=\omega/v$ les relie, mais ce sont deux grandeurs distinctes</li>
-        <li>Croire qu'un détecteur mesure le champ électrique $E(t)$ : il mesure sa moyenne quadratique temporelle $\langle E^2\rangle$, proportionnelle à l'intensité</li>
-        <li>Appliquer $\Delta_{AB}=n\,AB$ alors que $S$, $A$, $B$ ne sont pas alignés sur le même rayon — ce raccourci n'est valable que dans ce cas particulier</li>
+        <li>Confondre le vecteur d'onde $k$ (lié à $\\lambda$) et la pulsation $\\omega$ (liée à $T$) : $k=\\omega/v$ les relie, mais ce sont deux grandeurs distinctes</li>
+        <li>Croire qu'un détecteur mesure le champ électrique $E(t)$ : il mesure sa moyenne quadratique temporelle $\\langle E^2\\rangle$, proportionnelle à l'intensité</li>
+        <li>Appliquer $\\Delta_{AB}=n\\,AB$ alors que $S$, $A$, $B$ ne sont pas alignés sur le même rayon — ce raccourci n'est valable que dans ce cas particulier</li>
         <li>Oublier que le signe devant $kz$ dans l'OPPM code le sens de propagation : « $-kz$ » pour une propagation vers les $z$ croissants</li>
       </ul>
     </div>
@@ -153,19 +164,19 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
       <span class="eyebrow">Exercices</span>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 1</span>
-        <p class="q">Une onde s'écrit $E(z,t) = E_0\cos(\omega t + kz + \phi_0)$ (notez le signe « + » devant $kz$). Cette onde se propage :</p>
+        <p class="q">Une onde s'écrit $E(z,t) = E_0\\cos(\\omega t + kz + \\phi_0)$ (notez le signe « + » devant $kz$). Cette onde se propage :</p>
         <div class="options">
           <label class="option"><input type="radio" name="ow1e1" value="wrong"> vers les $z$ croissants</label>
           <label class="option"><input type="radio" name="ow1e1" value="right"> vers les $z$ décroissants</label>
           <label class="option"><input type="radio" name="ow1e1" value="wrong"> elle est stationnaire, ne se propage pas</label>
-          <label class="option"><input type="radio" name="ow1e1" value="wrong"> le sens ne peut pas être déterminé sans connaître $\phi_0$</label>
+          <label class="option"><input type="radio" name="ow1e1" value="wrong"> le sens ne peut pas être déterminé sans connaître $\\phi_0$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow1e1','ow1fb1','Correct — le signe « + » devant kz correspond à une onde qui se propage vers les z décroissants (le signe « − » correspondant, lui, aux z croissants).','Reviens à la section 1 : une OPPM E₀cos(ωt−kz+φ₀) se propage vers les z croissants ; inverser le signe devant kz inverse le sens de propagation.')">Vérifier</button>
         <div class="feedback" id="ow1fb1"></div>
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 2</span>
-        <p class="q">Pour une onde visible de longueur d'onde $\lambda=600\,\mathrm{nm}$ ($f\approx500\,\mathrm{THz}$, $T\approx2\times10^{-15}\,\mathrm{s}$), un photodétecteur rapide de temps de réponse $1\,\mathrm{ns}$ ($10^{-9}\,\mathrm{s}$) :</p>
+        <p class="q">Pour une onde visible de longueur d'onde $\\lambda=600\\,\\mathrm{nm}$ ($f\\approx500\\,\\mathrm{THz}$, $T\\approx2\\times10^{-15}\\,\\mathrm{s}$), un photodétecteur rapide de temps de réponse $1\\,\\mathrm{ns}$ ($10^{-9}\\,\\mathrm{s}$) :</p>
         <div class="options">
           <label class="option"><input type="radio" name="ow1e2" value="wrong"> peut suivre exactement les oscillations du champ électrique</label>
           <label class="option"><input type="radio" name="ow1e2" value="right"> ne mesure que la valeur moyenne du flux, car T est bien trop court devant son temps de réponse</label>
@@ -177,12 +188,12 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 3</span>
-        <p class="q">Un rayon lumineux traverse une lame de verre d'indice $n=1{,}5$ et d'épaisseur $e=2\,\mu\mathrm{m}$, sous incidence normale. Le chemin optique correspondant à cette traversée vaut :</p>
+        <p class="q">Un rayon lumineux traverse une lame de verre d'indice $n=1{,}5$ et d'épaisseur $e=2\\,\\mu\\mathrm{m}$, sous incidence normale. Le chemin optique correspondant à cette traversée vaut :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $1{,}33\,\mu\mathrm{m}$</label>
-          <label class="option"><input type="radio" name="ow1e3" value="right"> $3\,\mu\mathrm{m}$</label>
-          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $2\,\mu\mathrm{m}$</label>
-          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $0{,}5\,\mu\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $1{,}33\\,\\mu\\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow1e3" value="right"> $3\\,\\mu\\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $2\\,\\mu\\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow1e3" value="wrong"> $0{,}5\\,\\mu\\mathrm{m}$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow1e3','ow1fb3','Correct — (AB) = n·e = 1,5 × 2 µm = 3 µm : le chemin optique est toujours supérieur au trajet géométrique dans un milieu d\\'indice n>1.','Utilise (AB) = n·AB avec AB = e = 2 µm et n = 1,5.')">Vérifier</button>
         <div class="feedback" id="ow1fb3"></div>
@@ -200,6 +211,33 @@ OPTPHY_CHAPTERS[optphyKey('Bases de l\'optique ondulatoire : OPPM et détection 
         <div class="feedback" id="ow1fb4"></div>
       </div>
     </div>
+
+    <h3>5. Frontière de la recherche</h3>
+    <p>Bien qu'aucun détecteur ne mesure directement le champ électrique, les techniques de détection <strong>homodyne</strong> et <strong>hétérodyne</strong> — qui font interférer le signal lumineux avec une onde de référence de fréquence connue — permettent de reconstruire indirectement son amplitude ET sa phase. Cette approche est au cœur du fonctionnement des détecteurs d'ondes gravitationnelles LIGO/Virgo, capables de mesurer des déphasages correspondant à des variations de longueur mille fois plus petites qu'un proton (détection historique annoncée en 2016), ainsi que des systèmes modernes de télécommunication optique cohérente qui équipent aujourd'hui les câbles sous-marins transocéaniques.</p>
+
+    <h3>Synthèse visuelle</h3>
+    <p>Écrire l'OPPM $E(z,t)=E_0\\cos(\\omega t-kz+\\phi_0)$ → identifier pulsation $\\omega$, vecteur d'onde $k$, phase à l'origine $\\phi_0$ → calculer le chemin optique $(AB)=nAB$ → en déduire la différence de marche $\\Delta$ et le déphasage $\\varphi=2\\pi\\Delta/\\lambda$ → relier la direction des rayons aux fronts d'onde via le théorème de Malus → un détecteur ne mesure jamais que $\\langle E^2\\rangle$</p>
+    <div class="key-point">
+      <span class="eyebrow">Équation maîtresse du chapitre</span>
+      <div class="formula-box">$$E(z,t) = E_0\\,\\cos(\\omega t - kz + \\phi_0)$$</div>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">💭 Questions de réflexion</span>
+      <ul>
+        <li>Et si un détecteur suffisamment rapide pour suivre directement les oscillations du champ électrique existait un jour : quelles nouvelles expériences d'optique deviendraient-elles possibles ?</li>
+        <li>Pourquoi une onde strictement monochromatique et infiniment étendue dans le temps n'existe-t-elle dans aucune expérience réelle, alors qu'elle reste le modèle de référence de tout ce chapitre ?</li>
+        <li>Quelle serait la conséquence, pour les télécommunications optiques, si l'on ne disposait d'aucune technique (homodyne, hétérodyne) pour récupérer indirectement l'information de phase d'une onde lumineuse ?</li>
+      </ul>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">📚 Références bibliographiques</span>
+      <ul>
+        <li>É.-L. Malus, « Sur une propriété de la lumière réfléchie par les corps diaphanes », Mémoires de physique et de chimie de la Société d'Arcueil, 1809</li>
+        <li>I. Ventrillard, E. Bidal, <em>Optique Ondulatoire</em>, IUT1 Grenoble — Université Grenoble Alpes, 2023/2024 — support de référence pour ce module</li>
+        <li>B. P. Abbott et al. (LIGO Scientific Collaboration and Virgo Collaboration), « Observation of Gravitational Waves from a Binary Black Hole Merger », <em>Physical Review Letters</em>, 2016</li>
+      </ul>
+    </div>
+    <p style="font-style:italic; color:var(--ink-soft); margin-top:16px;">Un coucher de soleil observé par curiosité à travers un cristal a suffi à Malus pour ouvrir tout un champ de la physique : les grandes découvertes naissent parfois d'un simple regard porté différemment sur le quotidien. Rendez-vous au chapitre suivant, « Interférences à deux ondes », pour voir la phase, introduite ici, produire enfin ses effets observables.</p>
   `
 };
 
@@ -229,15 +267,18 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
     "Calculer l'intensité résultant de la superposition de deux ondes cohérentes de même intensité et en déduire les positions des franges brillantes et sombres",
     "Définir l'interfrange et le contraste d'une figure d'interférences, et les relier à la géométrie du dispositif",
     "Énoncer les critères de cohérence spatiale et temporelle (train d'onde, longueur de cohérence) et justifier pourquoi deux sources indépendantes n'interfèrent jamais",
-    "Décrire le dispositif des trous d'Young et l'interféromètre de Michelson (lame d'air, coin d'air), et calculer la différence de marche dans chaque configuration"
+    "Décrire le dispositif des trous d'Young et l'interféromètre de Michelson (lame d'air, coin d'air), et calculer la différence de marche dans chaque configuration",
+    "Analyser pourquoi les travaux de Thomas Young sur les interférences (1801-1804), remettant en cause la théorie corpusculaire de Newton, furent d'abord accueillis avec une grande hostilité par la communauté scientifique britannique"
   ],
   prereqs: ["Bases de l\'optique ondulatoire : OPPM et détection de la lumière"],
   bodyHtml: `
     <p>Deux ondes lumineuses issues de deux sources différentes se superposent-elles simplement en additionnant leurs intensités ? La réponse, contre-intuitive, est non : selon leur déphasage, deux ondes peuvent s'additionner (« lumière + lumière = plus de lumière ») mais aussi s'annuler (« lumière + lumière = obscurité ! »). C'est le phénomène d'<strong>interférences</strong>, qui est au cœur de ce chapitre.</p>
+    <p>Entre 1801 et 1804, le polymathe britannique Thomas Young — médecin, physicien, et plus tard l'un des premiers déchiffreurs de la pierre de Rosette — présente devant la Royal Society ses expériences sur les interférences lumineuses, remettant frontalement en cause la théorie corpusculaire de la lumière défendue par Newton depuis plus d'un siècle. L'accueil est glacial : le mathématicien Henry Brougham publie une critique féroce qualifiant ses travaux de « dépourvus de tout mérite », et Young réduit ses publications sur le sujet pendant plusieurs années. Il faudra attendre le traitement mathématique rigoureux apporté par Augustin Fresnel en France, à partir de 1815, pour que la théorie ondulatoire de la lumière s'impose enfin — donnant tardivement raison à Young.</p>
+    <p>Ce phénomène d'interférences, longtemps controversé, est aujourd'hui omniprésent : couleurs d'un film de savon ou d'une tache d'essence, traitements antireflets des lunettes et objectifs, spectroscopie à transformée de Fourier, interférométrie stellaire. Ce chapitre construit les outils quantitatifs — intensité, interfrange, contraste, cohérence — qui permettent de prédire et d'analyser ces figures.</p>
 
     <h3>1. Définition et théorème de superposition</h3>
     <p>Deux sources <strong>interfèrent</strong> si l'intensité résultant de leur superposition diffère de la somme des intensités individuelles. Ce phénomène transversal en physique se rencontre en optique, en acoustique (casque anti-bruit) ou pour les ondes mécaniques. Le calcul repose sur le <strong>théorème de superposition des champs</strong> : les champs s'additionnent (pas les intensités), et l'intensité se calcule <em>après coup</em>, à partir du champ total :</p>
-    <div class="formula-box">$$E(M,t) = \sum_{i=1}^{N} E_i(M,t), \qquad I(M) = \big\langle E^2(M,t)\big\rangle$$</div>
+    <div class="formula-box">$$E(M,t) = \\sum_{i=1}^{N} E_i(M,t), \\qquad I(M) = \\big\\langle E^2(M,t)\\big\\rangle$$</div>
     <div class="key-point">
       <span class="eyebrow">Point de méthode</span>
       Ne jamais calculer $I_1+I_2$ directement pour deux ondes cohérentes : il faut d'abord sommer les <strong>champs</strong> (qui portent l'information de phase), puis élever au carré et moyenner. C'est cet ordre des opérations qui produit le terme d'interférence.
@@ -245,38 +286,43 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
 
     <h3>2. Intensité de deux ondes cohérentes de même intensité</h3>
     <p>Pour deux sources $S_1$ et $S_2$ ponctuelles, monochromatiques, de même longueur d'onde et de même intensité $I_0$, éclairant un point $M$, le calcul du champ total puis de l'intensité (moyenne temporelle du carré) conduit à :</p>
-    <div class="formula-box">$$I(M) = 2I_0\left[1+\cos\!\left(\dfrac{2\pi\Delta_M}{\lambda}+\phi_{S_1S_2}\right)\right] = 4I_0\cos^2\!\left(\dfrac{1}{2}\!\left(\dfrac{2\pi\Delta_M}{\lambda}+\phi_{S_1S_2}\right)\right)$$</div>
-    <p>où $\Delta_M = (S_2M)-(S_1M)$ est la différence de marche au point $M$, et $\phi_{S_1S_2}$ un éventuel déphasage entre les deux sources elles-mêmes (s'il y en a un). Le déphasage total combine les deux contributions — il faut toujours vérifier si elles s'ajoutent ou se retranchent selon la géométrie du problème.</p>
+    <div class="formula-box">$$I(M) = 2I_0\\left[1+\\cos\\!\\left(\\dfrac{2\\pi\\Delta_M}{\\lambda}+\\phi_{S_1S_2}\\right)\\right] = 4I_0\\cos^2\\!\\left(\\dfrac{1}{2}\\!\\left(\\dfrac{2\\pi\\Delta_M}{\\lambda}+\\phi_{S_1S_2}\\right)\\right)$$</div>
+    <p>où $\\Delta_M = (S_2M)-(S_1M)$ est la différence de marche au point $M$, et $\\phi_{S_1S_2}$ un éventuel déphasage entre les deux sources elles-mêmes (s'il y en a un). Le déphasage total combine les deux contributions — il faut toujours vérifier si elles s'ajoutent ou se retranchent selon la géométrie du problème.</p>
 
     <h3>3. Analyse de la figure d'interférences</h3>
     <table class="mini-table">
       <tr><th>Situation</th><th>Condition</th><th>Intensité</th></tr>
-      <tr><td>Frange sombre (interférence destructive)</td><td>$2\pi\Delta_M/\lambda+\phi_{S_1S_2}=(2k{+}1)\pi$</td><td>$I(M)=0$</td></tr>
-      <tr><td>Frange brillante (interférence constructive)</td><td>$2\pi\Delta_M/\lambda+\phi_{S_1S_2}=2k\pi$</td><td>$I(M)=4I_0$</td></tr>
-      <tr><td>Intensité moyenne sur l'écran</td><td>—</td><td>$\langle I(M)\rangle_{\text{écran}} = 2I_0$</td></tr>
+      <tr><td>Frange sombre (interférence destructive)</td><td>$2\\pi\\Delta_M/\\lambda+\\phi_{S_1S_2}=(2k{+}1)\\pi$</td><td>$I(M)=0$</td></tr>
+      <tr><td>Frange brillante (interférence constructive)</td><td>$2\\pi\\Delta_M/\\lambda+\\phi_{S_1S_2}=2k\\pi$</td><td>$I(M)=4I_0$</td></tr>
+      <tr><td>Intensité moyenne sur l'écran</td><td>—</td><td>$\\langle I(M)\\rangle_{\\text{écran}} = 2I_0$</td></tr>
     </table>
     <p>Dans les franges sombres, « lumière + lumière = obscurité » : les deux ondes interfèrent <strong>destructivement</strong>. Dans les franges claires, on a une zone de « surintensité » : les deux ondes interfèrent <strong>constructivement</strong>. L'<strong>interfrange</strong> $i$ est la distance entre deux minima (ou deux maxima) consécutifs de la figure.</p>
 
     <h3>4. Contraste</h3>
-    <div class="formula-box">$$C = \dfrac{I_{max}-I_{min}}{I_{max}+I_{min}}$$</div>
+    <div class="formula-box">$$C = \\dfrac{I_{max}-I_{min}}{I_{max}+I_{min}}$$</div>
     <p>Le contraste maximal $C_{MAX}=1$ (100 %) est obtenu si $I_{min}=0$, ce qui n'arrive, en pratique, que pour deux ondes de même intensité et parfaitement cohérentes. Dès que les deux ondes ont des intensités différentes, ou une cohérence imparfaite, le contraste chute — c'est un bon indicateur expérimental de la qualité de la cohérence des sources.</p>
 
     <h3>5. Cohérence : pourquoi deux lampes de poche n'interfèrent jamais</h3>
-    <p>Une onde réelle n'est jamais une OPPM infinie : l'émission de lumière résulte de la désexcitation d'atomes individuels, qui produisent des <strong>trains d'onde</strong> — des bouffées d'onde sinusoïdale de durée finie $\tau_c$ (temps de cohérence), occupant dans l'espace une longueur $L_c=c\,\tau_c$ (longueur de cohérence). Entre deux trains d'onde successifs, la phase subit un saut aléatoire, imprévisible.</p>
+    <p>Une onde réelle n'est jamais une OPPM infinie : l'émission de lumière résulte de la désexcitation d'atomes individuels, qui produisent des <strong>trains d'onde</strong> — des bouffées d'onde sinusoïdale de durée finie $\\tau_c$ (temps de cohérence), occupant dans l'espace une longueur $L_c=c\\,\\tau_c$ (longueur de cohérence). Entre deux trains d'onde successifs, la phase subit un saut aléatoire, imprévisible.</p>
     <table class="mini-table">
-      <tr><th>Source</th><th>Longueur de cohérence $L_c$</th><th>Temps de cohérence $\tau_c$</th></tr>
-      <tr><td>Lampe à vapeur de mercure</td><td>$\sim 1\,\mathrm{cm}$</td><td>$\sim 30\,\mathrm{ps}$</td></tr>
-      <tr><td>Laser He-Ne</td><td>$\sim 1\,\mathrm{m}$</td><td>$\sim 3\,\mathrm{ns}$</td></tr>
-      <tr><td>Diode laser à semi-conducteur</td><td>$\sim 100\,\mathrm{m}$</td><td>$\sim 300\,\mathrm{ns}$</td></tr>
+      <tr><th>Source</th><th>Longueur de cohérence $L_c$</th><th>Temps de cohérence $\\tau_c$</th></tr>
+      <tr><td>Lampe à vapeur de mercure</td><td>$\\sim 1\\,\\mathrm{cm}$</td><td>$\\sim 30\\,\\mathrm{ps}$</td></tr>
+      <tr><td>Laser He-Ne</td><td>$\\sim 1\\,\\mathrm{m}$</td><td>$\\sim 3\\,\\mathrm{ns}$</td></tr>
+      <tr><td>Diode laser à semi-conducteur</td><td>$\\sim 100\\,\\mathrm{m}$</td><td>$\\sim 300\\,\\mathrm{ns}$</td></tr>
     </table>
-    <p>Le temps de réponse d'un détecteur ($\theta$) est toujours très grand devant $\tau_c$ (typiquement $10^{-9}$ à $10^{-11}\,\mathrm{s}$) : l'intensité mesurée est donc une moyenne sur un très grand nombre de trains d'onde. Deux cas se présentent :</p>
+    <p>Le temps de réponse d'un détecteur ($\\theta$) est toujours très grand devant $\\tau_c$ (typiquement $10^{-9}$ à $10^{-11}\\,\\mathrm{s}$) : l'intensité mesurée est donc une moyenne sur un très grand nombre de trains d'onde. Deux cas se présentent :</p>
     <ul>
-      <li><strong>Sources cohérentes</strong> : le déphasage $\phi_{S_1S_2}$ entre les deux sources reste constant dans le temps (même s'il varie d'un train d'onde à l'autre, il varie <em>de la même façon</em> pour les deux ondes). Le terme d'interférence $\cos(\dots)$ survit à la moyenne : <strong>on observe des interférences</strong>.</li>
-      <li><strong>Sources incohérentes</strong> : le déphasage varie aléatoirement, indépendamment, d'un train d'onde à l'autre entre les deux sources. La moyenne du cosinus sur un déphasage aléatoire uniforme sur $[0,2\pi]$ est nulle : le terme d'interférence disparaît, <strong>on n'observe pas d'interférences</strong> — l'intensité totale est simplement $I_1+I_2$.</li>
+      <li><strong>Sources cohérentes</strong> : le déphasage $\\phi_{S_1S_2}$ entre les deux sources reste constant dans le temps (même s'il varie d'un train d'onde à l'autre, il varie <em>de la même façon</em> pour les deux ondes). Le terme d'interférence $\\cos(\\dots)$ survit à la moyenne : <strong>on observe des interférences</strong>.</li>
+      <li><strong>Sources incohérentes</strong> : le déphasage varie aléatoirement, indépendamment, d'un train d'onde à l'autre entre les deux sources. La moyenne du cosinus sur un déphasage aléatoire uniforme sur $[0,2\\pi]$ est nulle : le terme d'interférence disparaît, <strong>on n'observe pas d'interférences</strong> — l'intensité totale est simplement $I_1+I_2$.</li>
     </ul>
     <div class="key-point">
       <span class="eyebrow">Critère pratique de cohérence</span>
       En pratique, deux sources sont cohérentes (donc peuvent interférer) <strong>si et seulement si elles sont issues d'une même source ponctuelle monochromatique</strong>. C'est pourquoi on ne peut jamais observer d'interférences entre deux lasers indépendants, ni entre deux lampes de poche — même de même longueur d'onde — mais on peut en observer en divisant la lumière issue d'une unique source.
+    </div>
+
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Le critère de cohérence semble interdire toute interférence entre lumières issues de sources indépendantes comme le Soleil. Pourtant, un film de savon éclairé en plein jour affiche bien des couleurs par interférences. La contradiction n'est qu'apparente : ce n'est pas la lumière de deux points différents du Soleil qui interfère, mais une même onde, réfléchie une fois sur la face avant et une fois sur la face arrière du film — une division d'amplitude à partir d'une seule et même source, même incohérente à grande échelle.
     </div>
 
     <h3>6. Deux familles de dispositifs</h3>
@@ -288,16 +334,16 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
 
     <h3>7. Les trous d'Young en détail</h3>
     <p>Une source $S$ de très petite dimension éclaire un écran percé de deux petits trous $S_1$ et $S_2$, séparés d'une distance $a$. D'après l'optique géométrique, on devrait observer deux taches, dans les directions $(SS_1)$ et $(SS_2)$ ; en réalité, la diffraction (chapitre 4) élargit chaque faisceau, et les deux faisceaux se recouvrent dans une zone appelée <strong>champ d'interférences</strong>, où $S_1$ et $S_2$ — cohérentes car issues de la même source $S$ — interfèrent.</p>
-    <p>Dans un plan d'observation $(P)$ parallèle à $(S_1S_2)$, à une distance $D$ des trous, avec $D\gg a$ et $D\gg x$ (x étant la position sur l'écran), la différence de marche au point $M(x)$ vaut :</p>
-    <div class="formula-box">$$\Delta_M = \dfrac{a\,x}{D}, \qquad I(x) = 2I_0\left[1+\cos\!\left(\dfrac{2\pi a x}{\lambda D}\right)\right]$$</div>
-    <p>($S_1$ et $S_2$ étant symétriques par rapport à l'axe, elles sont en phase : $\phi_{S_1S_2}=0$.) L'intensité ne dépend que de $x$ : la figure d'interférences est constituée de <strong>franges rectilignes, parallèles aux fentes</strong>. On en déduit :</p>
+    <p>Dans un plan d'observation $(P)$ parallèle à $(S_1S_2)$, à une distance $D$ des trous, avec $D\\gg a$ et $D\\gg x$ (x étant la position sur l'écran), la différence de marche au point $M(x)$ vaut :</p>
+    <div class="formula-box">$$\\Delta_M = \\dfrac{a\\,x}{D}, \\qquad I(x) = 2I_0\\left[1+\\cos\\!\\left(\\dfrac{2\\pi a x}{\\lambda D}\\right)\\right]$$</div>
+    <p>($S_1$ et $S_2$ étant symétriques par rapport à l'axe, elles sont en phase : $\\phi_{S_1S_2}=0$.) L'intensité ne dépend que de $x$ : la figure d'interférences est constituée de <strong>franges rectilignes, parallèles aux fentes</strong>. On en déduit :</p>
     <table class="mini-table">
       <tr><th>Grandeur</th><th>Expression</th></tr>
-      <tr><td>Position des franges brillantes</td><td>$x_m = m\,\dfrac{\lambda D}{a}, \; m\in\mathbb{Z}$</td></tr>
-      <tr><td>Position des franges sombres</td><td>$x_j = \left(j+\dfrac12\right)\dfrac{\lambda D}{a}, \; j\in\mathbb{Z}$</td></tr>
-      <tr><td>Interfrange</td><td>$i = \dfrac{\lambda D}{a}$</td></tr>
+      <tr><td>Position des franges brillantes</td><td>$x_m = m\\,\\dfrac{\\lambda D}{a}, \\; m\\in\\mathbb{Z}$</td></tr>
+      <tr><td>Position des franges sombres</td><td>$x_j = \\left(j+\\dfrac12\\right)\\dfrac{\\lambda D}{a}, \\; j\\in\\mathbb{Z}$</td></tr>
+      <tr><td>Interfrange</td><td>$i = \\dfrac{\\lambda D}{a}$</td></tr>
     </table>
-    <p>On définit l'<strong>ordre d'interférence</strong> $p=\Delta/\lambda$ (pas nécessairement entier) ; la <strong>frange centrale</strong>, où $\Delta=0$ donc $p=0$, est toujours brillante et se situe en $x=0$ pour les trous d'Young. Application numérique historique : $D=2\,\mathrm{m}$, $a=1\,\mathrm{mm}$, $\lambda=633\,\mathrm{nm} \Rightarrow i=1{,}27\,\mathrm{mm}$ — une mesure facilement accessible, qui permit à Thomas Young (1773–1829) de mesurer pour la première fois la longueur d'onde de la lumière visible. Les trous d'Young permettent aussi de mesurer un indice ou une épaisseur de lame, et le même principe, à très grande échelle, sous-tend l'<strong>interférométrie stellaire</strong> (ex. : le VLTI, quatre télescopes de 8,2 m combinés, résolution angulaire de l'ordre de la milliseconde d'arc).</p>
+    <p>On définit l'<strong>ordre d'interférence</strong> $p=\\Delta/\\lambda$ (pas nécessairement entier) ; la <strong>frange centrale</strong>, où $\\Delta=0$ donc $p=0$, est toujours brillante et se situe en $x=0$ pour les trous d'Young. Application numérique historique : $D=2\\,\\mathrm{m}$, $a=1\\,\\mathrm{mm}$, $\\lambda=633\\,\\mathrm{nm} \\Rightarrow i=1{,}27\\,\\mathrm{mm}$ — une mesure facilement accessible, qui permit à Thomas Young (1773–1829) de mesurer pour la première fois la longueur d'onde de la lumière visible. Les trous d'Young permettent aussi de mesurer un indice ou une épaisseur de lame, et le même principe, à très grande échelle, sous-tend l'<strong>interférométrie stellaire</strong> (ex. : le VLTI, quatre télescopes de 8,2 m combinés, résolution angulaire de l'ordre de la milliseconde d'arc).</p>
 
     <div class="illus-row">
       <div class="illus-item">
@@ -324,7 +370,7 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
           <text x="4" y="12" font-family="IBM Plex Mono" font-size="8" fill="#EAF0FB">I(x)</text>
           <text x="140" y="96" font-family="IBM Plex Mono" font-size="8" fill="#EAF0FB">x</text>
         </svg>
-        <span>Franges d'intensité $I(x)=2I_0[1+\cos(2\pi ax/\lambda D)]$</span>
+        <span>Franges d'intensité $I(x)=2I_0[1+\\cos(2\\pi ax/\\lambda D)]$</span>
       </div>
     </div>
 
@@ -332,28 +378,32 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
     <p>Système à <strong>division d'amplitude</strong> : une lame semi-réfléchissante ($S_p$) sépare le faisceau incident en deux, qui se réfléchissent respectivement sur les miroirs $M_1$ et $M_2$ avant de se recombiner. On montre qu'un tel système est optiquement équivalent à un dispositif à deux sources $S'$ (image de $S$) éclairant deux miroirs virtuels $M'_1$ et $M'_2$ (image de $M_2$ à travers la séparatrice) — ce qui ramène le problème à un calcul d'interférences à deux ondes classique.</p>
     <table class="mini-table">
       <tr><th>Configuration</th><th>Géométrie</th><th>Différence de marche</th><th>Figure observée</th></tr>
-      <tr><td>Lame d'air à faces parallèles</td><td>$M_1\perp M_2$ (donc $M_1\parallel M'_2$), séparés d'une épaisseur d'air équivalente $e$</td><td>$\Delta = 2e\cos\theta$</td><td>Anneaux concentriques, localisés à l'infini</td></tr>
-      <tr><td>Coin d'air</td><td>$M_1$ et $M'_2$ forment un petit angle $\alpha$</td><td>$\Delta(x) = 2\alpha x$</td><td>Franges rectilignes, localisées sur les miroirs</td></tr>
+      <tr><td>Lame d'air à faces parallèles</td><td>$M_1\\perp M_2$ (donc $M_1\\parallel M'_2$), séparés d'une épaisseur d'air équivalente $e$</td><td>$\\Delta = 2e\\cos\\theta$</td><td>Anneaux concentriques, localisés à l'infini</td></tr>
+      <tr><td>Coin d'air</td><td>$M_1$ et $M'_2$ forment un petit angle $\\alpha$</td><td>$\\Delta(x) = 2\\alpha x$</td><td>Franges rectilignes, localisées sur les miroirs</td></tr>
     </table>
-    <p>Le <strong>contact optique</strong> est la zone où l'image virtuelle d'un miroir se superpose exactement à l'autre miroir ($e=0$, donc $\Delta=0$ en tout point). En lumière blanche, l'interfrange dépend de $\lambda$ ($i\propto\lambda$) : chaque longueur d'onde produit sa propre figure de franges, légèrement décalée des autres — sauf exactement au contact optique où $\Delta=0$ pour <em>toutes</em> les longueurs d'onde simultanément. La frange centrale y est donc <strong>blanche</strong> (superposition de toutes les couleurs), ce qui permet de repérer expérimentalement le contact optique, même si les interférences colorées adjacentes se brouillent rapidement (car chaque couleur a un interfrange légèrement différent).</p>
+    <p>Le <strong>contact optique</strong> est la zone où l'image virtuelle d'un miroir se superpose exactement à l'autre miroir ($e=0$, donc $\\Delta=0$ en tout point). En lumière blanche, l'interfrange dépend de $\\lambda$ ($i\\propto\\lambda$) : chaque longueur d'onde produit sa propre figure de franges, légèrement décalée des autres — sauf exactement au contact optique où $\\Delta=0$ pour <em>toutes</em> les longueurs d'onde simultanément. La frange centrale y est donc <strong>blanche</strong> (superposition de toutes les couleurs), ce qui permet de repérer expérimentalement le contact optique, même si les interférences colorées adjacentes se brouillent rapidement (car chaque couleur a un interfrange légèrement différent).</p>
 
     <div class="key-point">
       <span class="eyebrow">Ce qu'il faut retenir</span>
-      Le Michelson en lame d'air donne des <strong>anneaux</strong> (franges d'égale inclinaison $\theta$) ; le Michelson en coin d'air donne des <strong>franges rectilignes</strong> (franges d'égale épaisseur $e(x)$). Dans les deux cas, on retrouve le même type de résultat que pour les trous d'Young : une intensité en $\cos^2$ dont l'argument dépend de la géométrie exacte du montage.
+      Le Michelson en lame d'air donne des <strong>anneaux</strong> (franges d'égale inclinaison $\\theta$) ; le Michelson en coin d'air donne des <strong>franges rectilignes</strong> (franges d'égale épaisseur $e(x)$). Dans les deux cas, on retrouve le même type de résultat que pour les trous d'Young : une intensité en $\\cos^2$ dont l'argument dépend de la géométrie exacte du montage.
     </div>
 
     <h3>9. Applications</h3>
     <p>Les <strong>lames d'égale épaisseur</strong> naturelles (film de savon, aile de papillon) produisent des couleurs par interférences, exactement comme la configuration « lame d'air à faces parallèles » du Michelson. L'interféromètre de Michelson est aussi le cœur de la <strong>spectroscopie à transformée de Fourier</strong> (FT-IR) : on enregistre un interférogramme en déplaçant un miroir, puis une transformée de Fourier restitue le spectre de la source.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Le tout premier usage historique de l'interféromètre de Michelson n'était pas de mesurer une épaisseur de lame, mais de tenter de détecter le mouvement de la Terre à travers l'« éther luminifère », un milieu hypothétique censé porter les ondes lumineuses. L'expérience de Michelson et Morley, en 1887, ne détecta strictement aucun déphasage lié à ce mouvement — un résultat négatif qui compta, quelques années plus tard, parmi les indices ayant motivé la théorie de la relativité restreinte d'Einstein (1905). Comment une expérience qui ne trouve « rien » peut-elle devenir l'une des plus célèbres de l'histoire de la physique ?
+    </div>
   `,
   extraHtml: `
     <div class="recap-box">
       <span class="eyebrow">✦ L'essentiel à retenir</span>
       <ul>
         <li>Superposition : on additionne les <strong>champs</strong>, jamais directement les intensités — c'est l'ordre des opérations qui produit le terme d'interférence</li>
-        <li>Deux ondes cohérentes, même $I_0$ : $I(M)=2I_0[1+\cos(2\pi\Delta_M/\lambda+\phi_{S_1S_2})]=4I_0\cos^2(\dots/2)$ ; $I=0$ (destructif) ou $I=4I_0$ (constructif)</li>
+        <li>Deux ondes cohérentes, même $I_0$ : $I(M)=2I_0[1+\\cos(2\\pi\\Delta_M/\\lambda+\\phi_{S_1S_2})]=4I_0\\cos^2(\\dots/2)$ ; $I=0$ (destructif) ou $I=4I_0$ (constructif)</li>
         <li>Deux sources sont cohérentes si et seulement si elles sont issues d'une même source ponctuelle monochromatique — sinon, la moyenne sur les trains d'onde annule le terme d'interférence</li>
-        <li>Trous d'Young : $\Delta_M=ax/D$, interfrange $i=\lambda D/a$, franges rectilignes parallèles aux fentes, frange centrale brillante en $x=0$</li>
-        <li>Michelson : lame d'air (miroirs $\perp$) $\to$ anneaux, $\Delta=2e\cos\theta$ ; coin d'air (miroirs inclinés de $\alpha$) $\to$ franges rectilignes, $\Delta(x)=2\alpha x$ ; contact optique $=$ zone où $\Delta=0$</li>
+        <li>Trous d'Young : $\\Delta_M=ax/D$, interfrange $i=\\lambda D/a$, franges rectilignes parallèles aux fentes, frange centrale brillante en $x=0$</li>
+        <li>Michelson : lame d'air (miroirs $\\perp$) $\\to$ anneaux, $\\Delta=2e\\cos\\theta$ ; coin d'air (miroirs inclinés de $\\alpha$) $\\to$ franges rectilignes, $\\Delta(x)=2\\alpha x$ ; contact optique $=$ zone où $\\Delta=0$</li>
         <li>Contraste $C=(I_{max}-I_{min})/(I_{max}+I_{min})$, maximal ($C=1$) seulement si $I_{min}=0$</li>
       </ul>
     </div>
@@ -362,7 +412,7 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
       <ul>
         <li>Additionner directement $I_1$ et $I_2$ pour des sources cohérentes : on obtient alors une intensité constante, en contradiction avec la figure de franges observée</li>
         <li>Croire que deux lasers indépendants, même de même longueur d'onde, peuvent interférer : sans relation de phase fixe entre eux, la moyenne temporelle annule tout terme d'interférence</li>
-        <li>Oublier le facteur $D\gg a$ (approximation nécessaire pour obtenir $\Delta_M=ax/D$ dans les trous d'Young)</li>
+        <li>Oublier le facteur $D\\gg a$ (approximation nécessaire pour obtenir $\\Delta_M=ax/D$ dans les trous d'Young)</li>
         <li>Confondre la configuration « lame d'air » (anneaux, franges d'égale inclinaison) et « coin d'air » (franges rectilignes, franges d'égale épaisseur) du Michelson</li>
       </ul>
     </div>
@@ -370,19 +420,19 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
       <span class="eyebrow">Exercices</span>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 1</span>
-        <p class="q">Dans un dispositif de trous d'Young, $a=1\,\mathrm{mm}$, $D=2\,\mathrm{m}$, $\lambda=633\,\mathrm{nm}$ (laser He-Ne). L'interfrange vaut approximativement :</p>
+        <p class="q">Dans un dispositif de trous d'Young, $a=1\\,\\mathrm{mm}$, $D=2\\,\\mathrm{m}$, $\\lambda=633\\,\\mathrm{nm}$ (laser He-Ne). L'interfrange vaut approximativement :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $0{,}63\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow2e1" value="right"> $1{,}27\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $12{,}7\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $0{,}127\,\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $0{,}63\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow2e1" value="right"> $1{,}27\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $12{,}7\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow2e1" value="wrong"> $0{,}127\\,\\mathrm{mm}$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow2e1','ow2fb1','Correct — i = λD/a = 633×10⁻⁹ × 2 / 10⁻³ ≈ 1,27 mm, c\\'est la valeur historiquement mesurée par Young.','Utilise i = λD/a avec λ=633 nm, D=2 m, a=1 mm — attention aux unités (converis tout en mètres).')">Vérifier</button>
         <div class="feedback" id="ow2fb1"></div>
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 2</span>
-        <p class="q">Deux ondes cohérentes de même intensité $I_0$ arrivent en un point M avec un déphasage total $\varphi=\pi$ (rad). L'intensité en M vaut :</p>
+        <p class="q">Deux ondes cohérentes de même intensité $I_0$ arrivent en un point M avec un déphasage total $\\varphi=\\pi$ (rad). L'intensité en M vaut :</p>
         <div class="options">
           <label class="option"><input type="radio" name="ow2e2" value="wrong"> $4I_0$</label>
           <label class="option"><input type="radio" name="ow2e2" value="wrong"> $2I_0$</label>
@@ -394,7 +444,7 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 3</span>
-        <p class="q">Un Michelson est réglé en lame d'air d'épaisseur $e=1\,\mu\mathrm{m}$, éclairé sous incidence normale ($\theta=0$) par $\lambda=500\,\mathrm{nm}$. L'ordre d'interférence au centre vaut :</p>
+        <p class="q">Un Michelson est réglé en lame d'air d'épaisseur $e=1\\,\\mu\\mathrm{m}$, éclairé sous incidence normale ($\\theta=0$) par $\\lambda=500\\,\\mathrm{nm}$. L'ordre d'interférence au centre vaut :</p>
         <div class="options">
           <label class="option"><input type="radio" name="ow2e3" value="wrong"> $1$</label>
           <label class="option"><input type="radio" name="ow2e3" value="right"> $4$</label>
@@ -417,6 +467,33 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à deux ondes : cohérence et interfé
         <div class="feedback" id="ow2fb4"></div>
       </div>
     </div>
+
+    <h3>5. Frontière de la recherche</h3>
+    <p>L'alignement des 18 segments hexagonaux du miroir primaire du télescope spatial James Webb, entré en service en 2022, repose directement sur les principes de ce chapitre : chaque segment doit être positionné avec une précision de quelques dizaines de nanomètres, vérifiée par des mesures interférométriques de front d'onde comparant la lumière réfléchie par chaque segment à celle d'une référence commune. Une question reste ouverte pour les futurs télescopes spatiaux : comment maintenir une telle précision interférométrique sur des miroirs de plusieurs dizaines de mètres, bien au-delà des 6,5 m du JWST ?</p>
+
+    <h3>Synthèse visuelle</h3>
+    <p>Identifier le dispositif (division du front d'onde : Young ; division d'amplitude : Michelson) → calculer la différence de marche $\\Delta$ selon la géométrie → déphasage $\\varphi=2\\pi\\Delta/\\lambda$ → intensité $I=2I_0[1+\\cos\\varphi]$ → vérifier la cohérence (sources issues d'une même source unique ?) → si oui, franges visibles ; sinon, $I=I_1+I_2$ uniforme</p>
+    <div class="key-point">
+      <span class="eyebrow">Équation maîtresse du chapitre</span>
+      <div class="formula-box">$$I(M) = 2I_0\\left[1+\\cos\\!\\left(\\dfrac{2\\pi\\Delta_M}{\\lambda}+\\phi_{S_1S_2}\\right)\\right]$$</div>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">💭 Questions de réflexion</span>
+      <ul>
+        <li>Et si le Soleil était une source parfaitement cohérente : les couleurs observées sur un film de savon en plein jour seraient-elles plus nettes qu'elles ne le sont réellement ?</li>
+        <li>Pourquoi ne peut-on jamais observer d'interférences en superposant simplement les faisceaux de deux pointeurs laser distincts, même identiques et de même couleur ?</li>
+        <li>Quelle serait la conséquence, pour l'astronomie, si l'on parvenait à construire des interféromètres stellaires combinant des télescopes espacés de plusieurs milliers de kilomètres ?</li>
+      </ul>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">📚 Références bibliographiques</span>
+      <ul>
+        <li>T. Young, « The Bakerian Lecture: On the Theory of Light and Colours », Philosophical Transactions of the Royal Society, 1802</li>
+        <li>A. A. Michelson, E. W. Morley, « On the Relative Motion of the Earth and the Luminiferous Ether », American Journal of Science, 1887</li>
+        <li>NASA/STScI, communiqué « Webb's Fine Phasing Completed », mars 2022</li>
+      </ul>
+    </div>
+    <p style="font-style:italic; color:var(--ink-soft); margin-top:16px;">Ridiculisé de son vivant par la communauté scientifique britannique, Young a fini par avoir raison contre Newton lui-même : en physique, l'expérience finit toujours par trancher, même si elle met parfois une génération à convaincre. Rendez-vous au chapitre suivant, « Interférences à ondes multiples », pour voir ce qui se passe lorsqu'on ne superpose plus deux ondes, mais des dizaines de milliers.</p>
   `
 };
 
@@ -446,30 +523,37 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à ondes multiples : réseaux et spect
     "Décrire un réseau de diffraction (en transmission ou en réflexion) à partir de son pas a et de son nombre de traits par mm",
     "Expliquer qualitativement pourquoi la figure d'interférences de N ondes devient une série de pics fins et intenses lorsque N est très grand",
     "Établir et utiliser la loi fondamentale des réseaux pour calculer la direction des maxima d'intensité et l'ordre de diffraction associé",
-    "Décrire le principe d'un spectromètre à réseau et interpréter un spectre observé en lumière blanche"
+    "Décrire le principe d'un spectromètre à réseau et interpréter un spectre observé en lumière blanche",
+    "Analyser comment Joseph von Fraunhofer, orphelin devenu opticien autodidacte, a découvert dès 1814 les raies sombres du spectre solaire qui portent aujourd'hui son nom, 45 ans avant que leur origine physique soit comprise"
   ],
   prereqs: ["Interférences à deux ondes : cohérence et interféromètre de Michelson"],
   bodyHtml: `
     <p>Après les interférences à deux ondes, on généralise à un très grand nombre d'ondes cohérentes : c'est le principe du <strong>réseau de diffraction</strong>, l'un des composants les plus utilisés en spectroscopie, capable de séparer très finement les longueurs d'onde d'une lumière (arc-en-ciel d'un CD, spectre d'une lampe à vapeur...).</p>
+    <p>En 1814, l'opticien allemand Joseph von Fraunhofer — orphelin dès l'âge de 11 ans, devenu apprenti verrier puis maître incontesté de la fabrication de verres optiques de haute précision — observe à travers un spectroscope de sa propre fabrication le spectre du Soleil. Il y distingue plusieurs centaines de fines raies sombres, qu'il catalogue avec une minutie remarquable, sans pouvoir, de son vivant, en expliquer l'origine physique. Il faudra attendre 1859 et les travaux de Kirchhoff et Bunsen pour comprendre que ces raies proviennent de l'absorption sélective, par les éléments chimiques de l'atmosphère solaire, de longueurs d'onde précises. C'est également Fraunhofer qui, dès 1821, invente et perfectionne les premiers réseaux de diffraction gravés avec précision — l'instrument même qui est au cœur de ce chapitre.</p>
+    <p>Le réseau de diffraction reste aujourd'hui l'outil central de toute spectroscopie de laboratoire, industrielle ou astronomique — de l'analyseur de qualité de l'air au spectrographe embarqué sur un télescope spatial. Ce chapitre construit la loi qui permet de prédire, pour un réseau donné, la direction exacte de chaque longueur d'onde.</p>
 
     <h3>1. Qu'est-ce qu'un réseau ?</h3>
     <p>Un réseau est une structure périodique de motifs identiques, régulièrement espacés d'un <strong>pas</strong> $a$ (en mm). On le caractérise aussi par son <strong>nombre de traits par mm</strong>, $n$, relié au pas par :</p>
-    <div class="formula-box">$$n = \dfrac{1}{a}$$</div>
+    <div class="formula-box">$$n = \\dfrac{1}{a}$$</div>
     <table class="mini-table">
       <tr><th>Type</th><th>Principe</th><th>Exemple</th></tr>
       <tr><td>Réseau en transmission</td><td>Fentes identiques, régulièrement espacées, gravées sur un support transparent</td><td>Réseaux de laboratoire (300 à 1200 traits/mm)</td></tr>
-      <tr><td>Réseau en réflexion</td><td>Motifs réfléchissants régulièrement espacés (souvent un « réseau de Blaze », à profil en dents de scie, pour optimiser un ordre donné)</td><td>Un DVD, dont le pas $a\approx0{,}74\,\mu\mathrm{m}$ correspond à $n\approx1350$ traits/mm — c'est pour cela qu'un DVD irisé sous la lumière !</td></tr>
+      <tr><td>Réseau en réflexion</td><td>Motifs réfléchissants régulièrement espacés (souvent un « réseau de Blaze », à profil en dents de scie, pour optimiser un ordre donné)</td><td>Un DVD, dont le pas $a\\approx0{,}74\\,\\mu\\mathrm{m}$ correspond à $n\\approx1350$ traits/mm — c'est pour cela qu'un DVD irisé sous la lumière !</td></tr>
     </table>
     <p>La suite de ce chapitre étudie les réseaux en transmission ; les résultats sont très proches pour les réseaux en réflexion.</p>
 
     <h3>2. Interférences à N ondes : de N=2 à N très grand</h3>
     <p>Chaque fente du réseau se comporte comme une source secondaire cohérente (elles sont toutes issues de la même onde incidente). Lorsqu'on fait interférer $N$ ondes de même amplitude et régulièrement déphasées, la figure d'intensité change radicalement d'allure avec $N$ :</p>
     <ul>
-      <li>Pour $N=2$ (les trous d'Young du chapitre précédent), on retrouve la figure sinusoïdale classique en $\cos^2$.</li>
+      <li>Pour $N=2$ (les trous d'Young du chapitre précédent), on retrouve la figure sinusoïdale classique en $\\cos^2$.</li>
       <li>Pour $N$ croissant, des <strong>maxima secondaires</strong> apparaissent entre les maxima principaux, mais leur hauteur reste très faible devant celle des maxima principaux.</li>
-      <li>Pour $N\gg1$ (des centaines à des milliers de traits, typique d'un réseau réel), on n'observe plus, en pratique, que des <strong>maxima principaux extrêmement fins et intenses</strong> (des « raies »), séparés par des zones quasiment sombres : c'est exactement l'allure des raies spectrales observées derrière un réseau.</li>
+      <li>Pour $N\\gg1$ (des centaines à des milliers de traits, typique d'un réseau réel), on n'observe plus, en pratique, que des <strong>maxima principaux extrêmement fins et intenses</strong> (des « raies »), séparés par des zones quasiment sombres : c'est exactement l'allure des raies spectrales observées derrière un réseau.</li>
     </ul>
-    <p>Cette approximation (négliger les maxima secondaires, invisibles pour $N\gg1$) permet de se concentrer sur la seule propriété vraiment exploitée en pratique : <strong>la position angulaire des maxima principaux</strong> — pour laquelle il est d'ailleurs inutile de tenir compte de la diffraction propre à chaque fente.</p>
+    <p>Cette approximation (négliger les maxima secondaires, invisibles pour $N\\gg1$) permet de se concentrer sur la seule propriété vraiment exploitée en pratique : <strong>la position angulaire des maxima principaux</strong> — pour laquelle il est d'ailleurs inutile de tenir compte de la diffraction propre à chaque fente.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Pourquoi un réseau utilisé en pratique comporte-t-il toujours plusieurs centaines, voire milliers, de traits plutôt qu'une poignée ? Le nombre $N$ de traits réellement éclairés détermine directement la finesse des raies obtenues — donc le pouvoir de résolution de l'instrument, sa capacité à distinguer deux longueurs d'onde très proches l'une de l'autre.
+    </div>
 
     <div class="illus-row">
       <div class="illus-item">
@@ -492,26 +576,30 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à ondes multiples : réseaux et spect
     </div>
 
     <h3>3. Loi fondamentale des réseaux</h3>
-    <p>Considérons un réseau de pas $a$, éclairé sous une incidence $\theta_i$, et observé dans la direction $\theta$. Le déphasage entre deux fentes successives dû à la différence de marche géométrique vaut :</p>
-    <div class="formula-box">$$\varphi = \dfrac{2\pi a}{\lambda}\left(\sin\theta-\sin\theta_i\right)$$</div>
-    <p>Un maximum d'intensité (interférence constructive entre <em>toutes</em> les fentes) exige que ce déphasage soit un multiple entier de $2\pi$ : $\varphi=2m\pi$, avec $m\in\mathbb{Z}$. On en déduit la <strong>loi fondamentale des réseaux</strong>, qui donne la direction $\theta_m$ du $m$-ième maximum :</p>
-    <div class="formula-box">$$\sin\theta_m - \sin\theta_i = m\,\dfrac{\lambda}{a}, \qquad m\in\mathbb{Z}$$</div>
-    <p>L'entier $m$ est appelé <strong>ordre de diffraction</strong>. L'ordre $m=0$ correspond toujours à $\theta_0=\theta_i$ : c'est la direction de propagation « directe », non déviée, et non dispersée (indépendante de $\lambda$) — en lumière blanche, l'ordre 0 apparaît donc blanc. Les ordres $m=\pm1,\pm2,\dots$ dévient d'autant plus que $\lambda/a$ est grand : à ordre fixé, le rouge (grand $\lambda$) est plus dévié que le bleu.</p>
+    <p>Considérons un réseau de pas $a$, éclairé sous une incidence $\\theta_i$, et observé dans la direction $\\theta$. Le déphasage entre deux fentes successives dû à la différence de marche géométrique vaut :</p>
+    <div class="formula-box">$$\\varphi = \\dfrac{2\\pi a}{\\lambda}\\left(\\sin\\theta-\\sin\\theta_i\\right)$$</div>
+    <p>Un maximum d'intensité (interférence constructive entre <em>toutes</em> les fentes) exige que ce déphasage soit un multiple entier de $2\\pi$ : $\\varphi=2m\\pi$, avec $m\\in\\mathbb{Z}$. On en déduit la <strong>loi fondamentale des réseaux</strong>, qui donne la direction $\\theta_m$ du $m$-ième maximum :</p>
+    <div class="formula-box">$$\\sin\\theta_m - \\sin\\theta_i = m\\,\\dfrac{\\lambda}{a}, \\qquad m\\in\\mathbb{Z}$$</div>
+    <p>L'entier $m$ est appelé <strong>ordre de diffraction</strong>. L'ordre $m=0$ correspond toujours à $\\theta_0=\\theta_i$ : c'est la direction de propagation « directe », non déviée, et non dispersée (indépendante de $\\lambda$) — en lumière blanche, l'ordre 0 apparaît donc blanc. Les ordres $m=\\pm1,\\pm2,\\dots$ dévient d'autant plus que $\\lambda/a$ est grand : à ordre fixé, le rouge (grand $\\lambda$) est plus dévié que le bleu.</p>
 
     <h3>4. Observation en lumière blanche</h3>
     <p>Sous éclairage en lumière blanche, on observe de part et d'autre de l'ordre zéro (blanc, non dispersé) plusieurs <strong>spectres colorés</strong>, un par ordre non nul, chacun s'étalant du violet (dévié le moins) au rouge (dévié le plus). Plus l'ordre $|m|$ est élevé, plus la dispersion — et donc l'étalement du spectre — est grande, mais plus l'intensité disponible dans cet ordre est généralement faible.</p>
 
     <h3>5. Application : les spectromètres à réseau</h3>
     <p>Un spectromètre à réseau associe une fente d'entrée (pour définir une source quasi ponctuelle), un système collimateur, un réseau (souvent monté sur une platine tournante pour balayer les longueurs d'onde), et un détecteur (barrette CCD, photomultiplicateur...). C'est le composant central de très nombreux instruments d'analyse : petits spectromètres USB fibrés pour la surveillance de la qualité de l'air ou de l'environnement, spectromètres de laboratoire haute résolution, instruments embarqués en astrophysique.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Fraunhofer a pu cataloguer avec une précision remarquable des centaines de raies solaires sans en comprendre l'origine physique pendant 45 ans. Cet épisode illustre-t-il une limite de la méthode purement empirique en physique, ou au contraire sa force — capable de produire des données solides et durables, exploitables par d'autres générations de chercheurs, même en l'absence de toute théorie explicative ?
+    </div>
   `,
   extraHtml: `
     <div class="recap-box">
       <span class="eyebrow">✦ L'essentiel à retenir</span>
       <ul>
         <li>Réseau : structure périodique de pas $a$, caractérisée aussi par $n=1/a$ traits/mm — en transmission (fentes) ou en réflexion (motifs, ex. : DVD)</li>
-        <li>Pour $N\gg1$ fentes cohérentes, la figure d'interférences se réduit à des maxima principaux très fins et intenses ; les maxima secondaires sont négligeables</li>
-        <li>Loi fondamentale des réseaux : $\sin\theta_m-\sin\theta_i=m\lambda/a$, avec $m$ l'ordre de diffraction ($m\in\mathbb{Z}$)</li>
-        <li>L'ordre $m=0$ n'est jamais dispersé (indépendant de $\lambda$) : il reste blanc en lumière blanche ; les ordres $|m|\geqslant1$ produisent des spectres colorés, le rouge étant toujours plus dévié que le bleu à ordre fixé</li>
+        <li>Pour $N\\gg1$ fentes cohérentes, la figure d'interférences se réduit à des maxima principaux très fins et intenses ; les maxima secondaires sont négligeables</li>
+        <li>Loi fondamentale des réseaux : $\\sin\\theta_m-\\sin\\theta_i=m\\lambda/a$, avec $m$ l'ordre de diffraction ($m\\in\\mathbb{Z}$)</li>
+        <li>L'ordre $m=0$ n'est jamais dispersé (indépendant de $\\lambda$) : il reste blanc en lumière blanche ; les ordres $|m|\\geqslant1$ produisent des spectres colorés, le rouge étant toujours plus dévié que le bleu à ordre fixé</li>
         <li>Application majeure : les spectromètres à réseau, utilisés pour analyser la composition spectrale d'une source lumineuse</li>
       </ul>
     </div>
@@ -520,8 +608,8 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à ondes multiples : réseaux et spect
       <ul>
         <li>Confondre le pas $a$ (une longueur, en mm ou µm) et le nombre de traits par mm $n=1/a$ (l'inverse d'une longueur)</li>
         <li>Oublier que l'ordre 0 n'est jamais dispersé : c'est la seule direction commune à toutes les longueurs d'onde en lumière blanche</li>
-        <li>Croire qu'à ordre fixé, c'est le bleu qui est le plus dévié : c'est l'inverse, le rouge (plus grande $\lambda$) est toujours plus dévié pour un même ordre $m\neq0$</li>
-        <li>Négliger l'angle d'incidence $\theta_i$ dans la loi des réseaux lorsque l'éclairage n'est pas normal au réseau</li>
+        <li>Croire qu'à ordre fixé, c'est le bleu qui est le plus dévié : c'est l'inverse, le rouge (plus grande $\\lambda$) est toujours plus dévié pour un même ordre $m\\neq0$</li>
+        <li>Négliger l'angle d'incidence $\\theta_i$ dans la loi des réseaux lorsque l'éclairage n'est pas normal au réseau</li>
       </ul>
     </div>
     <div class="exercises">
@@ -530,34 +618,34 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à ondes multiples : réseaux et spect
         <span class="eyebrow">Exercice 1</span>
         <p class="q">Un réseau comporte 600 traits/mm. Son pas $a$ vaut :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $600\,\mathrm{nm}$</label>
-          <label class="option"><input type="radio" name="ow3e1" value="right"> $1{,}67\,\mu\mathrm{m}$</label>
-          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $16{,}7\,\mu\mathrm{m}$</label>
-          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $600\,\mu\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $600\\,\\mathrm{nm}$</label>
+          <label class="option"><input type="radio" name="ow3e1" value="right"> $1{,}67\\,\\mu\\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $16{,}7\\,\\mu\\mathrm{m}$</label>
+          <label class="option"><input type="radio" name="ow3e1" value="wrong"> $600\\,\\mu\\mathrm{m}$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow3e1','ow3fb1','Correct — a=1/n=1/600 mm = 1,67 µm : c\\'est l\\'ordre de grandeur typique d\\'un réseau de spectroscopie visible.','Utilise n=1/a, donc a=1/n=1/600 mm, à convertir en µm.')">Vérifier</button>
         <div class="feedback" id="ow3fb1"></div>
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 2</span>
-        <p class="q">Un réseau de pas $a=2\,\mu\mathrm{m}$ est éclairé sous incidence normale ($\theta_i=0$) par une lumière de $\lambda=600\,\mathrm{nm}$. L'angle de diffraction $\theta_1$ de l'ordre $m=1$ vérifie :</p>
+        <p class="q">Un réseau de pas $a=2\\,\\mu\\mathrm{m}$ est éclairé sous incidence normale ($\\theta_i=0$) par une lumière de $\\lambda=600\\,\\mathrm{nm}$. L'angle de diffraction $\\theta_1$ de l'ordre $m=1$ vérifie :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\sin\theta_1 = 2$</label>
-          <label class="option"><input type="radio" name="ow3e2" value="right"> $\sin\theta_1 = 0{,}3$</label>
-          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\sin\theta_1 = 3{,}3$</label>
-          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\theta_1 = 0$</label>
+          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\\sin\\theta_1 = 2$</label>
+          <label class="option"><input type="radio" name="ow3e2" value="right"> $\\sin\\theta_1 = 0{,}3$</label>
+          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\\sin\\theta_1 = 3{,}3$</label>
+          <label class="option"><input type="radio" name="ow3e2" value="wrong"> $\\theta_1 = 0$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow3e2','ow3fb2','Correct — sinθ₁ - sin(0) = 1×λ/a = 600×10⁻⁹/2×10⁻⁶ = 0,3, soit θ₁≈17,5°.','Applique sinθm - sinθi = mλ/a avec θi=0 et m=1.')">Vérifier</button>
         <div class="feedback" id="ow3fb2"></div>
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 3</span>
-        <p class="q">Un DVD, utilisé comme réseau en réflexion, présente un pas $a\approx0{,}74\,\mu\mathrm{m}$. Son nombre de traits par mm est approximativement :</p>
+        <p class="q">Un DVD, utilisé comme réseau en réflexion, présente un pas $a\\approx0{,}74\\,\\mu\\mathrm{m}$. Son nombre de traits par mm est approximativement :</p>
         <div class="options">
           <label class="option"><input type="radio" name="ow3e3" value="wrong"> $74$</label>
           <label class="option"><input type="radio" name="ow3e3" value="wrong"> $740$</label>
           <label class="option"><input type="radio" name="ow3e3" value="right"> $1350$</label>
-          <label class="option"><input type="radio" name="ow3e3" value="wrong"> $13\,500$</label>
+          <label class="option"><input type="radio" name="ow3e3" value="wrong"> $13\\,500$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow3e3','ow3fb3','Correct — n=1/a=1/0,74 µm ≈ 1350 traits/mm, ce qui explique l\\'irisation caractéristique d\\'un DVD sous la lumière.','Utilise n=1/a avec a=0,74 µm=0,74×10⁻³ mm.')">Vérifier</button>
         <div class="feedback" id="ow3fb3"></div>
@@ -575,6 +663,33 @@ OPTPHY_CHAPTERS[optphyKey('Interférences à ondes multiples : réseaux et spect
         <div class="feedback" id="ow3fb4"></div>
       </div>
     </div>
+
+    <h3>5. Frontière de la recherche</h3>
+    <p>Le principe même découvert empiriquement par Fraunhofer — des raies spectrales révélant la composition chimique d'une atmosphère — est aujourd'hui appliqué à des dizaines d'années-lumière de distance : en 2022, le télescope spatial James Webb a détecté, par spectroscopie de transmission, la signature du dioxyde de carbone dans l'atmosphère de l'exoplanète WASP-39b, une découverte publiée dans <em>Nature</em> en 2023. Loin de l'objectif d'origine — comprendre le Soleil — cette technique est en passe de devenir l'un des outils principaux de la recherche de traces de vie sur des exoplanètes rocheuses.</p>
+
+    <h3>Synthèse visuelle</h3>
+    <p>Caractériser le réseau (pas $a$, nombre de traits $N$ éclairés) → écrire le déphasage entre fentes successives $\\varphi=2\\pi a(\\sin\\theta-\\sin\\theta_i)/\\lambda$ → maximum principal si $\\varphi=2m\\pi$ → loi des réseaux $\\sin\\theta_m-\\sin\\theta_i=m\\lambda/a$ → identifier l'ordre $m$ et la couleur associée (rouge plus dévié que bleu à $m$ fixé) → ordre 0 toujours non dispersé</p>
+    <div class="key-point">
+      <span class="eyebrow">Équation maîtresse du chapitre</span>
+      <div class="formula-box">$$\\sin\\theta_m - \\sin\\theta_i = m\\,\\dfrac{\\lambda}{a}, \\qquad m\\in\\mathbb{Z}$$</div>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">💭 Questions de réflexion</span>
+      <ul>
+        <li>Et si un réseau ne comportait que 2 ou 3 traits au lieu de plusieurs centaines : les raies spectrales resteraient-elles assez fines pour distinguer deux longueurs d'onde très proches ?</li>
+        <li>Pourquoi Fraunhofer a-t-il pu cataloguer avec précision des centaines de raies solaires sans en comprendre l'origine physique pendant 45 ans ?</li>
+        <li>Quelle serait la conséquence, pour la recherche de vie extraterrestre, si l'on parvenait à appliquer la spectroscopie de transmission à des exoplanètes de la taille de la Terre situées dans la zone habitable de leur étoile ?</li>
+      </ul>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">📚 Références bibliographiques</span>
+      <ul>
+        <li>J. von Fraunhofer, <em>Bestimmung des Brechungs- und Farbenzerstreuungs-Vermögens verschiedener Glasarten</em>, 1817 — catalogue original des raies du spectre solaire</li>
+        <li>J. P. Pérez, <em>Optique — Fondements et applications</em>, Dunod — référence standard pour les réseaux et la spectroscopie de niveau L2</li>
+        <li>E.-M. Ahrer et al., « Identification of carbon dioxide in an exoplanet atmosphere », <em>Nature</em>, 2023</li>
+      </ul>
+    </div>
+    <p style="font-style:italic; color:var(--ink-soft); margin-top:16px;">Fraunhofer, resté artisan autodidacte toute sa vie, a donné son nom non seulement aux raies solaires mais aussi à la configuration de diffraction en champ lointain que tu vas rencontrer au chapitre suivant — une empreinte scientifique rare pour quelqu'un qui n'a jamais suivi de formation universitaire. Rendez-vous au chapitre 4, « Diffraction », pour explorer justement cette configuration qui porte son nom.</p>
   `
 };
 
@@ -602,28 +717,31 @@ OPTPHY_CHAPTERS[optphyKey('Diffraction : fente, ouverture circulaire et limite d
     "Situer le cadre des conditions de Fraunhofer et expliquer pourquoi la diffraction résulte de l'interférence d'une infinité de sources secondaires",
     "Calculer l'intensité diffractée par une fente et la largeur de sa tache centrale, et énoncer le principe de Babinet",
     "Décrire la figure de diffraction par une ouverture circulaire (tache d'Airy) et calculer son rayon angulaire",
-    "Appliquer le critère de Rayleigh pour déterminer la limite de résolution d'un instrument optique"
+    "Appliquer le critère de Rayleigh pour déterminer la limite de résolution d'un instrument optique",
+    "Analyser comment George Biddell Airy, astronome royal britannique, a résolu en 1835 le problème mathématique complet de la diffraction par une ouverture circulaire, resté sans solution depuis les travaux de Fraunhofer sur la diffraction en champ lointain"
   ],
   prereqs: ["Interférences à ondes multiples : réseaux et spectroscopie"],
   bodyHtml: `
     <p>Chaque fois qu'un faisceau lumineux rencontre un obstacle ou une ouverture de dimension comparable à sa longueur d'onde, la propagation rectiligne prédite par l'optique géométrique cesse d'être valable : la lumière « contourne » légèrement l'obstacle, un phénomène appelé <strong>diffraction</strong>. C'est elle qui limite, en dernier ressort, le pouvoir de résolution de tout instrument d'optique — télescope, microscope ou simplement l'œil.</p>
+    <p>En 1835, l'astronome royal britannique George Biddell Airy s'attaque à un problème resté sans solution complète depuis les travaux de Fraunhofer sur la diffraction en champ lointain (chapitre précédent) : quelle est exactement la forme de la tache lumineuse produite non par une fente, mais par une ouverture <em>circulaire</em> — la forme de la quasi-totalité des instruments d'optique réels (objectifs, miroirs, pupilles) ? Airy résout intégralement le problème mathématique et montre que l'image d'un point lumineux à travers une ouverture circulaire n'est jamais un point parfait, mais une tache centrale entourée d'anneaux concentriques — la <strong>tache d'Airy</strong>, qui porte aujourd'hui son nom.</p>
+    <p>Ce dernier chapitre du programme d'Optique physique construit, à partir du principe de Huygens-Fresnel, la théorie complète de la diffraction — fente, ouverture circulaire, résolution — qui fixe la limite ultime de performance de tout instrument optique jamais construit, aussi bien fabriqué soit-il.</p>
 
     <h3>1. Cadre de l'étude : les conditions de Fraunhofer</h3>
-    <p>La propagation rectiligne de l'optique géométrique n'est plus vérifiée lorsque la taille caractéristique de l'ouverture devient comparable à $\lambda$. On se place ici dans les <strong>conditions de Fraunhofer</strong> : onde incidente plane, et observation de la figure de diffraction à l'infini (ou, en pratique, dans le plan focal image d'une lentille convergente placée après l'ouverture).</p>
-    <p>La méthode de calcul repose sur le principe de Huygens-Fresnel : la diffraction résulte de l'<strong>interférence entre une infinité de sources secondaires infinitésimales</strong>, réparties continûment dans l'ouverture, chacune réémettant une onde sphérique cohérente avec les autres. Le calcul consiste donc à sommer (intégrer) le champ de toutes ces sources élémentaires, puis, comme toujours, à en déduire l'intensité $I=\langle E^2\rangle$.</p>
+    <p>La propagation rectiligne de l'optique géométrique n'est plus vérifiée lorsque la taille caractéristique de l'ouverture devient comparable à $\\lambda$. On se place ici dans les <strong>conditions de Fraunhofer</strong> : onde incidente plane, et observation de la figure de diffraction à l'infini (ou, en pratique, dans le plan focal image d'une lentille convergente placée après l'ouverture).</p>
+    <p>La méthode de calcul repose sur le principe de Huygens-Fresnel : la diffraction résulte de l'<strong>interférence entre une infinité de sources secondaires infinitésimales</strong>, réparties continûment dans l'ouverture, chacune réémettant une onde sphérique cohérente avec les autres. Le calcul consiste donc à sommer (intégrer) le champ de toutes ces sources élémentaires, puis, comme toujours, à en déduire l'intensité $I=\\langle E^2\\rangle$.</p>
 
     <h3>2. Diffraction par une fente</h3>
-    <p>Pour une fente de largeur $a$, éclairée normalement par une onde plane, l'intensité diffractée dans la direction $\theta$ vaut :</p>
-    <div class="formula-box">$$I(\theta) = I_0\left[\dfrac{\sin\!\left(\dfrac{\pi a \sin\theta}{\lambda}\right)}{\dfrac{\pi a \sin\theta}{\lambda}}\right]^2$$</div>
-    <p>Cette fonction, de la forme $\big[\sin(u)/u\big]^2$ (avec $u=\pi a\sin\theta/\lambda$), présente un <strong>maximum central</strong> très intense en $\theta=0$, encadré de maxima secondaires beaucoup plus faibles.</p>
+    <p>Pour une fente de largeur $a$, éclairée normalement par une onde plane, l'intensité diffractée dans la direction $\\theta$ vaut :</p>
+    <div class="formula-box">$$I(\\theta) = I_0\\left[\\dfrac{\\sin\\!\\left(\\dfrac{\\pi a \\sin\\theta}{\\lambda}\\right)}{\\dfrac{\\pi a \\sin\\theta}{\\lambda}}\\right]^2$$</div>
+    <p>Cette fonction, de la forme $\\big[\\sin(u)/u\\big]^2$ (avec $u=\\pi a\\sin\\theta/\\lambda$), présente un <strong>maximum central</strong> très intense en $\\theta=0$, encadré de maxima secondaires beaucoup plus faibles.</p>
     <table class="mini-table">
       <tr><th>Propriété</th><th>Valeur</th></tr>
-      <tr><td>Hauteur du premier maximum secondaire</td><td>$\approx 0{,}045\times I_0$ (moins de 5 % du maximum central)</td></tr>
-      <tr><td>Puissance contenue dans le lobe central</td><td>$\approx 84\,\%$ de la puissance totale diffractée</td></tr>
+      <tr><td>Hauteur du premier maximum secondaire</td><td>$\\approx 0{,}045\\times I_0$ (moins de 5 % du maximum central)</td></tr>
+      <tr><td>Puissance contenue dans le lobe central</td><td>$\\approx 84\\,\\%$ de la puissance totale diffractée</td></tr>
       <tr><td>Largeur du lobe central</td><td>deux fois plus large que chacun des lobes secondaires</td></tr>
     </table>
-    <p>Si l'observation se fait à une distance $D\gg a,\lambda$ dans le plan focal d'une lentille (ou à grande distance directement), alors $\sin\theta\approx X/D$, et la largeur totale de la tache centrale sur l'écran vaut :</p>
-    <div class="formula-box">$$\ell_{\text{centrale}} = \dfrac{2\lambda D}{a}$$</div>
+    <p>Si l'observation se fait à une distance $D\\gg a,\\lambda$ dans le plan focal d'une lentille (ou à grande distance directement), alors $\\sin\\theta\\approx X/D$, et la largeur totale de la tache centrale sur l'écran vaut :</p>
+    <div class="formula-box">$$\\ell_{\\text{centrale}} = \\dfrac{2\\lambda D}{a}$$</div>
     <p>Cette relation, inversement proportionnelle à $a$, traduit un résultat général de la diffraction : <strong>plus l'ouverture est petite, plus la figure de diffraction est étalée</strong>. Elle permet en particulier de mesurer expérimentalement la largeur d'une fente inconnue, en mesurant la largeur de la tache centrale observée à distance connue.</p>
 
     <div class="illus-row">
@@ -654,42 +772,50 @@ OPTPHY_CHAPTERS[optphyKey('Diffraction : fente, ouverture circulaire et limite d
       La forme d'une figure de diffraction est la même, qu'elle soit obtenue à partir d'un corps opaque ou de son « conjugué », c'est-à-dire une ouverture percée dans une plaque exactement aux emplacements où se situe ce corps (en dehors de l'image géométrique directe).
     </div>
     <p>Conséquence pratique et parfois surprenante : la figure de diffraction créée par un objet fin et opaque, comme un cheveu, est <strong>identique</strong> à celle d'une fente de même largeur — un moyen simple et élégant de mesurer, par exemple, le diamètre d'un cheveu par diffraction laser.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Le principe de Babinet semble contredire l'intuition : un obstacle opaque et une ouverture de même forme sont, à première vue, des situations optiques opposées (bloquer la lumière contre la laisser passer). Pourtant leurs figures de diffraction sont identiques. Que nous apprend ce résultat sur la nature véritable de la diffraction — dépend-elle davantage de la forme du <em>bord</em> de l'objet que de ce qui se trouve à l'intérieur ou à l'extérieur de ce bord ?
+    </div>
 
     <h3>4. Diffraction par une ouverture circulaire : la tache d'Airy</h3>
     <p>Pour une ouverture circulaire de diamètre $d$, la figure de diffraction n'a plus de forme analytique aussi simple que pour une fente : elle consiste en une tache centrale brillante entourée d'<strong>anneaux concentriques</strong> alternativement sombres et clairs, appelée <strong>tache d'Airy</strong>. Son rayon angulaire (demi-angle au sommet du cône de la tache centrale) vaut :</p>
-    <div class="formula-box">$$\theta_D = \dfrac{1{,}22\,\lambda}{d}$$</div>
-    <p>Le facteur $1{,}22$ (au lieu de $1$ pour une fente) vient de la géométrie circulaire de l'ouverture. Exemple : pour $\lambda=500\,\mathrm{nm}$ et $d=1\,\mu\mathrm{m}$, observée à $D=10\,\mathrm{cm}$, la tache centrale a un diamètre d'environ $14\,\mathrm{cm}$ — un étalement considérable pour une ouverture aussi minuscule !</p>
+    <div class="formula-box">$$\\theta_D = \\dfrac{1{,}22\\,\\lambda}{d}$$</div>
+    <p>Le facteur $1{,}22$ (au lieu de $1$ pour une fente) vient de la géométrie circulaire de l'ouverture. Exemple : pour $\\lambda=500\\,\\mathrm{nm}$ et $d=1\\,\\mu\\mathrm{m}$, observée à $D=10\\,\\mathrm{cm}$, la tache centrale a un diamètre d'environ $14\\,\\mathrm{cm}$ — un étalement considérable pour une ouverture aussi minuscule !</p>
 
     <h3>5. Limite de résolution et critère de Rayleigh</h3>
-    <p>La <strong>limite de résolution</strong> d'un instrument est la plus petite distance (ou le plus petit écart angulaire) séparant deux points objets que l'instrument peut encore distinguer comme deux points distincts. Pour l'œil nu, dans le visible, elle vaut environ $0{,}1\,\mathrm{mm}$ à la distance minimale de vision distincte ($25\,\mathrm{cm}$).</p>
+    <p>La <strong>limite de résolution</strong> d'un instrument est la plus petite distance (ou le plus petit écart angulaire) séparant deux points objets que l'instrument peut encore distinguer comme deux points distincts. Pour l'œil nu, dans le visible, elle vaut environ $0{,}1\\,\\mathrm{mm}$ à la distance minimale de vision distincte ($25\\,\\mathrm{cm}$).</p>
     <div class="key-point">
       <span class="eyebrow">Critère de Rayleigh</span>
-      Deux points objets sont considérés comme distinguables si le centre de leurs images (deux taches d'Airy) est séparé d'un écart angulaire $\alpha$ au moins égal au rayon angulaire de la tache de diffraction : $$\alpha \geqslant \theta_D = \dfrac{1{,}22\,\lambda}{d}$$ Lorsque $\alpha=\theta_D$ exactement, le maximum de l'une des taches coïncide avec le premier minimum de l'autre : les deux images sont tout juste séparables.
+      Deux points objets sont considérés comme distinguables si le centre de leurs images (deux taches d'Airy) est séparé d'un écart angulaire $\\alpha$ au moins égal au rayon angulaire de la tache de diffraction : $$\\alpha \\geqslant \\theta_D = \\dfrac{1{,}22\\,\\lambda}{d}$$ Lorsque $\\alpha=\\theta_D$ exactement, le maximum de l'une des taches coïncide avec le premier minimum de l'autre : les deux images sont tout juste séparables.
     </div>
     <p>Ce critère explique pourquoi la limite de résolution d'un instrument est fondamentalement fixée par le <strong>diamètre de son ouverture</strong> (l'objectif, le miroir primaire...) et non par la qualité de sa fabrication : même un instrument parfaitement poli reste limité par la diffraction due à sa pupille d'entrée.</p>
+    <div class="key-point">
+      <span class="eyebrow">🤔 Pause réflexive</span>
+      Le critère de Rayleigh fixe une limite absolue, liée uniquement au diamètre de l'ouverture. Pourtant, en pratique, les télescopes au sol n'atteignent presque jamais cette limite théorique, à cause de la turbulence atmosphérique qui brouille l'image bien avant que la diffraction ne devienne le facteur limitant. Pourquoi construit-on malgré tout des télescopes toujours plus grands, si la limite de diffraction n'est même pas, depuis le sol, le principal facteur qui limite la résolution obtenue ?
+    </div>
 
     <h3>6. Application à l'imagerie : tache d'Airy sur un capteur</h3>
     <p>Pour un objet ponctuel très éloigné (une étoile, par exemple), observé à travers une lentille (ou un miroir) de focale $f'$ et de diamètre $d$, l'image n'est jamais un point parfait : sa dimension minimale est fixée par la diffraction sur l'ouverture de l'instrument. Le rayon de la tache d'Airy sur l'écran (plan focal) vaut :</p>
-    <div class="formula-box">$$\rho = 1{,}22\,\dfrac{\lambda f'}{d}$$</div>
-    <p>Conséquence directe : pour distinguer des <strong>étoiles doubles</strong>, il faut un instrument à grande ouverture $d$. Exemple : un télescope amateur de $d=20\,\mathrm{cm}$, $f'=1\,\mathrm{m}$, à $\lambda=600\,\mathrm{nm}$, donne $\theta_D\approx4\times10^{-6}\,\mathrm{rad}$ — bien meilleur que la résolution de l'œil nu ($\sim4\times10^{-4}\,\mathrm{rad}$), d'où la nécessité d'un fort grossissement d'oculaire pour exploiter pleinement cette résolution. À l'échelle professionnelle, le télescope Keck ($d=10\,\mathrm{m}$, Hawaii) atteint une résolution angulaire de l'ordre de $10^{-8}\,\mathrm{rad}$, suffisante pour distinguer des détails de quelques dizaines de mètres à la distance de la Lune.</p>
+    <div class="formula-box">$$\\rho = 1{,}22\\,\\dfrac{\\lambda f'}{d}$$</div>
+    <p>Conséquence directe : pour distinguer des <strong>étoiles doubles</strong>, il faut un instrument à grande ouverture $d$. Exemple : un télescope amateur de $d=20\\,\\mathrm{cm}$, $f'=1\\,\\mathrm{m}$, à $\\lambda=600\\,\\mathrm{nm}$, donne $\\theta_D\\approx4\\times10^{-6}\\,\\mathrm{rad}$ — bien meilleur que la résolution de l'œil nu ($\\sim4\\times10^{-4}\\,\\mathrm{rad}$), d'où la nécessité d'un fort grossissement d'oculaire pour exploiter pleinement cette résolution. À l'échelle professionnelle, le télescope Keck ($d=10\\,\\mathrm{m}$, Hawaii) atteint une résolution angulaire de l'ordre de $10^{-8}\\,\\mathrm{rad}$, suffisante pour distinguer des détails de quelques dizaines de mètres à la distance de la Lune.</p>
   `,
   extraHtml: `
     <div class="recap-box">
       <span class="eyebrow">✦ L'essentiel à retenir</span>
       <ul>
         <li>Conditions de Fraunhofer : onde incidente plane, observation à l'infini ; la diffraction résulte de l'interférence d'une infinité de sources secondaires réparties dans l'ouverture</li>
-        <li>Fente de largeur $a$ : $I(\theta)=I_0[\sin(u)/u]^2$ avec $u=\pi a\sin\theta/\lambda$ ; largeur de la tache centrale $=2\lambda D/a$ ; 84 % de l'énergie dans le lobe central</li>
+        <li>Fente de largeur $a$ : $I(\\theta)=I_0[\\sin(u)/u]^2$ avec $u=\\pi a\\sin\\theta/\\lambda$ ; largeur de la tache centrale $=2\\lambda D/a$ ; 84 % de l'énergie dans le lobe central</li>
         <li>Principe de Babinet : un obstacle opaque et l'ouverture complémentaire de même forme donnent la même figure de diffraction</li>
-        <li>Ouverture circulaire de diamètre $d$ : tache d'Airy, rayon angulaire $\theta_D=1{,}22\lambda/d$</li>
-        <li>Critère de Rayleigh : deux points sont résolus si leur écart angulaire $\alpha\geqslant\theta_D$ — la résolution d'un instrument est fixée par le diamètre de son ouverture, pas par sa qualité de fabrication</li>
-        <li>Image d'une source ponctuelle à travers une lentille de focale $f'$, diamètre $d$ : rayon de la tache d'Airy $\rho=1{,}22\lambda f'/d$</li>
+        <li>Ouverture circulaire de diamètre $d$ : tache d'Airy, rayon angulaire $\\theta_D=1{,}22\\lambda/d$</li>
+        <li>Critère de Rayleigh : deux points sont résolus si leur écart angulaire $\\alpha\\geqslant\\theta_D$ — la résolution d'un instrument est fixée par le diamètre de son ouverture, pas par sa qualité de fabrication</li>
+        <li>Image d'une source ponctuelle à travers une lentille de focale $f'$, diamètre $d$ : rayon de la tache d'Airy $\\rho=1{,}22\\lambda f'/d$</li>
       </ul>
     </div>
     <div class="mistakes-box">
       <span class="eyebrow">⚠ Erreurs fréquentes</span>
       <ul>
         <li>Oublier le facteur $1{,}22$ propre à la géométrie circulaire (il n'apparaît pas pour une fente rectangulaire, où le facteur est $1$)</li>
-        <li>Croire qu'une plus grande ouverture dégrade la résolution : c'est l'inverse, $\theta_D=1{,}22\lambda/d$ diminue quand $d$ augmente — une grande ouverture améliore la résolution</li>
+        <li>Croire qu'une plus grande ouverture dégrade la résolution : c'est l'inverse, $\\theta_D=1{,}22\\lambda/d$ diminue quand $d$ augmente — une grande ouverture améliore la résolution</li>
         <li>Confondre le rayon et le diamètre de la tache centrale (de diffraction par une fente ou par une ouverture circulaire) dans les calculs numériques</li>
         <li>Penser que la limite de résolution ne dépend que de la qualité optique de l'instrument : elle est en réalité fondamentalement bornée par la diffraction due au diamètre de l'ouverture</li>
       </ul>
@@ -698,12 +824,12 @@ OPTPHY_CHAPTERS[optphyKey('Diffraction : fente, ouverture circulaire et limite d
       <span class="eyebrow">Exercices</span>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 1</span>
-        <p class="q">Une fente de largeur $a=0{,}1\,\mathrm{mm}$ est éclairée par un laser $\lambda=633\,\mathrm{nm}$ ; on observe la figure de diffraction sur un écran à $D=2\,\mathrm{m}$. La largeur de la tache centrale vaut approximativement :</p>
+        <p class="q">Une fente de largeur $a=0{,}1\\,\\mathrm{mm}$ est éclairée par un laser $\\lambda=633\\,\\mathrm{nm}$ ; on observe la figure de diffraction sur un écran à $D=2\\,\\mathrm{m}$. La largeur de la tache centrale vaut approximativement :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $1{,}27\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow4e1" value="right"> $25{,}3\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $6{,}3\,\mathrm{mm}$</label>
-          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $12{,}7\,\mathrm{cm}$</label>
+          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $1{,}27\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow4e1" value="right"> $25{,}3\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $6{,}3\\,\\mathrm{mm}$</label>
+          <label class="option"><input type="radio" name="ow4e1" value="wrong"> $12{,}7\\,\\mathrm{cm}$</label>
         </div>
         <button class="btn btn-primary" onclick="checkAnswerGeneric('ow4e1','ow4fb1','Correct — largeur = 2λD/a = 2×633×10⁻⁹×2 / 10⁻⁴ ≈ 25,3 mm.','Utilise largeur = 2λD/a, avec toutes les longueurs en mètres.')">Vérifier</button>
         <div class="feedback" id="ow4fb1"></div>
@@ -722,9 +848,9 @@ OPTPHY_CHAPTERS[optphyKey('Diffraction : fente, ouverture circulaire et limite d
       </div>
       <div class="exercise-card">
         <span class="eyebrow">Exercice 3</span>
-        <p class="q">Un instrument d'optique voit sa résolution angulaire s'améliorer (donc $\theta_D$ diminue) lorsque :</p>
+        <p class="q">Un instrument d'optique voit sa résolution angulaire s'améliorer (donc $\\theta_D$ diminue) lorsque :</p>
         <div class="options">
-          <label class="option"><input type="radio" name="ow4e3" value="wrong"> on augmente la longueur d'onde $\lambda$</label>
+          <label class="option"><input type="radio" name="ow4e3" value="wrong"> on augmente la longueur d'onde $\\lambda$</label>
           <label class="option"><input type="radio" name="ow4e3" value="right"> on augmente le diamètre $d$ de l'ouverture</label>
           <label class="option"><input type="radio" name="ow4e3" value="wrong"> on diminue le diamètre $d$ de l'ouverture</label>
           <label class="option"><input type="radio" name="ow4e3" value="wrong"> on éloigne l'écran d'observation</label>
@@ -745,6 +871,33 @@ OPTPHY_CHAPTERS[optphyKey('Diffraction : fente, ouverture circulaire et limite d
         <div class="feedback" id="ow4fb4"></div>
       </div>
     </div>
+
+    <h3>5. Frontière de la recherche</h3>
+    <p>Depuis les années 1990, les grands télescopes terrestres utilisent l'<strong>optique adaptative</strong> pour s'approcher de leur limite de diffraction théorique, malgré la turbulence atmosphérique qui, sans correction, dégraderait leur résolution bien en-deçà de celle prédite par le critère de Rayleigh : un miroir déformable, piloté par un capteur de front d'onde, corrige les distorsions de l'atmosphère plusieurs centaines de fois par seconde. Le télescope Keck fut l'un des premiers grands instruments à en bénéficier scientifiquement, dès 1999. L'Extremely Large Telescope (ELT), actuellement en construction au Chili avec un miroir primaire de 39 m, vise, grâce à cette technologie, une résolution angulaire inédite — mais la correction en temps réel de la turbulence sur une pupille aussi vaste reste un défi d'ingénierie encore activement travaillé.</p>
+
+    <h3>Synthèse visuelle</h3>
+    <p>Se placer dans les conditions de Fraunhofer (onde plane, observation à l'infini) → sommer les sources secondaires de Huygens-Fresnel sur l'ouverture → fente : $I(\\theta)=I_0[\\sin(u)/u]^2$ → ouverture circulaire : tache d'Airy, $\\theta_D=1{,}22\\lambda/d$ → critère de Rayleigh : deux points résolus si écart angulaire $\\geqslant\\theta_D$ → résolution fixée par le diamètre $d$ de l'ouverture, jamais par la qualité de fabrication</p>
+    <div class="key-point">
+      <span class="eyebrow">Équation maîtresse du chapitre</span>
+      <div class="formula-box">$$\\theta_D = \\dfrac{1{,}22\\,\\lambda}{d} \\qquad \\text{(critère de Rayleigh : } \\alpha \\geqslant \\theta_D \\text{)}$$</div>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">💭 Questions de réflexion</span>
+      <ul>
+        <li>Et si l'œil humain avait une pupille deux fois plus grande qu'elle ne l'est réellement : notre acuité visuelle serait-elle notablement meilleure, ou d'autres facteurs (densité des photorécepteurs rétiniens) limiteraient-ils de toute façon la résolution effective ?</li>
+        <li>Pourquoi la turbulence atmosphérique, et non la diffraction, est-elle le facteur limitant principal pour la plupart des télescopes terrestres avant l'apparition de l'optique adaptative ?</li>
+        <li>Quelle serait la conséquence, pour l'astronomie, si l'on parvenait à construire un télescope spatial dont le miroir dépasserait largement les 10 mètres de diamètre ?</li>
+      </ul>
+    </div>
+    <div class="key-point">
+      <span class="eyebrow">📚 Références bibliographiques</span>
+      <ul>
+        <li>G. B. Airy, « On the Diffraction of an Object-glass with a Circular Aperture », Transactions of the Cambridge Philosophical Society, 1835</li>
+        <li>J. P. Pérez, <em>Optique — Fondements et applications</em>, Dunod — référence standard pour la diffraction de niveau L2</li>
+        <li>P. Wizinowich et al., « First Light Adaptive Optics Images from the Keck II Telescope », Publications of the Astronomical Society of the Pacific, 2000</li>
+      </ul>
+    </div>
+    <p style="font-style:italic; color:var(--ink-soft); margin-top:16px;">Airy a montré qu'aucune image n'est jamais parfaite : même la meilleure optique du monde bute sur une limite que seule la taille de son ouverture peut repousser. <strong>Ce chapitre clôt la matière Optique physique (4/4 chapitres)</strong> — direction « Électronique » pour la suite du programme de Physique L2.</p>
   `
 };
 
